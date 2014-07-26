@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <form method="POST" action="/admin/address">
+    {{form.csrf_token}}
+    {{form.address.label}}{{form.address()}}
+    {{form.submit()}}
+  </form>
+
+  <hr>
+  current Addresses
+  <ul>
+  {% for address in addresses %}
+    <li>{{address.address}}</li>
+  {% endfor %}
+  </ul>
+</body>
+</html>

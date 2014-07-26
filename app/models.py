@@ -1,6 +1,8 @@
 from flask.ext.sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
+from flask.ext.login import UserMixin
+from . import login_manager
 
 class Address(db.Model):
     __tablename__ = 'address'
@@ -8,9 +10,12 @@ class Address(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     address = db.Column(db.String(64), unique = True, index = True)
 
+    def __init__(self, address):
+        self.address = address
+
     def __repr__(self):
         return '<Address is %r>' % self.address
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key = True)
@@ -21,6 +26,18 @@ class User(db.Model):
     nickName = db.Column(db.String(12))
     #salted password
     password_hash = db.Column(db.String(128))
+    #Foreign Key, address_id
+    addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
+
+    def __init__(self,
+            phoneNumber=None,
+            nickName=None,
+            password=None,
+            addressId=None):
+        self.phoneNumber = phoneNumber
+        self.nickName = nickName
+        self.password = password
+        self.addressId = addressId
 
     @property
     def password(self):
@@ -32,8 +49,6 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
-    #Foreign Key, address_id
-    addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
 
     def __repr__(self):
         return '<User is %r>' % self.nickName
@@ -76,3 +91,7 @@ class Order(db.Model):
 
     def __repr__(self):
         return '<Order id is %r>' % self.id
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get( int(user_id) )

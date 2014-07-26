@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="{{url_for('static', filename="js/jquery-1.11.1.min.js")}}">
+  </script>
+  <script src="{{url_for('static', filename="js/main.js")}}"></script>
+  <meta charset="UTF-8">
+  <title>唯美食</title>
+</head>
+<body>
+  <!-- navigator-->
+  <ul>
+    <li>闪电抢食</li>
+    <li>美味佳肴</li>
+    <li>山珍海味</li>
+    <li>登陆/注册</li>
+  </ul>
+  {% block body %}
+  {% endblock %}
+</body>
+</html>

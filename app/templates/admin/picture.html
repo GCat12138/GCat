@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+
+<form method="POST" enctype=multipart/form-data action="/admin/pic">
+  {{form.hidden_tag()}}
+
+  <input type="file" name="pic"/>
+  <br>
+  {{form.type}}
+  <br>
+  {{form.description.label}} {{form.description}}
+  <br>
+  {{form.mealList}}
+  <br>
+  {{form.submit}}
+</form>
+
+</body>
+</html>
+

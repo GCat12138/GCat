@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block body %}
+<div>
+<img src="{{url_for('static', filename='1.jpg')}}" alt="">
+<button>赞</button>
+<p>龙猫饭</p>
+</div>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+<hr>
+<h2>注册</h2>
+<form method="POST" action="/register">
+  {{userForm.hidden_tag()}}
+
+  手机号:{{userForm.phoneNumber}} <br />
+  {% for error in userForm.errors.phoneNumber %}
+  <span style="color: red;">[{{error}}]</span>
+  <br>
+  {% endfor %}
+  昵  称:{{userForm.nickName}} <br />
+  密 码:{{userForm.password}} <br />
+  地 址:{{userForm.addresses}} <br>
+  {{userForm.submit}} <br>
+</form>
+
+<h2>登陆</h2>
+<form method="POST">
+  {{userForm.hidden_tag()}}
+
+  手机号:{{loginForm.phoneNumber}} <br />
+  密 码:{{loginForm.password}} <br />
+  {{loginForm.submit}}
+</form>
+{% endblock %}
