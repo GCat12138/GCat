@@ -1,11 +1,60 @@
 {% extends "base.html" %}
 {% block body %}
-<div>
-<img src="{{url_for('static', filename='1.jpg')}}" alt="">
-<button>赞</button>
-<p>龙猫饭</p>
+{% if current_user.is_authenticated() %}
+  <p>哈，我是用户我最叼</p>
+{% else %}
+  <p>嘿，我不是用户你打我吗</p>
+{% endif %}
+<!-- main demonstration part -->
+<div id="get_meal">
+  <span id="mealID" style="display:none;">{{meal.id}}</span>
+  <img src="{{url_for("static", filename = "pic/" + picDict["mainPic"].name)}}" alt="">
+  <p>{{meal.description}}</p>
+  已有<span id="likes">{{meal.likes}}</span>人点赞
+  {% if current_user.is_authenticated() %}
+    <button id="mealLike">赞</button>
+  {% else %}
+    <br>
+  {% endif %}
+  <hr>
+  <!-- price -->
+  <div>
+    ￥{{meal.price * meal.discount}}
+    {% if current_user.is_authenticated() %}
+      <button id="get_meal_after_login">闪电抢食</button>
+      <form action="POST" style="display:None;" id="get_meal_confirm_form">
+        <input type="text" style="display:None" name="amealId" value="{{ameal.id}}">
+        <input type="text" style="display:None" name="phoneNumber" value="{{current_user.phoneNumber}}">
+        输入密码: <input type="password" name="password">
+        <button type="button" id="get_meal_confirm_button">确认</button>
+      </form>
+    {% else %}
+      <form action="POST" style="display:None;" id="get_meal_without_log_form">
+        {{hidden_register_form.hidden_tag()}}
+        <h3>订单信息</h3>
+        手机号:{{hidden_register_form.phoneNumber}} <br/>
+        昵称:{{hidden_register_form.nickName}}
+        <br>
+        密码:{{hidden_register_form.password}}
+        <br>
+        地址:{{hidden_register_form.addresses}}
+        <br>
+        <button type="button" id="get_meal_without_log_confirm_button">
+          确认
+        </button>
+      </form>
+      <button id="get_meal_without_login">闪电抢食</button>
+    {% endif %}
+    <p>市场价:{{meal.price}}</p>
+    <p>折扣:{{meal.discount}}</p>
+    <p>为你节省:{{meal.price * (1 - meal.discount)}}</p>
+    <p>还剩:{{ameal.availableNumber}}份</p>
+  </div>
+  <!-- price ends -->
 </div>
+<!-- main demonstration part end -->
 
+<!--Show flash message -->
 {% with messages = get_flashed_messages() %}
   {% if messages %}
     <ul>
@@ -15,28 +64,35 @@
     </ul>
     {% endif %}
 {% endwith %}
+<!--Show flash message ends-->
 <hr>
-<h2>注册</h2>
-<form method="POST" action="/register">
-  {{userForm.hidden_tag()}}
+<!-- register/login part -->
+<div id="reg_login">
+  {% if not current_user.is_authenticated() %}
+    <h2>注册</h2>
+    <form method="POST" action="/register" id="register_form">
+      {{userForm.hidden_tag()}}
 
-  手机号:{{userForm.phoneNumber}} <br />
-  {% for error in userForm.errors.phoneNumber %}
-  <span style="color: red;">[{{error}}]</span>
-  <br>
-  {% endfor %}
-  昵  称:{{userForm.nickName}} <br />
-  密 码:{{userForm.password}} <br />
-  地 址:{{userForm.addresses}} <br>
-  {{userForm.submit}} <br>
-</form>
+      手机号:{{userForm.phoneNumber}} <br />
+      {% for error in userForm.errors.phoneNumber %}
+      <span style="color: red;">[{{error}}]</span>
+      <br>
+      {% endfor %}
+      昵  称:{{userForm.nickName}} <br />
+      密 码:{{userForm.password}} <br />
+      地 址:{{userForm.addresses}} <br>
+      <button type="button" id="register_button">注册</button>
+    </form>
 
-<h2>登陆</h2>
-<form method="POST">
-  {{userForm.hidden_tag()}}
+    <h2>登陆</h2>
+    <form method="POST" id="loginForm" action="/login">
+      {{userForm.hidden_tag()}}
 
-  手机号:{{loginForm.phoneNumber}} <br />
-  密 码:{{loginForm.password}} <br />
-  {{loginForm.submit}}
-</form>
+      手机号:{{loginForm.phoneNumber}} <br />
+      密 码:{{loginForm.password}} <br />
+      <button id="loginButton" type="button">登陆</button>
+    </form>
+  {% endif %}
+</div>
+<!-- register/login part ends -->
 {% endblock %}

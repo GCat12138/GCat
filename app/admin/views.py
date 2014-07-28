@@ -1,8 +1,8 @@
 from . import admin
 from werkzeug import secure_filename
 from flask import render_template, request
-from forms import AddressForm, MealForm, PictureForm
-from ..models import Address, Meal, Picture
+from forms import AddressForm, MealForm, PictureForm, AMealForm
+from ..models import Address, Meal, Picture, ActualMeal
 from .. import db
 import os
 import datetime
@@ -42,14 +42,14 @@ def editMeal():
     if form.validate_on_submit():
         description = form.description.data
         price = form.price.data
-        discount = form.price.data
+        discount = form.discount.data
         amount = form.price.data
 
         newMeal = Meal()
         newMeal.description = description
         newMeal.price = price
         newMeal.discount = discount
-        newMeal.amount = amount
+        #newMeal.amount = amount
 
         try:
             db.session.add( newMeal )
@@ -78,6 +78,8 @@ def editPic():
         if pictFile:
             filename = secure_filename(pictFile.filename)
 
+            print filename
+
             #Current time
             dateT = datetime.datetime.now()
             dateString = dateT.strftime("%Y_%m_%d_%H_%M_%S")
@@ -91,7 +93,7 @@ def editPic():
             newPic.description = description
             newPic.mealId = mealID
             newPic.type = type
-            newPic.url = pictURL
+            newPic.name = dateString + "_" + str(pictCnt) + "_" + filename
             try:
                 db.session.add( newPic )
                 db.session.commit()
@@ -109,3 +111,32 @@ def editPic():
             'admin/picture.html',
             form = form
             )
+
+@admin.route('/ameal', methods=['POST', 'GET'])
+def editAMeal():
+    form = AMealForm(request.form)
+    form.mealList.choices = [
+            (meal.id, meal.description) for meal in Meal.query.all()]
+    form.addressList.choices =[
+            (address.id, address.address) for address in Address.query.all()]
+    if form.validate_on_submit():
+        mealID = form.mealList.data
+        addressID = form.addressList.data
+        amount = form.amount.data
+
+        actualMeal = ActualMeal()
+        actualMeal.addressId = addressID
+        actualMeal.amount = amount
+        actualMeal.mealID = mealID
+        actualMeal.availableNumber = amount
+        try:
+            db.session.add( actualMeal )
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print e
+            return e
+
+        return "succeed"
+
+    return render_template('admin/ameal.html', form=form)

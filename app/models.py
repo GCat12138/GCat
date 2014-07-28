@@ -61,8 +61,8 @@ class Meal(db.Model):
     price = db.Column(db.Float, nullable = False)
     discount = db.Column(db.Float, default = 0.0)
     likes = db.Column(db.Integer, default = 0)
-    amount = db.Column(db.Integer, default = 0)
-    availableNumber = db.Column(db.Integer, default = 0)
+#    amount = db.Column(db.Integer, default = 0)
+#    availableNumber = db.Column(db.Integer, default = 0)
 
     def __repr__(self):
         return '<meal is %r>' % self.description
@@ -73,7 +73,7 @@ class Picture(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     type = db.Column(db.Boolean, nullable = False)
-    url = db.Column(db.String(32))
+    name = db.Column(db.String(32))
     description = db.Column(db.String(64))
     mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
 
@@ -91,6 +91,15 @@ class Order(db.Model):
 
     def __repr__(self):
         return '<Order id is %r>' % self.id
+
+class ActualMeal(db.Model):
+    __tablename__ = 'actualmeals'
+
+    id = db.Column(db.Integer, primary_key = True)
+    amount = db.Column(db.Integer, default = 0)
+    availableNumber = db.Column(db.Integer, default = 0)
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = True)
+    addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
 
 @login_manager.user_loader
 def load_user(user_id):

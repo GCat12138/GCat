@@ -11,9 +11,9 @@ class UserForm(Form):
     password = PasswordField(validators=[Required()])
 
     addresses = SelectField(choices=[], coerce=int)
-    submit = SubmitField("Register")
+    #submit = SubmitField("Register")
 
 class LoginForm(Form):
     phoneNumber = StringField(validators=[Required()])
     password = PasswordField(validators=[Required()])
-    submit = SubmitField("Log In")
+    #submit = SubmitField("Log In")

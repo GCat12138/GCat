@@ -13,7 +13,7 @@ class MealForm(Form):
     description = StringField("Description:")
     price = FloatField("Price")
     discount = FloatField("Discount")
-    amount = IntegerField("amount")
+#    amount = IntegerField("amount")
     submit = SubmitField('add')
 
 class PictureForm(Form):
@@ -28,4 +28,10 @@ class PictureForm(Form):
     description = StringField('Description:')
     mealList = SelectField(choices=[], coerce=int)
     submit = SubmitField('add')
+
+class AMealForm(Form):
+    mealList = SelectField(choices=[], coerce=int)
+    addressList = SelectField(choices=[], coerce=int)
+    amount = IntegerField("amount")
+    submit = SubmitField("add")
 
