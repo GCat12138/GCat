@@ -10,7 +10,17 @@ $(document).ready(function(){
 
   // bind all buttons
   bindButtons();
+
+  setInterval(countFunction, 1000);
+  countFunction();
 });
+
+function countFunction()
+{
+  var now_cnt =  parseInt( $("#count").text() );
+  now_cnt += 1;
+  $("#count").text( now_cnt );
+}
 
 function bindButtons()
 {

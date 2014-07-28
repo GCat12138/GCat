@@ -32,8 +32,9 @@
     <br>
   {% endif %}
   <hr>
+  <span id="count">0</span>
   <!-- price -->
-  <div>
+  <div id="price_part">
     ￥{{meal.price * meal.discount}}
     {% if current_user.is_authenticated() %}
       <button id="get_meal_after_login">闪电抢食</button>
