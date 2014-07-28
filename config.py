@@ -13,8 +13,8 @@ class DevelopmentConfig(Config):
     DEBUG = True
     USERNAME = 'root'
     PASSWORD = 'root'
-    HOST = 'localhost'
-    PORT = 8889
+#    HOST = 'localhost'
+#    PORT = 8889
     DATABASENAME = 'FOOD'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
             'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')

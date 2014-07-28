@@ -24,7 +24,7 @@ class PictureForm(Form):
                 ]
             )
     '''
-    type = SelectField(choices=[(0, 'type1'), (1, 'type2')], coerce=int)
+    type = SelectField(choices=[(0, 'main'), (1, 'meal'), (2, 'material')], coerce=int)
     description = StringField('Description:')
     mealList = SelectField(choices=[], coerce=int)
     submit = SubmitField('add')

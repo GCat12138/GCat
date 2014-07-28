@@ -5,10 +5,25 @@
 {% else %}
   <p>嘿，我不是用户你打我吗</p>
 {% endif %}
+
+<!--Show flash message -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+<!--Show flash message ends-->
+
 <!-- main demonstration part -->
 <div id="get_meal">
   <span id="mealID" style="display:none;">{{meal.id}}</span>
-  <img src="{{url_for("static", filename = "pic/" + picDict["mainPic"].name)}}" alt="">
+  {% if mainPict %}
+    <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" alt="">
+  {% endif %}
   <p>{{meal.description}}</p>
   已有<span id="likes">{{meal.likes}}</span>人点赞
   {% if current_user.is_authenticated() %}
@@ -53,19 +68,28 @@
   <!-- price ends -->
 </div>
 <!-- main demonstration part end -->
-
-<!--Show flash message -->
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{message}}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-{% endwith %}
-<!--Show flash message ends-->
 <hr>
+
+<!-- 美味佳肴 part -->
+<div id="introduction">
+  <h2>Introduction 美味佳肴</h2>
+  {% for pic in mealPics %}
+    <img src="{{url_for('static', filename="pic/" + pic.name)}}" alt="">
+  {% endfor %}
+</div>
+<!-- 美味佳肴 part ends-->
+<hr>
+
+<!-- Details part -->
+<div id="details">
+  <h2>Details 山珍海味</h2>
+  {% for pic in materialPics %}
+  <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="">
+  {% endfor %}
+</div>
+<!-- Detalis part ends -->
+<hr>
+
 <!-- register/login part -->
 <div id="reg_login">
   {% if not current_user.is_authenticated() %}

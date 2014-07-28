@@ -20,9 +20,13 @@ def index():
         current_actualMeal = \
                 ActualMeal.query.filter_by(addressId = addressID).first()
     else:
-        current_actualMeal = ActualMeal.query.limit(1).all()[0]
+        current_actualMeal = ActualMeal.query.limit(1).all()
+        if len( current_actualMeal ) > 0:
+            current_actualMeal = current_actualMeal[0]
+        else:
+            current_actualMeal = None
 
-    print '<ActualMeal id is %r>' % current_actualMeal.id
+#    print '<ActualMeal id is %r>' % current_actualMeal.id
     #form of login
     loginForm = LoginForm()
     userForm = UserForm()
@@ -35,18 +39,33 @@ def index():
     HiddenRegisterForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
-    mealInformation = Meal.query.get( int(current_actualMeal.mealID) )
-    pictureDict = {}
-    mainPicture = Picture.query.filter_by( mealId = mealInformation.id ).first()
-    pictureDict["mainPic"] = mainPicture
-    return render_template('main.html',
-            userForm = userForm,
-            loginForm = loginForm,
-            meal = mealInformation,
-            ameal = current_actualMeal,
-            picDict = pictureDict,
-            hidden_register_form = HiddenRegisterForm
-            )
+    if current_actualMeal:
+        mealInformation = Meal.query.get( int(current_actualMeal.mealID) )
+        mainPicture = Picture.query.filter_by(
+            mealId = mealInformation.id, type=0).first()
+
+        mealPicture = Picture.query.filter_by(
+            mealId = mealInformation.id, type=1).all()
+
+        materialPicture = Picture.query.filter_by(
+            mealId = mealInformation.id, type=2).all()
+
+    else:
+        mealInformation = None
+        mainPicture = None
+    if mealInformation:
+        return render_template('main.html',
+                userForm = userForm,
+                loginForm = loginForm,
+                meal = mealInformation,
+                ameal = current_actualMeal,
+                mainPict = mainPicture,
+                mealPics = mealPicture,
+                materialPics = materialPicture,
+                hidden_register_form = HiddenRegisterForm
+                )
+    else:
+        return "No Meal Today"
 
 @main.route('/register', methods=['POST'])
 def register():
