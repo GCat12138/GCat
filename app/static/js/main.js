@@ -17,9 +17,18 @@ $(document).ready(function(){
 
 function countFunction()
 {
-  var now_cnt =  parseInt( $("#count").text() );
-  now_cnt += 1;
-  $("#count").text( now_cnt );
+  var hour = parseInt( $("#c_hour").text() );
+  var minute = parseInt( $("#c_minute").text() );
+  var second = parseInt( $("#c_second").text() );
+  var totalSeconds = hour * 3600 + minute * 60 + second * 1;
+  if (totalSeconds > 0) {
+    totalSeconds = totalSeconds - 1;
+    $("#c_hour").text( Math.floor(totalSeconds / 3600 ) );
+    totalSeconds = totalSeconds % 3600;
+    $("#c_minute").text( Math.floor(totalSeconds / 60) );
+    totalSeconds = totalSeconds % 60;
+    $("#c_second").text( totalSeconds );
+  }
 }
 
 function bindButtons()

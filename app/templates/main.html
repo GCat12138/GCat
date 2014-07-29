@@ -32,7 +32,26 @@
     <br>
   {% endif %}
   <hr>
-  <span id="count">0</span>
+  <!-- counting part -->
+<p>倒计时</p>
+<div id="count">
+  <span id="c_hour">
+    0
+  </span>时
+  <span id="c_minute">
+    0
+  </span>分
+  <span id="c_second">
+    {% if duration < 0 %}
+      {{-duration}}
+    {% else %}
+      {{duration}}
+    {% endif %}
+  </span>秒
+</div>
+  <!-- count part ends -->
+  <br>
+
   <!-- price -->
   <div id="price_part">
     ￥{{meal.price * meal.discount}}

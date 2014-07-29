@@ -15,18 +15,43 @@ def before_request():
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
 def index():
+    today_date = datetime.date.today()
+    current_datetime = datetime.datetime.now()
+    current_time = datetime.time(
+               current_datetime.hour,
+               current_datetime.minute
+            )
+
     if current_user.is_authenticated():
         addressID = current_user.addressId
-        current_actualMeal = \
-                ActualMeal.query.filter_by(addressId = addressID).first()
+
+        current_actualMeal = ActualMeal.query.filter(
+                ActualMeal.addressId == addressID,
+                ActualMeal.date == today_date,
+                ActualMeal.time > current_time).first()
     else:
-        current_actualMeal = ActualMeal.query.limit(1).all()
+        current_actualMeal = ActualMeal.query.filter(
+                ActualMeal.date == today_date,
+                ActualMeal.time > current_time
+            ).limit(1).all()
         if len( current_actualMeal ) > 0:
             current_actualMeal = current_actualMeal[0]
         else:
             current_actualMeal = None
 
-#    print '<ActualMeal id is %r>' % current_actualMeal.id
+#    calculate the duration between the start time of the next meal
+#    and current time
+    duration = (
+    datetime.datetime.combine(datetime.date.today(), current_actualMeal.time) -
+    datetime.datetime.combine(datetime.date.today(), current_time)
+    ).total_seconds()
+
+    print duration
+    print (
+    datetime.datetime.combine(datetime.date.today(), current_actualMeal.time) -
+    datetime.datetime.combine(datetime.date.today(), current_time)
+    )
+
     #form of login
     loginForm = LoginForm()
     userForm = UserForm()
@@ -62,7 +87,8 @@ def index():
                 mainPict = mainPicture,
                 mealPics = mealPicture,
                 materialPics = materialPicture,
-                hidden_register_form = HiddenRegisterForm
+                hidden_register_form = HiddenRegisterForm,
+                duration = duration
                 )
     else:
         return "No Meal Today"
