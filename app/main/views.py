@@ -7,10 +7,22 @@ from flask.ext.login import current_user, login_user, logout_user,\
         login_required
 import flask
 import datetime, time
+from sqlalchemy import and_, or_
 
 @main.before_app_request
 def before_request():
     pass
+
+def Duration_between_times( time1, time2):
+    date1 = datetime.datetime.combine(
+                datetime.date.today(),
+                time1
+            )
+    date2 = datetime.datetime.combine(
+                datetime.date.today(),
+                time2
+            )
+    return (date1 - date2).total_seconds()
 
 @main.route('/', methods=['GET'])
 @main.route('/index', methods=['GET'])
@@ -27,30 +39,30 @@ def index():
 
         current_actualMeal = ActualMeal.query.filter(
                 ActualMeal.addressId == addressID,
-                ActualMeal.date == today_date,
-                ActualMeal.time > current_time).first()
+                ActualMeal.date == today_date).filter(
+                    or_(
+                        ActualMeal.startTime > current_time,
+                        and_(
+                            ActualMeal.startTime< current_time,
+                            ActualMeal.endTime > current_time
+                        )
+                    )
+                ).first()
     else:
+
         current_actualMeal = ActualMeal.query.filter(
-                ActualMeal.date == today_date,
-                ActualMeal.time > current_time
-            ).limit(1).all()
+                ActualMeal.date == today_date
+            ).filter(
+                or_(ActualMeal.startTime > current_time,
+                        and_(ActualMeal.startTime< current_time,  ActualMeal.endTime > current_time))
+                        ).limit(1).all()
+
+
         if len( current_actualMeal ) > 0:
             current_actualMeal = current_actualMeal[0]
         else:
             current_actualMeal = None
 
-#    calculate the duration between the start time of the next meal
-#    and current time
-    duration = (
-    datetime.datetime.combine(datetime.date.today(), current_actualMeal.time) -
-    datetime.datetime.combine(datetime.date.today(), current_time)
-    ).total_seconds()
-
-    print duration
-    print (
-    datetime.datetime.combine(datetime.date.today(), current_actualMeal.time) -
-    datetime.datetime.combine(datetime.date.today(), current_time)
-    )
 
     #form of login
     loginForm = LoginForm()
@@ -65,6 +77,17 @@ def index():
             (address.id, address.address) for address in Address.query.all()
         ]
     if current_actualMeal:
+#    calculate the duration between the start time of the next meal
+#    and current time
+        startDuration = Duration_between_times(
+                    current_actualMeal.startTime,
+                    current_time
+                )
+        endDuration = Duration_between_times(
+                    current_actualMeal.endTime,
+                    current_time
+                )
+
         mealInformation = Meal.query.get( int(current_actualMeal.mealID) )
         mainPicture = Picture.query.filter_by(
             mealId = mealInformation.id, type=0).first()
@@ -88,7 +111,8 @@ def index():
                 mealPics = mealPicture,
                 materialPics = materialPicture,
                 hidden_register_form = HiddenRegisterForm,
-                duration = duration
+                startDuration = startDuration,
+                endDuration = endDuration
                 )
     else:
         return "No Meal Today"

@@ -17,18 +17,36 @@ $(document).ready(function(){
 
 function countFunction()
 {
-  var hour = parseInt( $("#c_hour").text() );
-  var minute = parseInt( $("#c_minute").text() );
-  var second = parseInt( $("#c_second").text() );
-  var totalSeconds = hour * 3600 + minute * 60 + second * 1;
+  var s_hour = parseInt( $("#s_hour").text() );
+  var s_minute = parseInt( $("#s_minute").text() );
+  var s_second = parseInt( $("#s_second").text() );
+  var totalSeconds = s_hour * 3600 + s_minute * 60 + s_second * 1;
   if (totalSeconds > 0) {
     totalSeconds = totalSeconds - 1;
-    $("#c_hour").text( Math.floor(totalSeconds / 3600 ) );
+    $("#s_hour").text( Math.floor(totalSeconds / 3600 ) );
     totalSeconds = totalSeconds % 3600;
-    $("#c_minute").text( Math.floor(totalSeconds / 60) );
+    $("#s_minute").text( Math.floor(totalSeconds / 60) );
     totalSeconds = totalSeconds % 60;
-    $("#c_second").text( totalSeconds );
+    $("#s_second").text( totalSeconds );
+  } else {
+    // start to get the meal
+    $(".getButton").css("display", "block");
   }
+
+  var e_hour = parseInt( $("#e_hour").text() );
+  var e_minute = parseInt( $("#e_minute").text() );
+  var e_second = parseInt( $("#e_second").text() );
+  var e_totalSeconds = e_hour * 3600 + e_minute * 60 + e_second* 1;
+
+  if (e_totalSeconds > 0) {
+    e_totalSeconds = e_totalSeconds - 1;
+    $("#e_hour").text( Math.floor(e_totalSeconds / 3600 ) );
+    e_totalSeconds = e_totalSeconds % 3600;
+    $("#e_minute").text( Math.floor(e_totalSeconds / 60) );
+    e_totalSeconds = e_totalSeconds % 60;
+    $("#e_second").text( e_totalSeconds );
+  }
+
 }
 
 function bindButtons()
@@ -87,7 +105,8 @@ function likeFunction()
 function getMealAfterLoginFunction()
 {
   $("#get_meal_confirm_form").css("display", "block");
-  $("#get_meal_after_login").css("display", "none");
+//  $("#get_meal_after_login").css("display", "none");
+  $("#get_meal_after_login").remove()
 }
 
 function getMealConfirmButton()
@@ -104,7 +123,8 @@ function getMealConfirmButton()
 function getMealWithoutLoginFunction()
 {
   $("#get_meal_without_log_form").css("display", "block");
-  $("#get_meal_without_login").css("display", "none");
+//  $("#get_meal_without_login").css("display", "none");
+  $("#get_meal_without_login").remove();
 }
 
 function getMealWithoutLoginConfirmFunction()

@@ -99,7 +99,8 @@ class ActualMeal(db.Model):
     amount = db.Column(db.Integer, default = 0)
     availableNumber = db.Column(db.Integer, default = 0)
     date = db.Column(db.Date)
-    time = db.Column(db.Time)
+    startTime = db.Column(db.Time)
+    endTime = db.Column(db.Time)
     mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = True)
     addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
 

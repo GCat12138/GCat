@@ -132,8 +132,13 @@ def editAMeal():
         actualMeal.availableNumber = amount
         actualMeal.date = form.date.data
 
-        formTime = form.time.data
-        actualMeal.time = datetime.time(formTime.hour, formTime.minute)
+        formTime = form.startTime.data
+        actualMeal.startTime = datetime.time(formTime.hour, formTime.minute)
+
+        formTime = form.endTime.data
+        actualMeal.endTime = datetime.time( formTime.hour, formTime.minute )
+
+
 
         try:
             db.session.add( actualMeal )

@@ -35,6 +35,7 @@ class AMealForm(Form):
     addressList = SelectField(choices=[], coerce=int)
     amount = IntegerField("amount")
     date = DateField()
-    time = DateTimeField(format='%H:%M')
+    startTime = DateTimeField(format='%H:%M')
+    endTime = DateTimeField(format='%H:%M')
     submit = SubmitField("add")
 
