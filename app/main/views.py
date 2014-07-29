@@ -150,10 +150,10 @@ def MakeOrderHelperFunction():
     newOrder.number = Ameal.amount - tempAvailableNumber
     newOrder.date = datetime.date.today()
     current_time = datetime.datetime.now()
+
     newOrder.time = datetime.time(
             current_time.hour,
-            current_time.minute,
-            current_time.second
+            current_time.minute
     )
     try:
         db.session.add( newOrder )
