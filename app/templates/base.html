@@ -1,10 +1,14 @@
 {% extends "bootstrap/base.html" %}
 
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+{% endblock %}
+
 {%block title %}唯美食{% endblock %}
   {% block navbar %}
   <!-- navigator-->
   <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-
     <div class="container-fluid">
       <div class="navbar-header">
         <a href="/" class="navbar-brand">唯美食</a>
@@ -24,7 +28,6 @@
   {% endblock %}
   <!-- navigator ends -->
   {% block scripts %}
-    {{ super() }}
     <script>
       csrftoken = "{{ csrf_token() }}"
     </script>
@@ -32,5 +35,7 @@
     </script>
 
     <script src="{{url_for('static', filename="js/main.js")}}"></script>
+    {{ super() }}
   {% endblock %}
+
 
