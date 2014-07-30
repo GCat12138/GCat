@@ -1,0 +1,26 @@
+body {
+  padding-top: 70px;
+}
+
+#get_meal {
+  border-right: 1px #e7e7e7 solid;
+}
+
+#main_container {
+  border-bottom: 1px #e7e7e7 solid;
+  margin-bottom: 50px;
+}
+
+#price_information {
+  border-top: 1px #e7e7e7 solid;
+}
+
+#count_container {
+}
+
+#price_part {
+}
+
+#real_price {
+  font-size: 50px;
+}

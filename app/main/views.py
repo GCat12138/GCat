@@ -43,8 +43,8 @@ def index():
                     or_(
                         ActualMeal.startTime > current_time,
                         and_(
-                            ActualMeal.startTime< current_time,
-                            ActualMeal.endTime > current_time
+                            ActualMeal.startTime<= current_time,
+                            ActualMeal.endTime >= current_time
                         )
                     )
                 ).order_by(ActualMeal.startTime).first()
@@ -53,9 +53,9 @@ def index():
         current_actualMeal = ActualMeal.query.filter(
                 ActualMeal.date == today_date
             ).filter(
-                or_(ActualMeal.startTime > current_time,
-                        and_(ActualMeal.startTime< current_time,  ActualMeal.endTime > current_time))
-                        ).order_by(ActualMeal.startTime).limit(1).all()
+                or_(ActualMeal.startTime >= current_time,
+                        and_(ActualMeal.startTime <= current_time,  ActualMeal.endTime >= current_time))
+                        ).limit(1).all()
 
 
         if len( current_actualMeal ) > 0:
