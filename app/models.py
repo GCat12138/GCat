@@ -101,7 +101,7 @@ class ActualMeal(db.Model):
     date = db.Column(db.Date)
     startTime = db.Column(db.Time)
     endTime = db.Column(db.Time)
-    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = True)
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = False)
     addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
 
 @login_manager.user_loader
