@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block body %}
+{% block content%}
 {% if current_user.is_authenticated() %}
   <p>哈，我是用户我最叼</p>
 {% else %}
@@ -19,7 +19,7 @@
 <!--Show flash message ends-->
 
 <!-- main demonstration part -->
-<div id="get_meal">
+<div id="get_meal" class="container">
   <span id="mealID" style="display:none;">{{meal.id}}</span>
   {% if mainPict %}
     <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" alt="">
@@ -111,7 +111,7 @@
 <hr>
 
 <!-- 美味佳肴 part -->
-<div id="introduction">
+<div id="introduction" class="container">
   <h2>Introduction 美味佳肴</h2>
   {% for pic in mealPics %}
     <img src="{{url_for('static', filename="pic/" + pic.name)}}" alt="">
@@ -121,7 +121,7 @@
 <hr>
 
 <!-- Details part -->
-<div id="details">
+<div id="details" class="container">
   <h2>Details 山珍海味</h2>
   {% for pic in materialPics %}
   <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="">
@@ -131,7 +131,7 @@
 <hr>
 
 <!-- register/login part -->
-<div id="reg_login">
+<div id="reg_login" class="container">
   {% if not current_user.is_authenticated() %}
     <h2>注册</h2>
     <form method="POST" action="/register" id="register_form">
