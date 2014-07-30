@@ -146,7 +146,7 @@ def editAMeal():
         except Exception as e:
             db.session.rollback()
             print e
-            return e
+            return '0'
 
         return "succeed"
 
