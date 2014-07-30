@@ -184,6 +184,9 @@ def MakeOrderHelperFunction():
     newOrder = Order()
     Ameal = ActualMeal.query.get( int( request.form['amealId']) )
     tempAvailableNumber = 0
+#   in case there is no meal
+    if Ameal.availableNumber <= 0:
+        return '0'
     try:
         Ameal.availableNumber = Ameal.availableNumber - 1
         db.session.add( Ameal )
