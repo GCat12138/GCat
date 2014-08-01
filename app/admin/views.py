@@ -107,9 +107,11 @@ def editPic():
         #print form.picture.data
         print form.errors
 
+    pics = Picture.query.all()
     return render_template(
             'admin/picture.html',
-            form = form
+            form = form,
+            pics = pics
             )
 
 @admin.route('/ameal', methods=['POST', 'GET'])

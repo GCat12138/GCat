@@ -8,7 +8,7 @@ class Address(db.Model):
     __tablename__ = 'address'
 
     id = db.Column(db.Integer, primary_key = True)
-    address = db.Column(db.String(64), unique = True, index = True)
+    address = db.Column(db.Unicode(64), unique = True, index = True)
 
     def __init__(self, address):
         self.address = address
@@ -18,8 +18,8 @@ class Address(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key = True)
-    phoneNumber = db.Column(db.String(13),
+    id = db.Column(db.Integer, primary_key = True, unique = True)
+    phoneNumber = db.Column(db.String(11),
             unique = True,
             index = True,
             nullable = False)
@@ -55,7 +55,7 @@ class User(UserMixin, db.Model):
 
 class Meal(db.Model):
     __tablename__ = 'meals'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True, unique = True)
 
     description = db.Column(db.String(64))
     price = db.Column(db.Float, nullable = False)
@@ -86,7 +86,7 @@ class Order(db.Model):
     number = db.Column(db.Integer, nullable = False)
     date = db.Column(db.Date)
     time = db.Column(db.Time)
-    userID = db.Column(db.Integer, db.ForeignKey('users.phoneNumber'))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
     mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
 
     def __repr__(self):
