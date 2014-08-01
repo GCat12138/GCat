@@ -104,6 +104,13 @@ class ActualMeal(db.Model):
     mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = False)
     addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
 
+class SMSModel(db.Model):
+    __tablename__ = 'sms'
+
+    id = db.Column(db.Integer, primary_key = True)
+    number = db.Column(db.Integer, nullable = False)
+    phoneNumber = db.Column(db.String(11), nullable = False, unique = False)
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get( int(user_id) )

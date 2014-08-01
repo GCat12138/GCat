@@ -3,7 +3,7 @@
 
 {% block content%}
 {% if current_user.is_authenticated() %}
-  <p>哈，我是用户我最叼</p>
+  <p>哈，我是用户  {{current_user.phoneNumber}} 我最叼</p>
 {% else %}
   <p>嘿，我不是用户你打我吗</p>
 {% endif %}
@@ -152,6 +152,8 @@
         {{ wtf.form_errors( userForm, hiddens="only" ) }}
 
         手机号:{{ userForm.phoneNumber(class="form-control") }} <br />
+        验证码: {{userForm.verification(class="form-control")}} <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button><br>
+
         昵  称:{{ userForm.nickName(class="form-control") }} <br />
         密 码:{{ userForm.password(class="form-control") }} <br />
         地 址:{{ userForm.addresses(class="form-control") }} <br>
@@ -161,9 +163,8 @@
 
     <h2>登陆</h2>
     <form method="POST" id="loginForm" action="/login">
-      {{userForm.hidden_tag()}}
-
       <div class="form-group">
+        {{userForm.hidden_tag()}}
         手机号:{{loginForm.phoneNumber(class="form-control")}} <br />
         密 码:{{loginForm.password(class="form-control")}} <br />
         <button id="loginButton" type="button" class="btn btn-default">登陆</button>

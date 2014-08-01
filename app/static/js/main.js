@@ -58,18 +58,20 @@ function bindButtons()
   $("#get_meal_confirm_button").click( getMealConfirmButton );
   $("#get_meal_without_login").click( getMealWithoutLoginFunction );
   $("#get_meal_without_log_confirm_button").click( getMealWithoutLoginConfirmFunction );
+  $("#get_v_code_btn").click( GetVerificationCodeFunction );
 }
 
 function loginFunction()
 {
 //  $("#loginForm").submit();
-
   $.post(
     '/login',
     $("#loginForm").serialize(),
     function( data, status ){
-      if (status == 'success' ) {
+      if (status == 'success' && data == '1' ) {
         window.location.href = "/index";
+      } else {
+        alert("failed");
       }
     }
   );
@@ -81,7 +83,11 @@ function registerFunction()
     '/register',
     $('#register_form').serialize(),
     function( data, status ){
-      alert( data );
+      if ( status =='success' && data == '1') {
+        window.location.href = "/";
+      } else {
+        alert( data + " " +  "failed" );
+      }
     }
   );
 }
@@ -106,7 +112,7 @@ function getMealAfterLoginFunction()
 {
   $("#get_meal_confirm_form").css("display", "block");
 //  $("#get_meal_after_login").css("display", "none");
-  $("#get_meal_after_login").remove()
+  $("#get_meal_after_login").remove();
 }
 
 function getMealConfirmButton()
@@ -137,4 +143,25 @@ function getMealWithoutLoginConfirmFunction()
       alert( status );
     }
   );
+}
+
+function GetVerificationCodeFunction()
+{
+  var phoneNumber = $("#register_form").find("[name='phoneNumber']").val();
+  if (phoneNumber.length == 11) {
+    phoneNumber = parseInt( phoneNumber );
+
+    // get the verification code
+    $.post(
+      "/sms",
+      {
+        "phoneNumber":phoneNumber
+      },
+      function( data, status ){
+      }
+    );
+  } else {
+    alert("手机号码应该是11位");
+  }
+
 }
