@@ -147,7 +147,7 @@ function getMealWithoutLoginConfirmFunction()
 
 function GetVerificationCodeFunction()
 {
-  var phoneNumber = $("#register_form").find("[name='phoneNumber']").val();
+  var phoneNumber = $("#get_v_code_btn").parent().find("[name='phoneNumber']").val();
   if (phoneNumber.length == 11) {
     phoneNumber = parseInt( phoneNumber );
 

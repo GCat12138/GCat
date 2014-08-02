@@ -53,15 +53,40 @@
         <span id="real_price">￥{{meal.price * meal.discount}}</span>
 
         {% if ameal.availableNumber > 0 %}
-          <a href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
-            <button class="btn btn-default" {% if startDuration > 0 %}style="display:none;"{% endif %}>
+          {% if current_user.is_authenticated() %}
+            <button id="get_meal_after_login" class="getButton btn btn-default" {% if startDuration > 0 %}style="display:none;"{% endif %}>
               闪电抢食
-          </button>
-          </a>
+            </button>
+            <form action="POST" style="display:None;" id="get_meal_confirm_form" role="form">
+              <div class="form-group">
+                <input type="text" style="display:None" name="amealId" value="{{ameal.id}}">
+                <input type="text" style="display:None" name="phoneNumber" value="{{current_user.phoneNumber}}">
+                输入密码: <input type="password" name="password" class="form-control" type="text">
+                <button type="button" id="get_meal_confirm_button" class="btn btn-default">确认</button>
+              </div>
+            </form>
+          {% else %}
+            <form action="POST" style="display:None;" id="get_meal_without_log_form">
+              {{hidden_register_form.hidden_tag()}}
+              <h3>订单信息</h3>
+              手机号:{{hidden_register_form.phoneNumber(class="form-control")}} <br/>
+              昵称:{{hidden_register_form.nickName(class="form-control")}}
+              <br>
+              密码:{{hidden_register_form.password(class="form-control")}}
+              <br>
+              地址:{{hidden_register_form.addresses(class="form-control")}}
+              <br>
+              <button type="button" id="get_meal_without_log_confirm_button" class="btn btn-default">
+                确认
+              </button>
+            </form>
+            <button id="get_meal_without_login" class="getButton btn btn-default" {% if startDuration > 0 %}style="display:none;"{% endif %}>
+              闪电抢食
+            </button>
+          {% endif %}
         {% else %}
           <p>很遗憾，已经全部被抢完了╮(╯▽╰)╭</p>
         {% endif %}
-
         <div id="price_information">
           <p>市场价:{{meal.price}}</p>
           <p>折扣:{{meal.discount}}</p>

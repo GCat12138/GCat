@@ -8,7 +8,9 @@ from flask.ext import restful
 
 db = SQLAlchemy()
 login_manager = LoginManager()
+login_manager.login_view = "main.RegLogin"
 login_manager.session_protection = "strong"
+
 csrf = CsrfProtect()
 bootstrap = Bootstrap()
 api = restful.Api()

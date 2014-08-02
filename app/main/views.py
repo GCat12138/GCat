@@ -63,7 +63,7 @@ def index():
             ).filter(
                 or_(ActualMeal.startTime >= current_time,
                         and_(ActualMeal.startTime <= current_time,  ActualMeal.endTime >= current_time))
-                        ).limit(1).all()
+                        ).order_by(ActualMeal.startTime).limit(1).all()
 
 
         if len( current_actualMeal ) > 0:
@@ -112,7 +112,7 @@ def index():
         mealInformation = None
         mainPicture = None
     if mealInformation:
-        return render_template('main.html',
+        return render_template('index.html',
                 userForm = userForm,
                 loginForm = loginForm,
                 meal = mealInformation,
@@ -126,10 +126,12 @@ def index():
                 sForm = SMSForm()
                 )
     else:
-        return "No Meal Today"
+        return render_template('index.html',
+                userForm = userForm,
+                loginForm = loginForm,
+                )
 
-@main.route('/register', methods=['POST'])
-def register():
+def register_helper_function():
     userForm = UserForm(request.form)
     userForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
@@ -171,20 +173,59 @@ def register():
         print userForm.errors
         return '0'
 
-@main.route('/login', methods=['POST'])
+
+@main.route('/register', methods=["GET",'POST'])
+def register():
+    registerForm = UserForm(request.form)
+    registerForm.addresses.choices = [
+            (address.id, address.address) for address in Address.query.all()
+        ]
+    if registerForm.validate_on_submit():
+        print "try to register"
+        result = register_helper_function()
+        print result
+        if result == "1":
+            #register successfully
+            return redirect( request.args.get("next") or url_for("main.index"))
+        else:
+            pass
+
+    return render_template(
+            "register.html",
+            register_form = registerForm
+            )
+    pass
+
+def loginHelper(phoneNumber, password):
+    user = User.query.filter_by( phoneNumber = phoneNumber).first()
+    if user is not None and user.verify_password( password ):
+        login_user(user, remember=True)
+        print "log in success"
+        return '1'
+    else:
+        print 'no such user'
+        return '0'
+
+
+@main.route('/login', methods=['GET','POST'])
 def logIn():
     loginForm = LoginForm(request.form)
     if loginForm.validate_on_submit():
-        user = User.query.filter_by(phoneNumber = loginForm.phoneNumber.data).first()
-        if user is not None and user.verify_password(loginForm.password.data):
-            login_user(user, remember = True)
-            print "log in success"
-            return '1'
+        result = loginHelper(
+                loginForm.phoneNumber.data,
+                loginForm.password.data
+                )
+        if result == "1":
+            return redirect(request.args.get("next") or url_for("main.index"))
         else:
-            print 'no such user'
-            return '0'
-    else:
-        return json.dumps( loginForm.errors, ensure_ascii = False)
+            return render_template("login.html",
+                        login_form = loginForm,
+                        msg = u"账户密码不匹配或者用户不存在"
+                    )
+
+    return render_template("login.html",
+                login_form = loginForm
+            )
 
 
 @main.route('/logout')
@@ -209,9 +250,9 @@ def Like():
     return str(newLikes)
     pass
 
-def MakeOrderHelperFunction():
+def MakeOrderHelperFunction( amealID ):
     newOrder = Order()
-    Ameal = ActualMeal.query.get( int( request.form['amealId']) )
+    Ameal = ActualMeal.query.get( int(amealID) )
     tempAvailableNumber = 0
 #   in case there is no meal
     if Ameal.availableNumber <= 0:
@@ -248,30 +289,33 @@ def MakeOrderHelperFunction():
         db.session.commit()
         print "failed to make order"
         return '0'
-    return '1'
+    return newOrder
 
-@main.route('/make_order', methods=['POST'])
-def MakeOrder():
-    print request.form
+@main.route('/make_order/<int:amealID>', methods=['GET'])
+@login_required
+def MakeOrder( amealID ):
     if current_user.is_authenticated():
-        #check the password
-       if logIn() == '1':
-           result = MakeOrderHelperFunction()
-           return result
-           pass
-    else:
-        registerForm = LoginForm( request.form )
-        if logIn() == '1':
-#           This user has already registered, but did not log in
-#           Make the order
-            pass
+        result = MakeOrderHelperFunction( amealID )
+        if result != '0':
+            return render_template("success.html",
+                    msg= u"你抢到了第" + str(result.number) + u"份"
+                    )
         else:
-#           This is a new user, add the user to the database
+            return 'No'
 
-#           Make the order
-            pass
-        pass
-    pass
+@main.route("/reg_login")
+def RegLogin():
+    userForm = UserForm(request.form)
+    userForm.addresses.choices = [
+        (address.id, address.address) for address in Address.query.all()
+    ]
+    loginForm = LoginForm(request.form)
+
+    return render_template("make_order.html",
+                userForm = userForm,
+                loginForm = loginForm
+            )
+
 
 def SimpleXMLHelper(root, tag):
     node = root.getElementsByTagName(tag)[0]
@@ -294,12 +338,15 @@ def SMS():
     print number
     url = SMS_URL + '&mobile=' + str(request.form["phoneNumber"]) + '&content=' + \
     "您的验证码是：" + str(number) + "。请不要把验证码泄露给其他人。"
+    print url
     resultXML = urllib2.urlopen(url).read()
 
     root = minidom.parseString(resultXML)
     code = SimpleXMLHelper( root, "code" )
     print code
     print "code is %r" % code
+
+    code = "2"
 
 #   send sms sucessfully
     if code == "2":
