@@ -1,3 +1,4 @@
+#encoding:utf8
 from . import admin
 from werkzeug import secure_filename
 from flask import render_template, request

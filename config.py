@@ -11,16 +11,18 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    USERNAME = 'root'
-    PASSWORD = 'root'
-#    HOST = 'localhost'
-#    PORT = 8889
-    DATABASENAME = 'FOOD'
+    USERNAME = 'cat'
+    PASSWORD = '123456'
+    SQL_HOST = 'localhost'
+    SQL_PORT = ''
+    DATABASENAME = 'food'
 #    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
 #            'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')
 #    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
 #            '@' + HOST + ':' + str(PORT) + '/' + DATABASENAME
-    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
+#    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
+    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
+            '@' + SQL_HOST +  "/" + DATABASENAME
 
 class TestingConfig(Config):
     TESTING = True

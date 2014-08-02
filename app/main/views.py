@@ -301,7 +301,6 @@ def SMS():
     print code
     print "code is %r" % code
 
-    code = "2"
 #   send sms sucessfully
     if code == "2":
         new_sms = SMSModel()
