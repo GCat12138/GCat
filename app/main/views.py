@@ -151,8 +151,9 @@ def register():
         try:
             db.session.commit()
         except Exception as e:
-            print e
             db.session.rollback()
+            print e
+            return "0"
 
         # log the uesr in
         user = User.query.filter_by(phoneNumber = phoneNumber).first()
@@ -300,6 +301,7 @@ def SMS():
     print code
     print "code is %r" % code
 
+    code = "2"
 #   send sms sucessfully
     if code == "2":
         new_sms = SMSModel()
