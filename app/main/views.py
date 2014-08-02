@@ -63,7 +63,7 @@ def index():
             ).filter(
                 or_(ActualMeal.startTime >= current_time,
                         and_(ActualMeal.startTime <= current_time,  ActualMeal.endTime >= current_time))
-                        ).limit(1).all()
+                        ).order_by(ActualMeal.startTime).limit(1).all()
 
 
         if len( current_actualMeal ) > 0:
