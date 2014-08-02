@@ -1,8 +1,8 @@
 $(document).ready(function(){
-  bindButtons();
+  setUp();
 });
 
-function bindButtons()
+function setUp()
 {
   $("#reg_login").find("[name='t_reg_btn']").click( regButton );
   $("#reg_login").find("[name='t_log_btn']").click( logButton );
