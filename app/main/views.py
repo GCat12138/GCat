@@ -112,7 +112,7 @@ def index():
         mealInformation = None
         mainPicture = None
     if mealInformation:
-        return render_template('main.html',
+        return render_template('index.html',
                 userForm = userForm,
                 loginForm = loginForm,
                 meal = mealInformation,
@@ -126,7 +126,10 @@ def index():
                 sForm = SMSForm()
                 )
     else:
-        return "No Meal Today"
+        return render_template('index.html',
+                userForm = userForm,
+                loginForm = loginForm,
+                )
 
 def register_helper_function():
     userForm = UserForm(request.form)
@@ -171,48 +174,17 @@ def register_helper_function():
         return '0'
 
 
-@main.route('/register', methods=['POST'])
+@main.route('/register', methods=["GET",'POST'])
 def register():
-    userForm = UserForm(request.form)
-    userForm.addresses.choices = [
+    registerForm = UserForm()
+    registerForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
-    if userForm.validate_on_submit():
-        verificaion_code = userForm.verification.data
-        phoneNumber = userForm.phoneNumber.data
-
-        sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
-        if sms_code.number !=  int(verificaion_code):
-            # verification code is incorrect
-            return "2"
-
-        nickName = userForm.nickName.data
-        addressID = userForm.addresses.data
-        password = userForm.password.data
-        newUser = User(phoneNumber, nickName, password, addressID)
-        db.session.add(newUser)
-        try:
-            db.session.commit()
-        except Exception as e:
-            db.session.rollback()
-            print e
-            return "0"
-
-        # log the uesr in
-        user = User.query.filter_by(phoneNumber = phoneNumber).first()
-        if user is None:
-            return '0'
-        else:
-            login_user(user, remember = True)
-            try:
-                db.session.delete( sms_code )
-                db.session.commit()
-            except:
-                db.rollback()
-        return '1'
-    else:
-        print userForm.errors
-        return '0'
+    return render_template(
+            "register.html",
+            register_form = registerForm
+            )
+    pass
 
 @main.route('/login', methods=['POST'])
 def logIn():

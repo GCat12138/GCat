@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content%}
+{% if current_user.is_authenticated() %}
+  <p>哈，我是用户  {{current_user.phoneNumber}} 我最叼</p>
+{% else %}
+  <p>嘿，我不是用户你打我吗</p>
+{% endif %}
+
+<!--Show flash message -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+      <li>{{message}}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+{% endwith %}
+<!--Show flash message ends-->
+
+<!-- meal part -->
+{% if ameal %}
+  {% include "main.html" %}
+{% else %}
+  <div class="container col-md-offset-2">
+    <p>不好意思，今天的食物被抢光啦！</p>
+  </div>
+  <hr>
+{% endif %}
+<!-- meal part ends -->
+<!-- register/login part -->
+{% if not current_user.is_authenticated() %}
+  {% include "reg_login.html" %}
+{% endif %}
+<!-- register/login part ends -->
+{% endblock %}
