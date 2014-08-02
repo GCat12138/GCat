@@ -292,7 +292,7 @@ def SMS():
     number = number * 10 + random.randint(0, 9)
     number = number * 10 + random.randint(0, 9)
     print number
-    url = SMS_URL + '&mobile=15768384043' + '&content=' + \
+    url = SMS_URL + '&mobile=' + str(request.form["phoneNumber"]) + '&content=' + \
     "您的验证码是：" + str(number) + "。请不要把验证码泄露给其他人。"
     resultXML = urllib2.urlopen(url).read()
 
