@@ -151,6 +151,7 @@ function GetVerificationCodeFunction()
   if (phoneNumber.length == 11) {
     phoneNumber = parseInt( phoneNumber );
 
+    $("#get_v_code_btn").attr("disabled", "true");
     // get the verification code
     $.post(
       "/sms",
@@ -160,6 +161,7 @@ function GetVerificationCodeFunction()
       function( data, status ){
       }
     );
+
   } else {
     alert("手机号码应该是11位");
   }
