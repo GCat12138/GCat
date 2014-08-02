@@ -130,7 +130,6 @@ def index():
 
 @main.route('/register', methods=['POST'])
 def register():
-    print request.form
     userForm = UserForm(request.form)
     userForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
