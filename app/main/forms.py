@@ -15,10 +15,14 @@ class UserForm(Form):
     submit = SubmitField(u"提交")
 
 class LoginForm(Form):
-    phoneNumber = StringField(validators=[Required(), Length(min=11, max=11)])
-    password = PasswordField(validators=[Required()])
-    #submit = SubmitField("Log In")
+    phoneNumber = StringField(u"手机号",validators=[Required(), Length(min=11, max=11)])
+    password = PasswordField(u"密码", validators=[Required()])
+    submit = SubmitField(u"提交")
 
 class SMSForm(Form):
     phoneNumber = StringField(validators=[Required(), Length(min=11, max=11)])
-    pass
+
+class OrderForm(Form):
+    actualMealID = FieldList()
+    submit = SubmitField(u"闪电抢食")
+

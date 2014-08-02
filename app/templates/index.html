@@ -8,17 +8,6 @@
   <p>嘿，我不是用户你打我吗</p>
 {% endif %}
 
-<!--Show flash message -->
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{message}}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-{% endwith %}
-<!--Show flash message ends-->
 
 <!-- meal part -->
 {% if ameal %}
