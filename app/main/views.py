@@ -1,13 +1,20 @@
+# coding=utf8
 from .. import db
-from ..models import User, Address, ActualMeal, Meal, Picture, Order
+from ..models import User, Address, ActualMeal, Meal, Picture, Order, SMSModel
 from flask import render_template, request, redirect, url_for
 from . import main
-from forms import UserForm, LoginForm
+from forms import UserForm, LoginForm, SMSForm
 from flask.ext.login import current_user, login_user, logout_user,\
         login_required
 import flask
 import datetime, time
 from sqlalchemy import and_, or_
+import json
+import urllib2
+from ..shareVars import SMS_URL
+from xml.dom import minidom
+import random
+
 
 @main.before_app_request
 def before_request():
@@ -34,6 +41,7 @@ def index():
                current_datetime.minute
             )
 
+# select meal from database
     if current_user.is_authenticated():
         addressID = current_user.addressId
 
@@ -65,13 +73,15 @@ def index():
 
 
     #form of login
-    loginForm = LoginForm()
-    userForm = UserForm()
+    loginForm = LoginForm(request.form)
+
+    # form of register
+    userForm = UserForm(request.form)
     # set the choices of register form(user form)
     userForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
-    HiddenRegisterForm = UserForm()
+    HiddenRegisterForm = UserForm(request.form)
     # set the choices
     HiddenRegisterForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
@@ -112,20 +122,27 @@ def index():
                 materialPics = materialPicture,
                 hidden_register_form = HiddenRegisterForm,
                 startDuration = startDuration,
-                endDuration = endDuration
+                endDuration = endDuration,
+                sForm = SMSForm()
                 )
     else:
         return "No Meal Today"
 
 @main.route('/register', methods=['POST'])
 def register():
-    print request.form
     userForm = UserForm(request.form)
     userForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
     if userForm.validate_on_submit():
+        verificaion_code = userForm.verification.data
         phoneNumber = userForm.phoneNumber.data
+
+        sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
+        if sms_code.number !=  int(verificaion_code):
+            # verification code is incorrect
+            return "2"
+
         nickName = userForm.nickName.data
         addressID = userForm.addresses.data
         password = userForm.password.data
@@ -136,14 +153,25 @@ def register():
         except Exception as e:
             print e
             db.session.rollback()
-        return 'success'
+
+        # log the uesr in
+        user = User.query.filter_by(phoneNumber = phoneNumber).first()
+        if user is None:
+            return '0'
+        else:
+            login_user(user, remember = True)
+            try:
+                db.session.delete( sms_code )
+                db.session.commit()
+            except:
+                db.rollback()
+        return '1'
     else:
         print userForm.errors
-        return 'failed'
+        return '0'
 
 @main.route('/login', methods=['POST'])
 def logIn():
-    print dir(request)
     loginForm = LoginForm(request.form)
     if loginForm.validate_on_submit():
         user = User.query.filter_by(phoneNumber = loginForm.phoneNumber.data).first()
@@ -155,8 +183,8 @@ def logIn():
             print 'no such user'
             return '0'
     else:
-        print loginForm.errors
-        return '0'
+        return json.dumps( loginForm.errors, ensure_ascii = False)
+
 
 @main.route('/logout')
 @login_required
@@ -184,6 +212,9 @@ def MakeOrderHelperFunction():
     newOrder = Order()
     Ameal = ActualMeal.query.get( int( request.form['amealId']) )
     tempAvailableNumber = 0
+#   in case there is no meal
+    if Ameal.availableNumber <= 0:
+        return '0'
     try:
         Ameal.availableNumber = Ameal.availableNumber - 1
         db.session.add( Ameal )
@@ -241,7 +272,63 @@ def MakeOrder():
         pass
     pass
 
+def SimpleXMLHelper(root, tag):
+    node = root.getElementsByTagName(tag)[0]
+    node_text = ""
+    for node in node.childNodes:
+        if node.nodeType in (node.TEXT_NODE, node.CDATA_SECTION_NODE):
+            node_text = node_text + node.data
+    return node_text
+
+@main.route('/sms', methods=["GET","POST"])
+def SMS():
+#   generate a 4-bit random number
+    number = random.randint(0, 9)
+    while number == 0:
+        number = random.randint(0, 9)
+
+    number = number * 10 + random.randint(0, 9)
+    number = number * 10 + random.randint(0, 9)
+    number = number * 10 + random.randint(0, 9)
+    print number
+    url = SMS_URL + '&mobile=15768384043' + '&content=' + \
+    "您的验证码是：" + str(number) + "。请不要把验证码泄露给其他人。"
+    resultXML = urllib2.urlopen(url).read()
+
+    root = minidom.parseString(resultXML)
+    code = SimpleXMLHelper( root, "code" )
+    print code
+    print "code is %r" % code
+
+#   send sms sucessfully
+    if code == "2":
+        new_sms = SMSModel()
+        new_sms.number = number
+        new_sms.phoneNumber = request.form["phoneNumber"]
+        # one phoneNumber can only have one verification code in the database
+        # delete the previous one if exists
+        old_code_query = SMSModel.query.filter_by(phoneNumber = request.form["phoneNumber"])
+        if old_code_query.count() >= 0:
+            old_code = old_code_query.first()
+            try:
+                db.session.delete( old_code )
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                print e
+
+        print "try to add"
+        # add the new smsobject into database
+        try:
+            db.session.add( new_sms )
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print e
+            return '0'
+        return '1'
+    return url
+
 @main.route('/test', methods=['POST', 'GET'])
 def test():
     a = Address()
-    return 'ggg'

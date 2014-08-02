@@ -3,7 +3,7 @@
 
 {% block content%}
 {% if current_user.is_authenticated() %}
-  <p>哈，我是用户我最叼</p>
+  <p>哈，我是用户  {{current_user.phoneNumber}} 我最叼</p>
 {% else %}
   <p>嘿，我不是用户你打我吗</p>
 {% endif %}
@@ -143,33 +143,8 @@
 <hr>
 
 <!-- register/login part -->
-<div id="reg_login" class="container col-md-offset-2 col-md-5">
-  {% if not current_user.is_authenticated() %}
-    <h2>注册</h2>
-    <form method="POST" action="/register" id="register_form" class="" role="form">
-      <div class="form-group">
-        {{userForm.hidden_tag()}}
-        {{ wtf.form_errors( userForm, hiddens="only" ) }}
-
-        手机号:{{ userForm.phoneNumber(class="form-control") }} <br />
-        昵  称:{{ userForm.nickName(class="form-control") }} <br />
-        密 码:{{ userForm.password(class="form-control") }} <br />
-        地 址:{{ userForm.addresses(class="form-control") }} <br>
-        <button type="button" id="register_button" class="btn btn-default">注册</button>
-      </div>
-    </form>
-
-    <h2>登陆</h2>
-    <form method="POST" id="loginForm" action="/login">
-      {{userForm.hidden_tag()}}
-
-      <div class="form-group">
-        手机号:{{loginForm.phoneNumber(class="form-control")}} <br />
-        密 码:{{loginForm.password(class="form-control")}} <br />
-        <button id="loginButton" type="button" class="btn btn-default">登陆</button>
-      </div>
-    </form>
-  {% endif %}
-</div>
+{% if not current_user.is_authenticated() %}
+  {% include "reg_login.html" %}
+{% endif %}
 <!-- register/login part ends -->
 {% endblock %}

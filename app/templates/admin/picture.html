@@ -20,6 +20,13 @@
   {{form.submit}}
 </form>
 
+{% for pic in pics %}
+<div>
+  <p>id: {{pic.id}}</p>
+  <p>{{pic.type}}</p>
+  <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" >
+</div>
+{% endfor %}
 </body>
 </html>
 
