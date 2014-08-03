@@ -101,8 +101,9 @@ function likeFunction()
       mealId : mealId,
     },
     function( data, status ) {
-      if (status == "success") {
-        $("#likes").text(data);
+      if (status == "success" && data == "1") {
+        $("#likes").text( parseInt(data) + 1 );
+        $("#mealLike").remove();
       }
     }
   );
