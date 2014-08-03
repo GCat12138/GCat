@@ -4,7 +4,7 @@ from ..models import User, Address, ActualMeal, Meal, Picture, Order,\
         SMSModel, LikeModel
 from flask import render_template, request, redirect, url_for
 from . import main
-from forms import UserForm, LoginForm, SMSForm
+from forms import UserForm, LoginForm, SMSForm, ChangePasswordForm
 from flask.ext.login import current_user, login_user, logout_user,\
         login_required
 import flask
@@ -15,11 +15,16 @@ import urllib2
 from ..shareVars import SMS_URL
 from xml.dom import minidom
 import random
+from .. import redis
+from manage import app
 
 
 @main.before_app_request
 def before_request():
-    pass
+    # for counting online users
+    if current_user.is_authenticated():
+        #make_online( current_user.id )
+        pass
 
 def Duration_between_times( time1, time2):
     date1 = datetime.datetime.combine(
@@ -122,6 +127,8 @@ def index():
             if like.id == current_user.id:
                 flag = 0
                 break
+
+#    print get_online_users()
 
     if mealInformation:
         return render_template('index.html',
@@ -396,6 +403,58 @@ def SMS():
         return '1'
     return url
 
+@main.route('/change_password', methods=["GET", "POST"])
+def ChangePassword():
+    cPasswordForm = ChangePasswordForm(request.form)
+    if cPasswordForm.validate_on_submit():
+        old_user = User.query.filter_by(phoneNumber = cPasswordForm.phoneNumber.data).first()
+        if old_user:
+            if old_user.verify_password(cPasswordForm.oldPassword.data):
+                old_user.password = cPasswordForm.newPassword.data
+                try:
+                    db.session.add( old_user )
+                    db.session.commit()
+                except Exception as e:
+                    db.rollback()
+                    print e
+                    return render_template("success.html",
+                                msg = u"恭喜你，修改成功"
+                            )
+
+            else:
+                return render_template("success.html",
+                            msg = u"密码错误"
+                        )
+
+    return render_template("change_password.html",
+            cp_form = cPasswordForm
+            )
+    pass
+
 @main.route('/test', methods=['POST', 'GET'])
 def test():
     a = Address()
+
+# show online users helpers
+def make_online(user_id):
+    now = int(time.time())
+    expires = now + (app.config["ONLINE_LAST_MINUTES"] * 60) + 10
+    all_users_key = 'online-users/%d' % (now // 60)
+    user_key = 'user-activity/%s' % user_id
+    p = redis.pipeline()
+    p.sadd(all_users_key, user_id)
+    p.set( user_key, now )
+    p.expireat( all_users_key, expires)
+    p.expireat( user_key, expires )
+    p.execute()
+
+def get_user_last_activity(user_id):
+    last_active = redis.get( 'user-activity/%s' % user_id )
+    if last_active is None:
+        return None
+    return datetime.datetime.utcfromtimestamp( int(last_active) )
+
+def get_online_users():
+    current = int(time.time())
+    minutes = xrange(app.config['ONLINE_LAST_MINUTES'])
+    return redis.sunion( ['online-users/%d' % (current - x) for x in minutes])

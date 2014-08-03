@@ -15,3 +15,15 @@
   <br>
   {{form.submit}}
 </form>
+
+{% for ameal in ameals %}
+<div>
+  id:<p>{{ameal.id}}</p>
+  地址id:<p>{{ameal.addressId}}</p>
+  总数:j<p>{{ameal.amount}}</p>
+  剩下:<p>{{ameal.availableNumber}}</p>
+  日期:<p>{{ameal.date}}</p>
+  开始时间:<p>{{ameal.startTime}}</p>
+  结束时间:<p>{{ameal.endTime}}</p>
+</div>
+{% endfor %}

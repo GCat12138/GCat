@@ -140,8 +140,6 @@ def editAMeal():
         formTime = form.endTime.data
         actualMeal.endTime = datetime.time( formTime.hour, formTime.minute )
 
-
-
         try:
             db.session.add( actualMeal )
             db.session.commit()
@@ -152,7 +150,11 @@ def editAMeal():
 
         return "succeed"
 
-    return render_template('admin/ameal.html', form=form)
+    ameals = ActualMeal.query.all()
+    return render_template('admin/ameal.html',
+            form=form,
+            ameals = ameals
+            )
 
 @admin.route('/order', methods=['POST', 'GET'])
 def EditOrder():
