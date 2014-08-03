@@ -102,7 +102,8 @@ function likeFunction()
     },
     function( data, status ) {
       if (status == "success" && data == "1") {
-        $("#likes").text( parseInt(data) + 1 );
+        var oldLikes = $("#likes").text();
+        $("#likes").text( parseInt(oldLikes) + 1 );
         $("#mealLike").remove();
       }
     }
