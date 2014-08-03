@@ -9,11 +9,13 @@
       <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" alt="">
     {% endif %}
     <p>{{meal.description}}</p>
-    已有<span id="likes">{{meal.likes}}</span>人点赞
+    已有<span id="likes">{{meal.likes.__len__()}}</span>人点赞
     {% if current_user.is_authenticated() %}
-      <button id="mealLike" class="btn btn-default">赞</button>
-    {% else %}
-      <br>
+      {% if flag == 1 %}
+        <button id="mealLike" class="btn btn-default">赞</button>
+      {% else %}
+        <span>已点赞</span>
+      {% endif %}
     {% endif %}
   </div> <!-- #getmeal container ends-->
   <div class="container col-md-4 col-xs-4" > <!-- counting and price container-->

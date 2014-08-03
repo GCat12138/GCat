@@ -60,13 +60,19 @@ class Meal(db.Model):
     description = db.Column(db.String(64))
     price = db.Column(db.Float, nullable = False)
     discount = db.Column(db.Float, default = 0.0)
-    likes = db.Column(db.Integer, default = 0)
+    likes = db.relationship("LikeModel", backref="meals")
 #    amount = db.Column(db.Integer, default = 0)
 #    availableNumber = db.Column(db.Integer, default = 0)
 
     def __repr__(self):
         return '<meal is %r>' % self.description
 
+class LikeModel(db.Model):
+    __tablename__ = "likes"
+
+    id = db.Column(db.Integer, primary_key = True)
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Picture(db.Model):
     __tablename__ = 'pictures'
@@ -87,7 +93,7 @@ class Order(db.Model):
     date = db.Column(db.Date)
     time = db.Column(db.Time)
     userID = db.Column(db.Integer, db.ForeignKey('users.id'))
-    mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    amealId = db.Column(db.Integer, db.ForeignKey('actualmeals.id'))
 
     def __repr__(self):
         return '<Order id is %r>' % self.id

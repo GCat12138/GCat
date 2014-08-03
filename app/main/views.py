@@ -1,6 +1,7 @@
 # coding=utf8
 from .. import db
-from ..models import User, Address, ActualMeal, Meal, Picture, Order, SMSModel
+from ..models import User, Address, ActualMeal, Meal, Picture, Order,\
+        SMSModel, LikeModel
 from flask import render_template, request, redirect, url_for
 from . import main
 from forms import UserForm, LoginForm, SMSForm
@@ -111,6 +112,17 @@ def index():
     else:
         mealInformation = None
         mainPicture = None
+
+    #like flag
+    flag = None
+    if current_user.is_authenticated() and mealInformation:
+        #check whether this use already hit "like"
+        flag = 1
+        for like in mealInformation.likes:
+            if like.id == current_user.id:
+                flag = 0
+                break
+
     if mealInformation:
         return render_template('index.html',
                 userForm = userForm,
@@ -123,7 +135,8 @@ def index():
                 hidden_register_form = HiddenRegisterForm,
                 startDuration = startDuration,
                 endDuration = endDuration,
-                sForm = SMSForm()
+                sForm = SMSForm(),
+                flag = flag
                 )
     else:
         return render_template('index.html',
@@ -235,19 +248,20 @@ def LogOut():
     return redirect( url_for('main.index') )
 
 @main.route('/like', methods=['POST'])
+@login_required
 def Like():
     mealId = request.form['mealId']
-    meal = Meal.query.get( int(mealId) )
-    meal.likes = meal.likes + 1
-    newLikes = meal.likes
+    newLike = LikeModel()
+    newLike.mealID = mealId
+    newLike.userID = current_user.id
     try:
-        db.session.add(meal)
+        db.session.add(newLike)
         db.session.commit()
     except Exception as e:
         print e
-        return "failed"
+        return '0'
 
-    return str(newLikes)
+    return '1'
     pass
 
 def MakeOrderHelperFunction( amealID ):
@@ -295,13 +309,18 @@ def MakeOrderHelperFunction( amealID ):
 @login_required
 def MakeOrder( amealID ):
     if current_user.is_authenticated():
-        result = MakeOrderHelperFunction( amealID )
-        if result != '0':
-            return render_template("success.html",
-                    msg= u"你抢到了第" + str(result.number) + u"份"
-                    )
+        if Order.query.filter_by(id=amealID, userID = current_user.id).count() == 0:
+            result = MakeOrderHelperFunction( amealID )
+            if result != '0':
+                return render_template("success.html",
+                        msg= u"你抢到了第" + str(result.number) + u"份"
+                        )
+            else:
+                return 'No'
         else:
-            return 'No'
+            return render_template("success.html",
+                        msg=u"对不起，你已经抢过此餐了。"
+                    )
 
 @main.route("/reg_login")
 def RegLogin():
