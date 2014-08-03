@@ -283,7 +283,7 @@ def MakeOrderHelperFunction( amealID ):
         return '0'
 
     newOrder.userID = current_user.id
-    newOrder.mealId = Ameal.mealID
+    newOrder.amealId = Ameal.id
     newOrder.number = Ameal.amount - tempAvailableNumber
     newOrder.date = datetime.date.today()
     current_time = datetime.datetime.now()
@@ -309,7 +309,7 @@ def MakeOrderHelperFunction( amealID ):
 @login_required
 def MakeOrder( amealID ):
     if current_user.is_authenticated():
-        if Order.query.filter_by(id=amealID, userID = current_user.id).count() == 0:
+        if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
             result = MakeOrderHelperFunction( amealID )
             if result != '0':
                 return render_template("success.html",
