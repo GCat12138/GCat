@@ -4,6 +4,7 @@ baseDir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
+    ONLINE_LAST_MINUTES = 3
 
     @staticmethod
     def init_app(app):
@@ -23,6 +24,8 @@ class DevelopmentConfig(Config):
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
     SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
             '@' + SQL_HOST +  "/" + DATABASENAME
+#    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
+#    SQLALCHEMY_DATABASE_URI = "mysql://test@121.40.87.145:3306/food"
 
 class TestingConfig(Config):
     TESTING = True

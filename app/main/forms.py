@@ -26,3 +26,10 @@ class OrderForm(Form):
     actualMealID = FieldList()
     submit = SubmitField(u"闪电抢食")
 
+class ChangePasswordForm(Form):
+    phoneNumber = StringField(u"手机号",validators=[Required()])
+    oldPassword = PasswordField(u"旧密码",validators=[Required(), Length(min=6, max=15)])
+    newPassword = PasswordField(u"新密码",validators=[Required(), Length(min=6, max=15)])
+    submit = SubmitField(u"提交")
+
+

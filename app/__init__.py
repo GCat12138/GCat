@@ -5,6 +5,7 @@ from flask.ext.login import LoginManager
 from flask_wtf.csrf import CsrfProtect
 from flask.ext.bootstrap import Bootstrap
 from flask.ext import restful
+from redis import Redis
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -14,6 +15,7 @@ login_manager.session_protection = "strong"
 csrf = CsrfProtect()
 bootstrap = Bootstrap()
 api = restful.Api()
+redis = Redis()
 
 def create_app(config_name):
     app = Flask(__name__)
