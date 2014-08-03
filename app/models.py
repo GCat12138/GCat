@@ -93,7 +93,7 @@ class Order(db.Model):
     date = db.Column(db.Date)
     time = db.Column(db.Time)
     userID = db.Column(db.Integer, db.ForeignKey('users.id'))
-    mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    amealId = db.Column(db.Integer, db.ForeignKey('actualmeals.id'))
 
     def __repr__(self):
         return '<Order id is %r>' % self.id

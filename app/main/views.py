@@ -113,6 +113,7 @@ def index():
         mealInformation = None
         mainPicture = None
 
+    #like flag
     flag = None
     if current_user.is_authenticated() and mealInformation:
         #check whether this use already hit "like"
@@ -308,13 +309,18 @@ def MakeOrderHelperFunction( amealID ):
 @login_required
 def MakeOrder( amealID ):
     if current_user.is_authenticated():
-        result = MakeOrderHelperFunction( amealID )
-        if result != '0':
-            return render_template("success.html",
-                    msg= u"你抢到了第" + str(result.number) + u"份"
-                    )
+        if Order.query.filter_by(id=amealID, userID = current_user.id).count() == 0:
+            result = MakeOrderHelperFunction( amealID )
+            if result != '0':
+                return render_template("success.html",
+                        msg= u"你抢到了第" + str(result.number) + u"份"
+                        )
+            else:
+                return 'No'
         else:
-            return 'No'
+            return render_template("success.html",
+                        msg=u"对不起，你已经抢过此餐了。"
+                    )
 
 @main.route("/reg_login")
 def RegLogin():
