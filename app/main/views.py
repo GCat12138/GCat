@@ -319,6 +319,15 @@ def MakeOrder( amealID ):
         if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
             result = MakeOrderHelperFunction( amealID )
             if result != '0':
+                content = "您的验证码是：" + str( result.number ) + "。"
+                url = SMS_URL + '&mobile=' + str( current_user.phoneNumber) +\
+                        '&content=' + content + "请不要把验证码泄露给别人。"
+                print url
+                resultXML = urllib2.urlopen( url ).read()
+                root = minidom.parseString(resultXML)
+                code = SimpleXMLHelper( root, "code" )
+                print code
+                print "order code is %r" % code
                 return render_template("success.html",
                         msg= u"你抢到了第" + str(result.number) + u"份"
                         )
@@ -362,8 +371,9 @@ def SMS():
     number = number * 10 + random.randint(0, 9)
     number = number * 10 + random.randint(0, 9)
     print number
-    url = SMS_URL + '&mobile=' + str(request.form["phoneNumber"]) + '&content=' + \
-    "您的验证码是：" + str(number) + "。请不要把验证码泄露给其他人。"
+    url = SMS_URL + '&mobile=' + str(request.form["phoneNumber"]) +\
+            '&content=' "您的验证码是：" + str(number) +\
+            "。请不要把验证码泄露给其他人。"
     print url
     resultXML = urllib2.urlopen(url).read()
 
@@ -371,8 +381,6 @@ def SMS():
     code = SimpleXMLHelper( root, "code" )
     print code
     print "code is %r" % code
-
-    code = "2"
 
 #   send sms sucessfully
     if code == "2":
