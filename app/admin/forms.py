@@ -1,3 +1,4 @@
+#encoding: utf8
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, FieldList, SelectField, \
         FloatField, IntegerField, BooleanField, DateTimeField, \
@@ -31,11 +32,13 @@ class PictureForm(Form):
     submit = SubmitField('add')
 
 class AMealForm(Form):
+    id = IntegerField("id")
     mealList = SelectField(choices=[], coerce=int)
     addressList = SelectField(choices=[], coerce=int)
-    amount = IntegerField("amount")
-    date = DateField()
+    amount = IntegerField(u"总数量")
+    availableNumber = IntegerField(u"剩余数量")
+    date = DateField(u"日期")
     startTime = DateTimeField(format='%H:%M')
     endTime = DateTimeField(format='%H:%M')
-    submit = SubmitField("add")
+    submit = SubmitField(u"提交")
 
