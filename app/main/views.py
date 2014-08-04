@@ -2,7 +2,7 @@
 from .. import db
 from ..models import User, Address, ActualMeal, Meal, Picture, Order,\
         SMSModel, LikeModel
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, flash
 from . import main
 from forms import UserForm, LoginForm, SMSForm, ChangePasswordForm
 from flask.ext.login import current_user, login_user, logout_user,\
@@ -201,6 +201,11 @@ def register():
             (address.id, address.address) for address in Address.query.all()
         ]
     if registerForm.validate_on_submit():
+        phoneNumber = registerForm.phoneNumber.data
+        if User.query.filter_by(phoneNumber = phoneNumber).count() != 0:
+            #user already exists, jump to log in
+            flash(u"手机号已注册, 请直接登录")
+            return redirect(url_for("main.logIn"))
         print "try to register"
         result = register_helper_function()
         print result
