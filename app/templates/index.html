@@ -2,12 +2,6 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block content%}
-{% if current_user.is_authenticated() %}
-  <p>哈，我是用户  {{current_user.phoneNumber}} 我最叼</p>
-{% else %}
-  <p>嘿，我不是用户你打我吗</p>
-{% endif %}
-
 
 <!-- meal part -->
 {% if ameal %}
