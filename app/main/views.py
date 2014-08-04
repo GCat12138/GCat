@@ -326,7 +326,7 @@ def MakeOrder( amealID ):
             if result != '0':
                 content = "您的验证码是：" + str( result.number ) + "。"
                 url = SMS_URL + '&mobile=' + str( current_user.phoneNumber) +\
-                        '&content=' + content + "请不要把验证码泄露给别人。"
+                        '&content=' + content + "请不要把验证码泄露给其他人。"
                 print url
                 resultXML = urllib2.urlopen( url ).read()
                 root = minidom.parseString(resultXML)
