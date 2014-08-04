@@ -16,8 +16,8 @@
         {{ wtf.form_errors( userForm, hiddens="only" ) }}
 
         手机号:{{ userForm.phoneNumber(class="form-control") }} <br />
-        验证码: {{userForm.verification(class="form-control")}} <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button><br>
         密 码:{{ userForm.password(class="form-control") }} <br />
+        验证码: {{userForm.verification(class="form-control")}} <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button><br>
         昵  称:{{ userForm.nickName(class="form-control") }} <br />
         地 址:{{ userForm.addresses(class="form-control") }} <br>
         {{userForm.submit(class="btn btn-default")}}

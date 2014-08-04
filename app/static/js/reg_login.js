@@ -1,5 +1,6 @@
 $(document).ready(function(){
   setUp();
+  phoneNumberCheck();
 });
 
 function setUp()
@@ -31,4 +32,28 @@ function show_hide_forms(reg, login)
   } else {
     $("#reg_login").find("#loginForm").css("display", "none");
   }
+}
+
+function phoneNumberCheck()
+{
+  var phoneNumberInput = $("#register_form").find("[name='phoneNumber']");
+  $(phoneNumberInput).blur(function(){
+    var phoneNumber = $(phoneNumberInput).val();
+    var url = 'check_phoneNumber/' + phoneNumber;
+    if ( phoneNumber.length == 11 ){
+      $.get(url, function(data, status){
+        if( status == "success"){
+          if ( data == '1'){
+            //phoneNumber exists
+            var msg = "<span id='phoneCheck' style='color:red'>该手机号已存在，请直接登录</span>" ;
+            $("#register_form").find("#phoneCheck").remove();
+            $("#register_form").prepend(msg);
+            $("#get_v_code_btn").attr("disabled", "true");
+          } else {
+            $("#get_v_code_btn").removeAttr("disabled");
+          }
+        }
+      });
+    }
+  });
 }
