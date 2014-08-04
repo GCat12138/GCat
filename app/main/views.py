@@ -442,7 +442,16 @@ def ChangePassword():
     return render_template("change_password.html",
             cp_form = cPasswordForm
             )
-    pass
+
+@main.route('/check_phoneNumber/<int:phoneNumber>')
+def checkPhoneNumber(phoneNumber):
+    if User.query.filter_by(phoneNumber = phoneNumber).count() == 0:
+        #No such user
+        return '0'
+    else:
+        #user exists
+        return '1'
+
 
 @main.route('/test', methods=['POST', 'GET'])
 def test():
