@@ -38,8 +38,10 @@ def Duration_between_times( time1, time2):
     return (date1 - date2).total_seconds()
 
 @main.route('/', methods=['GET'])
-@main.route('/index', methods=['GET'])
-def index():
+@main.route('/<addressName>', methods=['GET'])
+@main.route('/index/', methods=['GET'])
+@main.route('/index/<addressName>', methods=['GET'])
+def index(addressName = None):
     today_date = datetime.date.today()
     current_datetime = datetime.datetime.now()
     current_time = datetime.time(
@@ -47,23 +49,31 @@ def index():
                current_datetime.minute
             )
 
-# select meal from database
-    if current_user.is_authenticated():
-        addressID = current_user.addressId
+    addressID = None
+    if addressName is not None:
+        current_address = Address.query.filter_by( address = addressName ).first()
+        if current_address:
+            addressID = current_address.id
 
-        current_actualMeal = ActualMeal.query.filter(
-                ActualMeal.addressId == addressID,
-                ActualMeal.date == today_date).filter(
-                    or_(
-                        ActualMeal.startTime > current_time,
-                        and_(
-                            ActualMeal.startTime<= current_time,
-                            ActualMeal.endTime >= current_time
-                        )
+    if addressID is None:
+        if current_user.is_authenticated():
+            addressID = current_user.addressId
+        else:
+            current_address = Address.query.all().first()
+            addressID = current_address.id
+
+    current_actualMeal = ActualMeal.query.filter(
+            ActualMeal.addressId == addressID,
+            ActualMeal.date == today_date).filter(
+                or_(
+                    ActualMeal.startTime > current_time,
+                    and_(
+                        ActualMeal.startTime<= current_time,
+                        ActualMeal.endTime >= current_time
                     )
-                ).order_by(ActualMeal.startTime).first()
-    else:
-
+                )
+            ).order_by(ActualMeal.startTime).first()
+    '''
         current_actualMeal = ActualMeal.query.filter(
                 ActualMeal.date == today_date
             ).filter(
@@ -76,6 +86,7 @@ def index():
             current_actualMeal = current_actualMeal[0]
         else:
             current_actualMeal = None
+    '''
 
 
     #form of login
