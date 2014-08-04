@@ -1,29 +1,43 @@
-<form method="POST">
-  {{form.hidden_tag()}}
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf%}
+{% block content %}
+<div class="container">
+  <form method="POST">
+    {{form.hidden_tag()}}
 
-  {{form.mealList}}
-  <br>
-  {{form.addressList}}
-  <br>
-  数量:{{form.amount}}
-  <br>
-  供应时间:
-  <input type="date" name="date">
-  startTime: <input type="time" name="startTime">
-  <br>
-  endTime: <input type="time" name="endTime">
-  <br>
-  {{form.submit}}
-</form>
-
-{% for ameal in ameals %}
-<div>
-  id:<p>{{ameal.id}}</p>
-  地址id:<p>{{ameal.addressId}}</p>
-  总数:j<p>{{ameal.amount}}</p>
-  剩下:<p>{{ameal.availableNumber}}</p>
-  日期:<p>{{ameal.date}}</p>
-  开始时间:<p>{{ameal.startTime}}</p>
-  结束时间:<p>{{ameal.endTime}}</p>
+    {{wtf.form_field( form.mealList) }}
+    {{wtf.form_field( form.addressList ) }}
+    {{wtf.form_field( form.amount )}}
+    供应时间:
+    <input type="date" name="date" class="form-control"> <br>
+    开始时间: <input type="time" name="startTime" class="form-control">
+    <br>
+    结束时间: <input type="time" name="endTime" class="form-control">
+    <br>
+    {{wtf.form_field(form.submit)}}
+  </form>
 </div>
+
+<hr>
+
+{% for tform in tForms %}
+  <div class="container">
+    <form action="{{url_for("admin.editAMeal")}}" method="POST">
+      {{tform.hidden_tag()}}
+
+      {{tform.id(class="hidden")}}
+      {{wtf.form_field(tform.mealList)}}
+      {{wtf.form_field(tform.addressList)}}
+      {{wtf.form_field(tform.amount)}}
+      {{wtf.form_field(tform.availableNumber)}}
+      {{wtf.form_field(tform.date)}}
+      {{wtf.form_field(tform.startTime)}}
+      {{wtf.form_field(tform.endTime)}}
+      {{wtf.form_field(tform.submit)}}
+      <input type="submit" formaction="{{url_for('admin.deleteAMeal')}}" value="删除" class="btn btn-danger">
+    </form>
+  </div>
+  <hr>
 {% endfor %}
+
+{% endblock %}

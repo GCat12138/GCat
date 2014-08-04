@@ -114,8 +114,65 @@ def editPic():
             pics = pics
             )
 
-@admin.route('/ameal', methods=['POST', 'GET'])
+@admin.route('/deleteAmeal', methods=['POST'])
+def deleteAMeal():
+    form = AMealForm(request.form)
+    form.mealList.choices = [
+            (meal.id, meal.description) for meal in Meal.query.all()]
+    form.addressList.choices =[
+            (address.id, address.address) for address in Address.query.all()]
+
+    if form.validate_on_submit():
+        current_ameal = ActualMeal.query.get( int(form.id.data) )
+        try:
+            db.session.delete( current_ameal )
+            db.session.commit()
+        except Exception as e:
+            print e
+            db.session.rollback()
+            return '0'
+    else:
+        return '1'
+
+@admin.route('/editAmeal', methods=['POST'])
 def editAMeal():
+    form = AMealForm(request.form)
+    form.mealList.choices = [
+            (meal.id, meal.description) for meal in Meal.query.all()]
+    form.addressList.choices =[
+            (address.id, address.address) for address in Address.query.all()]
+
+    if form.validate_on_submit():
+        current_ameal = ActualMeal.query.get( int(form.id.data) )
+        current_ameal.addressId = form.addressList.data
+        current_ameal.amount = form.amount.data
+        current_ameal.availableNumber = form.availableNumber.data
+        current_ameal.mealID = form.mealList.data
+        current_ameal.date = form.date.data
+
+        startTime = form.startTime.data
+        current_ameal.startTime = \
+                datetime.time( startTime.hour, startTime.minute )
+
+        endTime = form.endTime.data
+        current_ameal.endTime = \
+                datetime.time( endTime.hour, endTime.minute )
+
+        try:
+            db.session.add( current_ameal )
+            db.session.commit()
+        except:
+            db.session.rollback()
+            return '0'
+
+        return '1'
+
+    else:
+        print form.errors
+        return '0'
+
+@admin.route('/ameal', methods=['POST', 'GET'])
+def AMeal():
     form = AMealForm(request.form)
 
     form.mealList.choices = [
@@ -151,9 +208,28 @@ def editAMeal():
         return "succeed"
 
     ameals = ActualMeal.query.all()
+    formList = []
+    for ameal in ameals:
+        tempForm = AMealForm()
+        tempForm.mealList.choices = [
+                (meal.id, meal.description) for meal in Meal.query.all()]
+        tempForm.addressList.choices =[
+                (address.id, address.address) for address in Address.query.all()]
+        tempForm.addressList.data = ameal.addressId
+        tempForm.amount.data = ameal.amount
+        tempForm.availableNumber.data = ameal.availableNumber
+        tempForm.mealList.data = ameal.mealID
+        tempForm.date.data = ameal.date
+        tempForm.startTime.data = ameal.startTime
+        tempForm.endTime.data = ameal.endTime
+        tempForm.id.data = ameal.id
+
+        formList.append( tempForm )
+
     return render_template('admin/ameal.html',
             form=form,
-            ameals = ameals
+            ameals = ameals,
+            tForms = formList
             )
 
 @admin.route('/order', methods=['POST', 'GET'])
