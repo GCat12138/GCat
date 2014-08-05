@@ -32,4 +32,9 @@ class ChangePasswordForm(Form):
     newPassword = PasswordField(u"新密码",validators=[Required(), Length(min=6, max=15)])
     submit = SubmitField(u"提交")
 
+class ForgotPasswordForm(Form):
+    phoneNumber = StringField(u"手机号", validators=[Required(), Length(min=11, max=11)])
+    verification = StringField(u"验证码", validators=[Required()])
+    password = PasswordField(u"新密码", validators=[Required(), Length(min=6, max=15)])
+    submit = SubmitField(u"提交")
 
