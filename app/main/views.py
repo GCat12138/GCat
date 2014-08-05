@@ -59,34 +59,22 @@ def index(addressName = None):
         if current_user.is_authenticated():
             addressID = current_user.addressId
         else:
-            current_address = Address.query.all().first()
-            addressID = current_address.id
+            current_address = Address.query.first()
+            if current_address:
+                addressID = current_address.id
 
-    current_actualMeal = ActualMeal.query.filter(
-            ActualMeal.addressId == addressID,
-            ActualMeal.date == today_date).filter(
-                or_(
-                    ActualMeal.startTime > current_time,
-                    and_(
-                        ActualMeal.startTime<= current_time,
-                        ActualMeal.endTime >= current_time
-                    )
-                )
-            ).order_by(ActualMeal.startTime).first()
-    '''
+    if addressID is not None:
         current_actualMeal = ActualMeal.query.filter(
-                ActualMeal.date == today_date
-            ).filter(
-                or_(ActualMeal.startTime >= current_time,
-                        and_(ActualMeal.startTime <= current_time,  ActualMeal.endTime >= current_time))
-                        ).order_by(ActualMeal.startTime).limit(1).all()
-
-
-        if len( current_actualMeal ) > 0:
-            current_actualMeal = current_actualMeal[0]
-        else:
-            current_actualMeal = None
-    '''
+                ActualMeal.addressId == addressID,
+                ActualMeal.date == today_date).filter(
+                    or_(
+                        ActualMeal.startTime > current_time,
+                        and_(
+                            ActualMeal.startTime<= current_time,
+                            ActualMeal.endTime >= current_time
+                        )
+                    )
+                ).order_by(ActualMeal.startTime).first()
 
 
     #form of login
@@ -103,6 +91,16 @@ def index(addressName = None):
     HiddenRegisterForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
+
+    if addressID is None:
+        return render_template('index.html',
+                userForm = userForm,
+                loginForm = loginForm,
+                )
+
+
+    # store the information of this meal, not the actual meal
+    mealInformation = None
     if current_actualMeal:
 #    calculate the duration between the start time of the next meal
 #    and current time
@@ -124,10 +122,6 @@ def index(addressName = None):
 
         materialPicture = Picture.query.filter_by(
             mealId = mealInformation.id, type=2).all()
-
-    else:
-        mealInformation = None
-        mainPicture = None
 
     #like flag
     flag = None
@@ -398,6 +392,7 @@ def SMS():
     print code
     print "code is %r" % code
 
+    code = "2"
 #   send sms sucessfully
     if code == "2":
         new_sms = SMSModel()

@@ -9,6 +9,12 @@ class Address(db.Model):
 
     id = db.Column(db.Integer, primary_key = True)
     address = db.Column(db.Unicode(64), unique = True, index = True)
+    '''
+    user = db.relationship("User",
+            cascade='all, delete-orphan',
+            passive_deletes = True
+            )
+    '''
 
     def __init__(self, address):
         self.address = address
@@ -27,7 +33,7 @@ class User(UserMixin, db.Model):
     #salted password
     password_hash = db.Column(db.String(128))
     #Foreign Key, address_id
-    addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
+    addressId = db.Column(db.Integer, db.ForeignKey('address.id', ondelete="SET NULL"))
 
     def __init__(self,
             phoneNumber=None,
@@ -71,8 +77,8 @@ class LikeModel(db.Model):
     __tablename__ = "likes"
 
     id = db.Column(db.Integer, primary_key = True)
-    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'))
-    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id', ondelete="CASCADE"))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"))
 
 class Picture(db.Model):
     __tablename__ = 'pictures'
@@ -81,7 +87,7 @@ class Picture(db.Model):
     type = db.Column(db.SmallInteger, nullable = False)
     name = db.Column(db.String(32))
     description = db.Column(db.String(64))
-    mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    mealId = db.Column(db.Integer, db.ForeignKey('meals.id', ondelete="SET NULL"))
 
     def __repr__(self):
         return '<Picture Url: %r>' % self.url
@@ -92,8 +98,8 @@ class Order(db.Model):
     number = db.Column(db.Integer, nullable = False)
     date = db.Column(db.Date)
     time = db.Column(db.Time)
-    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
-    amealId = db.Column(db.Integer, db.ForeignKey('actualmeals.id'))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id', ondelete="CASCADE"))
+    amealId = db.Column(db.Integer, db.ForeignKey('actualmeals.id', ondelete="SET NULL"))
 
     def __repr__(self):
         return '<Order id is %r>' % self.id
@@ -107,8 +113,15 @@ class ActualMeal(db.Model):
     date = db.Column(db.Date)
     startTime = db.Column(db.Time)
     endTime = db.Column(db.Time)
-    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = False)
-    addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
+    mealID = db.Column(
+            db.Integer,
+            db.ForeignKey('meals.id', ondelete="CASCADE"),
+            unique = False)
+
+    addressId = db.Column(
+            db.Integer,
+            db.ForeignKey('address.id', ondelete="CASCADE")
+            )
 
 class SMSModel(db.Model):
     __tablename__ = 'sms'
