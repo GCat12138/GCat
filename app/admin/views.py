@@ -132,8 +132,9 @@ def deleteAMeal():
             print e
             db.session.rollback()
             return '0'
-    else:
         return '1'
+    else:
+        return '0'
 
 @admin.route('/editAmeal', methods=['POST'])
 def editAMeal():

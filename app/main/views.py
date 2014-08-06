@@ -4,7 +4,8 @@ from ..models import User, Address, ActualMeal, Meal, Picture, Order,\
         SMSModel, LikeModel
 from flask import render_template, request, redirect, url_for, flash
 from . import main
-from forms import UserForm, LoginForm, SMSForm, ChangePasswordForm
+from forms import UserForm, LoginForm, SMSForm, ChangePasswordForm,\
+        ForgotPasswordForm
 from flask.ext.login import current_user, login_user, logout_user,\
         login_required
 import flask
@@ -60,33 +61,22 @@ def index(addressName = None):
             addressID = current_user.addressId
         else:
             current_address = Address.query.first()
-            addressID = current_address.id
 
-    current_actualMeal = ActualMeal.query.filter(
-            ActualMeal.addressId == addressID,
-            ActualMeal.date == today_date).filter(
-                or_(
-                    ActualMeal.startTime > current_time,
-                    and_(
-                        ActualMeal.startTime<= current_time,
-                        ActualMeal.endTime >= current_time
-                    )
-                )
-            ).order_by(ActualMeal.startTime).first()
-    '''
+            if current_address:
+                addressID = current_address.id
+
+    if addressID is not None:
         current_actualMeal = ActualMeal.query.filter(
-                ActualMeal.date == today_date
-            ).filter(
-                or_(ActualMeal.startTime >= current_time,
-                        and_(ActualMeal.startTime <= current_time,  ActualMeal.endTime >= current_time))
-                        ).order_by(ActualMeal.startTime).limit(1).all()
-
-
-        if len( current_actualMeal ) > 0:
-            current_actualMeal = current_actualMeal[0]
-        else:
-            current_actualMeal = None
-    '''
+                ActualMeal.addressId == addressID,
+                ActualMeal.date == today_date).filter(
+                    or_(
+                        ActualMeal.startTime > current_time,
+                        and_(
+                            ActualMeal.startTime<= current_time,
+                            ActualMeal.endTime >= current_time
+                        )
+                    )
+                ).order_by(ActualMeal.startTime).first()
 
 
     #form of login
@@ -103,6 +93,16 @@ def index(addressName = None):
     HiddenRegisterForm.addresses.choices = [
             (address.id, address.address) for address in Address.query.all()
         ]
+
+    if addressID is None:
+        return render_template('index.html',
+                userForm = userForm,
+                loginForm = loginForm,
+                )
+
+
+    # store the information of this meal, not the actual meal
+    mealInformation = None
     if current_actualMeal:
 #    calculate the duration between the start time of the next meal
 #    and current time
@@ -124,10 +124,6 @@ def index(addressName = None):
 
         materialPicture = Picture.query.filter_by(
             mealId = mealInformation.id, type=2).all()
-
-    else:
-        mealInformation = None
-        mainPicture = None
 
     #like flag
     flag = None
@@ -271,7 +267,6 @@ def LogOut():
     return redirect( url_for('main.index') )
 
 @main.route('/like', methods=['POST'])
-@login_required
 def Like():
     mealId = request.form['mealId']
     newLike = LikeModel()
@@ -329,7 +324,6 @@ def MakeOrderHelperFunction( amealID ):
     return newOrder
 
 @main.route('/make_order/<int:amealID>', methods=['GET'])
-@login_required
 def MakeOrder( amealID ):
     if current_user.is_authenticated():
         if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
@@ -398,6 +392,7 @@ def SMS():
     print code
     print "code is %r" % code
 
+    code = "2"
 #   send sms sucessfully
     if code == "2":
         new_sms = SMSModel()
@@ -427,11 +422,13 @@ def SMS():
         return '1'
     return url
 
+#Crap, they don't want this
 @main.route('/change_password', methods=["GET", "POST"])
 def ChangePassword():
     cPasswordForm = ChangePasswordForm(request.form)
     if cPasswordForm.validate_on_submit():
-        old_user = User.query.filter_by(phoneNumber = cPasswordForm.phoneNumber.data).first()
+        old_user = User.query.filter_by(
+                phoneNumber = cPasswordForm.phoneNumber.data).first()
         if old_user:
             if old_user.verify_password(cPasswordForm.oldPassword.data):
                 old_user.password = cPasswordForm.newPassword.data
@@ -463,6 +460,43 @@ def checkPhoneNumber(phoneNumber):
         #user exists
         return '1'
 
+@main.route('/forgot_password', methods=["GET", "POST"])
+def ForgotPassword():
+    forgotForm = ForgotPasswordForm( request.form )
+    if forgotForm.validate_on_submit():
+        verification_code = forgotForm.verification.data
+        phoneNumber = forgotForm.phoneNumber.data
+        password = forgotForm.password.data
+
+        sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
+        if sms_code.number != int(verification_code):
+            flash(u"验证码输入错误，请重新获取")
+        else:
+            user = User.query.filter_by(phoneNumber = phoneNumber).first()
+            if user is None:
+                flash(u"该手机号还未注册")
+            else:
+                user.password = password
+                try:
+                    db.session.add( user )
+                    db.session.commit()
+                except Exception as e :
+                    print e
+                    db.session.rollback()
+                    flash(u"更改失败")
+                    return render_template(
+                                "forgot.html",
+                                forgot_form = forgotForm
+                                )
+
+
+                return redirect( url_for("main.LogOut") )
+
+    return render_template(
+                "forgot.html",
+                forgot_form = forgotForm
+                )
+    pass
 
 @main.route('/test', methods=['POST', 'GET'])
 def test():

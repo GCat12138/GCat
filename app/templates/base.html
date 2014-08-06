@@ -20,7 +20,7 @@
         {% if not current_user.is_authenticated() %}
           <li><a href="/#reg_login">登陆/注册</a></li>
         {% else %}
-          <li><a href="">找回密码</a></li>
+          <li><a href="{{url_for('main.ForgotPassword')}}">找回密码</a></li>
         {% endif %}
       </ul>
       {% if current_user.is_authenticated() %}
