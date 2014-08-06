@@ -61,6 +61,7 @@ def index(addressName = None):
             addressID = current_user.addressId
         else:
             current_address = Address.query.first()
+
             if current_address:
                 addressID = current_address.id
 
@@ -327,10 +328,18 @@ def MakeOrder( amealID ):
     if current_user.is_authenticated():
         if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
             result = MakeOrderHelperFunction( amealID )
+            Ameal = ActualMeal.query.get( amealID )
+            meal = Meal.query.get( Ameal.mealID)
+            address = Address.query.get( Ameal.addressId)
             if result != '0':
-                content = "您的验证码是：" + str( result.number ) + "。"
+                content = "终于抢到啦！美食家" + current_user.nickName \
+                    + "，您抢到了第"+ str( result.number ) + "份美食！原价" \
+                    + str(meal.price) + "，现在竟然只要" + \
+                    str( meal.prict * meal.discount) + "元！美食在" + \
+                    address.address + "门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～"
+
                 url = SMS_URL + '&mobile=' + str( current_user.phoneNumber) +\
-                        '&content=' + content + "请不要把验证码泄露给别人。"
+                        '&content=' + content + "请不要把验证码泄露给其他人。"
                 print url
                 resultXML = urllib2.urlopen( url ).read()
                 root = minidom.parseString(resultXML)
@@ -381,8 +390,8 @@ def SMS():
     number = number * 10 + random.randint(0, 9)
     print number
     url = SMS_URL + '&mobile=' + str(request.form["phoneNumber"]) +\
-            '&content=' "您的验证码是：" + str(number) +\
-            "。请不要把验证码泄露给其他人。"
+            '&content=' "亲爱的美食家：您的手机验证码为" + str(number) +\
+            "。迅速注册下单，诱人美食等你来！"
     print url
     resultXML = urllib2.urlopen(url).read()
 
@@ -524,3 +533,4 @@ def get_online_users():
     current = int(time.time())
     minutes = xrange(app.config['ONLINE_LAST_MINUTES'])
     return redis.sunion( ['online-users/%d' % (current - x) for x in minutes])
+
