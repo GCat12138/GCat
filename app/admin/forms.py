@@ -1,6 +1,7 @@
 from flask.ext.wtf import Form
 from wtforms import StringField, SubmitField, FieldList, SelectField, \
-        FloatField, IntegerField, BooleanField
+        FloatField, IntegerField, BooleanField, DateTimeField, \
+        DateField
 from wtforms.validators import Required
 from flask_wtf.file import FileRequired, FileAllowed, FileField
 import wtforms
@@ -33,5 +34,8 @@ class AMealForm(Form):
     mealList = SelectField(choices=[], coerce=int)
     addressList = SelectField(choices=[], coerce=int)
     amount = IntegerField("amount")
+    date = DateField()
+    startTime = DateTimeField(format='%H:%M')
+    endTime = DateTimeField(format='%H:%M')
     submit = SubmitField("add")
 

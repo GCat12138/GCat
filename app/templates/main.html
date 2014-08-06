@@ -1,123 +1,174 @@
-{% extends "base.html" %}
-{% block body %}
-{% if current_user.is_authenticated() %}
-  <p>哈，我是用户我最叼</p>
-{% else %}
-  <p>嘿，我不是用户你打我吗</p>
-{% endif %}
+{% import "bootstrap/wtf.html" as wtf %}
 
-<!--Show flash message -->
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul>
-      {% for message in messages %}
-      <li>{{message}}</li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-{% endwith %}
-<!--Show flash message ends-->
 
+<link rel="stylesheet" href="{{url_for('static', filename='css/part1.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/part2.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/part3.css')}}">
 <!-- main demonstration part -->
-<div id="get_meal">
-  <span id="mealID" style="display:none;">{{meal.id}}</span>
-  {% if mainPict %}
-    <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" alt="">
-  {% endif %}
-  <p>{{meal.description}}</p>
-  已有<span id="likes">{{meal.likes}}</span>人点赞
-  {% if current_user.is_authenticated() %}
-    <button id="mealLike">赞</button>
-  {% else %}
-    <br>
-  {% endif %}
-  <hr>
-  <span id="count">0</span>
-  <!-- price -->
-  <div id="price_part">
-    ￥{{meal.price * meal.discount}}
-    {% if current_user.is_authenticated() %}
-      <button id="get_meal_after_login">闪电抢食</button>
-      <form action="POST" style="display:None;" id="get_meal_confirm_form">
-        <input type="text" style="display:None" name="amealId" value="{{ameal.id}}">
-        <input type="text" style="display:None" name="phoneNumber" value="{{current_user.phoneNumber}}">
-        输入密码: <input type="password" name="password">
-        <button type="button" id="get_meal_confirm_button">确认</button>
-      </form>
-    {% else %}
-      <form action="POST" style="display:None;" id="get_meal_without_log_form">
-        {{hidden_register_form.hidden_tag()}}
-        <h3>订单信息</h3>
-        手机号:{{hidden_register_form.phoneNumber}} <br/>
-        昵称:{{hidden_register_form.nickName}}
-        <br>
-        密码:{{hidden_register_form.password}}
-        <br>
-        地址:{{hidden_register_form.addresses}}
-        <br>
-        <button type="button" id="get_meal_without_log_confirm_button">
-          确认
-        </button>
-      </form>
-      <button id="get_meal_without_login">闪电抢食</button>
+<div  id="main_container" class = "part"> <!-- main container -->
+  <div id="get_meal">
+    <span id="mealID" style="display:none;">{{meal.id}}</span>
+    {% if mainPict %}
+      <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" class = "meal-pic" alt="">
     {% endif %}
-    <p>市场价:{{meal.price}}</p>
-    <p>折扣:{{meal.discount}}</p>
-    <p>为你节省:{{meal.price * (1 - meal.discount)}}</p>
-    <p>还剩:{{ameal.availableNumber}}份</p>
-  </div>
-  <!-- price ends -->
-</div>
+    <div class = "description">
+      <span>{{meal.description}}</span>
+    </div>
+    <div class = "point-chan">
+      <span id="likes">{{meal.likes.__len__()}}</span><span class = "chan">赞<span>
+      {% if current_user.is_authenticated() %}
+        {% if flag == 1 %}
+          <button id="mealLike" class="btn btn-default">赞</button>
+        {% else %}
+          <span>已点赞</span>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div> <!-- #getmeal container ends-->
+  <div class = "part1-right"> <!-- counting and price container-->
+    <!-- price -->
+    <div id="price_part">
+        <span id="real_price">￥{{meal.price * meal.discount}}</span>
+
+        {% if ameal.availableNumber > 0 %}
+          <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
+            <button {% if startDuration > 0 %}style="display:none;"{% endif %}>
+               <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
+            </button>
+          </a>
+        {% else %}
+          <p>很遗憾，已经全部被抢完了╮(╯▽╰)╭</p>
+        {% endif %}
+
+        <div id="price_information">
+          <ul>
+            <li>
+              <span>市场价</span>
+              <br>
+              <span>{{meal.price}}</span>
+            </li>
+            <li>
+              <span>折扣</span>
+              <br>
+              <span>{{meal.discount}}</span>
+            </li>
+            <li>
+              <span>为您节省</span>
+              <br>
+              <span>{{meal.price * (1 - meal.discount)}}</span>
+            </li>
+          </ul>
+
+         <!--  <span>市场价:{{meal.price}}</span>
+          <span>折扣:{{meal.discount}}</span>
+          <p>为你节省:{{meal.price * (1 - meal.discount)}}</p>
+           -->
+        </div> <!-- #price_information ends-->
+    </div><!-- price ends -->
+      <!-- counting part -->
+        <div id="count_container">
+          <!-- <p>倒计时</p> -->
+          <div id="start_count" {%if startDuration < 0 %} style="display:none;"{% endif %}>
+            <span class = "time-state">马上就要开抢了</span><br>
+            <div class = "time-count">
+              <span id="s_hour">
+                0
+              </span>时
+              <span id="s_minute">
+                0
+              </span>分
+              <span id="s_second">
+                {{startDuration}}
+              </span>秒
+            </div>
+          </div>
+          <div id="end_count"  {%if startDuration > 0 %} style="display:none;"{% endif %}>
+            <span class = "time-state">距离美食疯狂抢结束 ：</span><br>
+            <div class = "time-count">
+              <span id="e_hour">
+                0
+              </span>时
+              <span id="e_minute">
+                0
+              </span>分
+              <span id="e_second">
+                {{endDuration}}
+              </span>秒
+            </div>
+
+            <div class = "users"> 
+              <span class = "fixed-width">共有1348名</span>
+              <br>
+              <span>美食家正在疯抢</span>
+            </div>
+
+            <div class = "remain-num">
+              <span class = "fixed-width">还剩{{ameal.availableNumber}}份</span>
+              <br>
+              <span>美食即将售完</span>
+            </div>
+        </div>
+     </div>
+    <!-- count part ends -->
+  </div><!-- counting and price container ends-->
+</div><!-- main container ends-->
 <!-- main demonstration part end -->
-<hr>
+
+<!-- 抢购成功页面 begin -->
+<div id = "resule-success" class = "part result">
+   <img  src="{{url_for('static', filename='images/part1/win.png')}}">
+   <br>
+   <span class = "content1">美食家黑猫~您已经击败了75%的吃货</span>
+   <br>
+   <span class = "content2 content2-1">抢单号：41</span>
+   <br>
+   <span class = "content2">价格：￥12(原价 ￥18.5)</span>
+   <br>
+   <span class = "content2">取餐地点：北实验楼B202</span>
+   <br>
+   <span class = "content3 content3-1">美食已经迫不及待了</span><br>
+   <span class = "content3">课后赶紧拿着手机取餐吧</span><br>
+   <span class = "content3">小心在课室吃被抓哦</span><br>
+   <span class = "content3">味道不错的话记得点赞捧个场</span>
+</div>
+<!-- 抢购成功页面 end -->
+
+<!-- 抢食失败界面 begin -->
+<div id = "result-faild" class = "part result">
+ <img  src="{{url_for('static', filename='images/part1/sorry.png')}}">
+ <br>
+ <span class = "content4 content4-1">下次早点来啊，亲！</span>
+ <br>
+ <span class = "content4">出手要快！快！快...</span>
+</div>
+<!-- 抢食失败界面 end -->
 
 <!-- 美味佳肴 part -->
-<div id="introduction">
-  <h2>Introduction 美味佳肴</h2>
+<div id="introduction" class = "part">
+  <div class = "pic-set">
   {% for pic in mealPics %}
-    <img src="{{url_for('static', filename="pic/" + pic.name)}}" alt="">
+    <img data-src="holder.js/300*300" src="{{url_for('static', filename="pic/" + pic.name)}}" alt="" class="img-rounded img-responsive" >
   {% endfor %}
+  </div>
 </div>
 <!-- 美味佳肴 part ends-->
 <hr>
 
 <!-- Details part -->
-<div id="details">
-  <h2>Details 山珍海味</h2>
-  {% for pic in materialPics %}
-  <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="">
-  {% endfor %}
+<div id="details" class = "part">
+  <div class = "pic-set">
+    {% for pic in materialPics %}
+      <div class = "delicacies-list">
+        <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="" class="img-rounded img-responsive">
+
+         <span class = "detail-description">鸡腿肉</span>
+         <span class = "detail-content">一种取自鸡的大腿的肉（带骨头的）,当然他还有引申义：特指一些身体强健，能奔能跑(也称"跑不死")。</span>
+
+      </div>
+    {% endfor %}
+  </div>
 </div>
 <!-- Detalis part ends -->
 <hr>
 
-<!-- register/login part -->
-<div id="reg_login">
-  {% if not current_user.is_authenticated() %}
-    <h2>注册</h2>
-    <form method="POST" action="/register" id="register_form">
-      {{userForm.hidden_tag()}}
 
-      手机号:{{userForm.phoneNumber}} <br />
-      {% for error in userForm.errors.phoneNumber %}
-      <span style="color: red;">[{{error}}]</span>
-      <br>
-      {% endfor %}
-      昵  称:{{userForm.nickName}} <br />
-      密 码:{{userForm.password}} <br />
-      地 址:{{userForm.addresses}} <br>
-      <button type="button" id="register_button">注册</button>
-    </form>
-
-    <h2>登陆</h2>
-    <form method="POST" id="loginForm" action="/login">
-      {{userForm.hidden_tag()}}
-
-      手机号:{{loginForm.phoneNumber}} <br />
-      密 码:{{loginForm.password}} <br />
-      <button id="loginButton" type="button">登陆</button>
-    </form>
-  {% endif %}
-</div>
-<!-- register/login part ends -->
-{% endblock %}

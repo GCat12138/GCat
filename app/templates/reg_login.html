@@ -1,0 +1,55 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<link rel="stylesheet" href="{{url_for('static', filename='css/part4.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/reg-login.css')}}">
+<div id="reg_login" class="part">
+  <div class = "reg-login-left">
+    <img  src="{{url_for('static', filename='images/part4/place.jpg')}}">
+  </div>
+
+
+  <div class = "reg-login-right">
+    <button type="button"  name="t_reg_btn" class = "reg-btn reg-login-btn"></button>
+    <button type="button"  name="t_log_btn" class = "login-btn reg-login-btn"></button>
+
+    <form method="POST"
+      {% if request.args.next %}
+        action="/register?next={{request.args.next}}"
+      {% else %}
+        action="/register"
+      {% endif %}
+      id="register_form" class="" role="form">
+       {{userForm.hidden_tag()}}
+
+      <input type = "text" placeholder = "手机号" class = "input-box"/>
+      <br>
+      <button type="button"  id="get_v_code_btn"></button>
+      <br>
+      <input type = "text" placeholder = "短信验证码" class = "input-box"/>
+      <input type = "password" placeholder = "密码" class = "input-box"/>
+      <input type = "text" placeholder = "昵称" class = "input-box"/>
+      <br>
+      <select class = "select-box">
+        <option>中山大学</option>
+      </select>
+      <button type="submit" class = "last-step"></button>
+    </form>
+
+    <form method="POST" id="loginForm"
+      {% if request.args.next %}
+        action="/login?next={{request.args.next}}"
+      {% else %}
+        action="/login"
+      {% endif %}
+      style="display:none;" class = "">
+      <div class="form-group">
+        {{loginForm.hidden_tag()}}
+        <input type = "text" placeholder = "手机号" class = "input-box"/>
+        <input type = "password" placeholder = "密码" class = "input-box"/>
+        <br />
+        <button type="submit" class = "commit"></button>
+        <!-- <button id="loginButton" type="button" class="btn btn-default">提交</button> -->
+      </div>
+    </form>
+  </div>
+</div>
+

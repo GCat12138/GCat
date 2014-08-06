@@ -1,0 +1,40 @@
+@charset "UTF-8";
+@import "public";
+
+#details {
+	width: 936px;
+	height : 565px;
+	padding-top: 75px;
+	background: url(../images/part3/part3-bg.png) no-repeat;
+	img {
+		width: 570px;
+		height: 220px;
+		float: left;
+	}
+	@at-root .pic-set {
+		overflow: hidden;
+	}
+
+	.delicacies-list {
+		width: 865px;
+		height: 220px;
+		margin-left: 25px;
+		background-color: #dcdcdc;
+		margin-bottom: 20px;
+		position: relative;
+	}
+	@at-root .detail-description {
+		font-size: 22px;
+		font-weight: bold;
+		color: #636363;
+		display: block;
+		@include set-position(absolute,40px,590px);
+	}
+	@at-root .detail-content {
+		font-size: 18px;
+		color: #6c6c6c;
+		display: block;
+		padding-right: 20px;
+		@include set-position(absolute,85px,590px);
+	}
+}

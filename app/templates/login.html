@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+  <div>
+    {% if msg %}
+    <p style="color:red">{{msg}}</p>
+    {% endif %}
+    {{wtf.quick_form(login_form)}}
+    <a href="{{url_for("main.register")}}">注册</a>
+  </div>
+{% endblock %}

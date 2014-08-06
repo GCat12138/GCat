@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+  <div class="part">
+    {% if register_form %}
+    <form method="POST" role="form" class="form">
+      {{register_form.hidden_tag()}}
+      {{wtf.form_field(register_form.phoneNumber)}}
+      {{wtf.form_field(register_form.password)}}
+      {{wtf.form_field(register_form.verification)}}
+      {{wtf.form_field(register_form.nickName)}}
+      {{wtf.form_field(register_form.addresses)}}
+      {{wtf.form_field(register_form.submit)}}
+      <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button>
+    </form>
+    {% endif %}
+  </div>
+{% endblock %}

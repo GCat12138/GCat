@@ -1,0 +1,12 @@
+{
+  "name": "GCat",
+  "version": "0.1.0",
+  "author": "yuanzm",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-sass": "^0.7.3",
+    "grunt-contrib-coffee": "0.7.x",
+    "grunt-contrib-watch": "0.5.x"
+  }
+}

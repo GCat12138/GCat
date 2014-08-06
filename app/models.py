@@ -8,7 +8,7 @@ class Address(db.Model):
     __tablename__ = 'address'
 
     id = db.Column(db.Integer, primary_key = True)
-    address = db.Column(db.String(64), unique = True, index = True)
+    address = db.Column(db.Unicode(64), unique = True, index = True)
 
     def __init__(self, address):
         self.address = address
@@ -18,8 +18,8 @@ class Address(db.Model):
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key = True)
-    phoneNumber = db.Column(db.String(13),
+    id = db.Column(db.Integer, primary_key = True, unique = True)
+    phoneNumber = db.Column(db.String(11),
             unique = True,
             index = True,
             nullable = False)
@@ -55,18 +55,24 @@ class User(UserMixin, db.Model):
 
 class Meal(db.Model):
     __tablename__ = 'meals'
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True, unique = True)
 
     description = db.Column(db.String(64))
     price = db.Column(db.Float, nullable = False)
     discount = db.Column(db.Float, default = 0.0)
-    likes = db.Column(db.Integer, default = 0)
+    likes = db.relationship("LikeModel", backref="meals")
 #    amount = db.Column(db.Integer, default = 0)
 #    availableNumber = db.Column(db.Integer, default = 0)
 
     def __repr__(self):
         return '<meal is %r>' % self.description
 
+class LikeModel(db.Model):
+    __tablename__ = "likes"
+
+    id = db.Column(db.Integer, primary_key = True)
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 class Picture(db.Model):
     __tablename__ = 'pictures'
@@ -86,8 +92,8 @@ class Order(db.Model):
     number = db.Column(db.Integer, nullable = False)
     date = db.Column(db.Date)
     time = db.Column(db.Time)
-    userID = db.Column(db.Integer, db.ForeignKey('users.phoneNumber'))
-    mealId = db.Column(db.Integer, db.ForeignKey('meals.id'))
+    userID = db.Column(db.Integer, db.ForeignKey('users.id'))
+    amealId = db.Column(db.Integer, db.ForeignKey('actualmeals.id'))
 
     def __repr__(self):
         return '<Order id is %r>' % self.id
@@ -98,8 +104,18 @@ class ActualMeal(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     amount = db.Column(db.Integer, default = 0)
     availableNumber = db.Column(db.Integer, default = 0)
-    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = True)
+    date = db.Column(db.Date)
+    startTime = db.Column(db.Time)
+    endTime = db.Column(db.Time)
+    mealID = db.Column(db.Integer, db.ForeignKey('meals.id'), unique = False)
     addressId = db.Column(db.Integer, db.ForeignKey('address.id'))
+
+class SMSModel(db.Model):
+    __tablename__ = 'sms'
+
+    id = db.Column(db.Integer, primary_key = True)
+    number = db.Column(db.Integer, nullable = False)
+    phoneNumber = db.Column(db.String(11), nullable = False, unique = False)
 
 @login_manager.user_loader
 def load_user(user_id):

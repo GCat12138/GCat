@@ -1,0 +1,8 @@
+@charset "UTF-8";
+
+//set the position
+@mixin set-position($position:absolute,$top: 5px,$left: 5px) {
+	position: $position;
+	top : $top;
+	left : $left;
+}

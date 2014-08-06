@@ -2,7 +2,7 @@ from . import admin
 from werkzeug import secure_filename
 from flask import render_template, request
 from forms import AddressForm, MealForm, PictureForm, AMealForm
-from ..models import Address, Meal, Picture, ActualMeal
+from ..models import Address, Meal, Picture, ActualMeal, Order
 from .. import db
 import os
 import datetime
@@ -107,14 +107,17 @@ def editPic():
         #print form.picture.data
         print form.errors
 
+    pics = Picture.query.all()
     return render_template(
             'admin/picture.html',
-            form = form
+            form = form,
+            pics = pics
             )
 
 @admin.route('/ameal', methods=['POST', 'GET'])
 def editAMeal():
     form = AMealForm(request.form)
+
     form.mealList.choices = [
             (meal.id, meal.description) for meal in Meal.query.all()]
     form.addressList.choices =[
@@ -129,14 +132,29 @@ def editAMeal():
         actualMeal.amount = amount
         actualMeal.mealID = mealID
         actualMeal.availableNumber = amount
+        actualMeal.date = form.date.data
+
+        formTime = form.startTime.data
+        actualMeal.startTime = datetime.time(formTime.hour, formTime.minute)
+
+        formTime = form.endTime.data
+        actualMeal.endTime = datetime.time( formTime.hour, formTime.minute )
+
+
+
         try:
             db.session.add( actualMeal )
             db.session.commit()
         except Exception as e:
             db.session.rollback()
             print e
-            return e
+            return '0'
 
         return "succeed"
 
     return render_template('admin/ameal.html', form=form)
+
+@admin.route('/order', methods=['POST', 'GET'])
+def EditOrder():
+    orders = Order.query.order_by(Order.time.desc())
+    return render_template('admin/order.html', orders = orders)

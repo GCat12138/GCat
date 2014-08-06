@@ -17,10 +17,11 @@ class DevelopmentConfig(Config):
 #    PORT = 8889
     DATABASENAME = 'FOOD'
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-            'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')
+           'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')
 #    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
 #            '@' + HOST + ':' + str(PORT) + '/' + DATABASENAME
-#    SQLALCHEMY_DATABASE_URI = 'mysql://root:root@localhost:8889/FOOD'
+    # SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
+    # SQLALCHEMY_DATABASE_URI = "mysql://test@121.40.87.145:3306/food"
 
 class TestingConfig(Config):
     TESTING = True

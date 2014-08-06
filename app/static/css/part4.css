@@ -1,0 +1,52 @@
+#reg_login {
+  width: 936px;
+  height: 600px;
+  background: url(../images/part4/part4-bg.png) no-repeat; }
+
+.reg-login-left {
+  width: 495px;
+  float: left; }
+  .reg-login-left img {
+    margin-left: 80px;
+    margin-top: 182px; }
+
+.reg-login-right {
+  width: 435px;
+  position: relative;
+  float: left; }
+  .reg-login-btn {
+    width: 100px;
+    height: 45px; }
+  .reg-btn {
+    position: absolute;
+    top: 85px;
+    left: 40px;
+    border: none;
+    outline: none;
+    background: url(../images/part4/reg-bg.png) no-repeat; }
+  .login-btn {
+    border: none;
+    outline: none;
+    position: absolute;
+    top: 85px;
+    left: 142px;
+    background: url(../images/part4/login-before-bg.png) no-repeat; }
+  .last-step {
+    width: 225px;
+    height: 40px;
+    margin-top: 31px;
+    margin-left: 18px;
+    background: url(../images/reg-login/last-step.png) no-repeat; }
+
+#register_form {
+  margin-top: 160px; }
+  #get_v_code_btn {
+    width: 108px;
+    height: 26px;
+    margin-top: -10px;
+    margin-left: 75px;
+    margin-bottom: 14px;
+    background: url(../images/part4/get-password.png) no-repeat; }
+
+#loginForm {
+  margin-top: 160px; }
