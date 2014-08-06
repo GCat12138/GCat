@@ -59,7 +59,7 @@ def index(addressName = None):
         if current_user.is_authenticated():
             addressID = current_user.addressId
         else:
-            current_address = Address.query.all().first()
+            current_address = Address.query.first()
             addressID = current_address.id
 
     current_actualMeal = ActualMeal.query.filter(
@@ -491,3 +491,4 @@ def get_online_users():
     current = int(time.time())
     minutes = xrange(app.config['ONLINE_LAST_MINUTES'])
     return redis.sunion( ['online-users/%d' % (current - x) for x in minutes])
+
