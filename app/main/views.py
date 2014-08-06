@@ -325,6 +325,11 @@ def MakeOrderHelperFunction( amealID ):
 
 @main.route('/make_order/<int:amealID>', methods=['GET'])
 def MakeOrder( amealID ):
+    content = "终于抢到啦！美食家%r，您抢到了第%r份美食！\
+    原价%r，现在竟然只要%r元！美食在%r门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount), address.address)
+    print content
+    return
+
     if current_user.is_authenticated():
         if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
             result = MakeOrderHelperFunction( amealID )

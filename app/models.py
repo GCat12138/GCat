@@ -8,13 +8,8 @@ class Address(db.Model):
     __tablename__ = 'address'
 
     id = db.Column(db.Integer, primary_key = True)
-    address = db.Column(db.Unicode(64), unique = True, index = True)
-    '''
-    user = db.relationship("User",
-            cascade='all, delete-orphan',
-            passive_deletes = True
-            )
-    '''
+    address = db.Column(db.String(64), unique = True, index = True)
+
 
     def __init__(self, address):
         self.address = address
