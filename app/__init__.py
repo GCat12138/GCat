@@ -7,6 +7,11 @@ from flask.ext.bootstrap import Bootstrap
 from flask.ext import restful
 from redis import Redis
 
+# in case there're errors when using Chinese, python2.7 use ascii as defualt
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
 db = SQLAlchemy()
 login_manager = LoginManager()
 login_manager.login_view = "main.RegLogin"

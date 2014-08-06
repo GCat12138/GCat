@@ -12,8 +12,8 @@ import flask
 import datetime, time
 from sqlalchemy import and_, or_
 import json
-import urllib2
-from ..shareVars import SMS_URL
+import urllib2, urllib
+from ..shareVars import SMS_URL, SMS_ACCOUNT, SMS_PASSWORD
 from xml.dom import minidom
 import random
 from .. import redis
@@ -323,13 +323,16 @@ def MakeOrderHelperFunction( amealID ):
         return '0'
     return newOrder
 
+def postHelper(url, data):
+    req = urllib2.Request( url )
+    data = urllib.urlencode( data )
+    #enable cookie
+    opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+    response = opener.open( req, data )
+    return response.read()
+
 @main.route('/make_order/<int:amealID>', methods=['GET'])
 def MakeOrder( amealID ):
-    content = "终于抢到啦！美食家%r，您抢到了第%r份美食！\
-    原价%r，现在竟然只要%r元！美食在%r门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount), address.address)
-    print content
-    return
-
     if current_user.is_authenticated():
         if Order.query.filter_by(amealId=amealID, userID = current_user.id).count() == 0:
             result = MakeOrderHelperFunction( amealID )
@@ -337,16 +340,18 @@ def MakeOrder( amealID ):
             meal = Meal.query.get( Ameal.mealID)
             address = Address.query.get( Ameal.addressId)
             if result != '0':
-                content = "终于抢到啦！美食家%r，您抢到了第%r份美食！\
-                原价%r，现在竟然只要%r元！美食在%r门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount),
-                        address.address)
+                url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit"
 
-                url = SMS_URL + '&mobile=' + str( current_user.phoneNumber) +\
-                        '&content=' + content
+                content = "终于抢到啦！美食家%s，您抢到了第%r份美食！原价%r，现在竟然只要%r元！美食在%s门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount),address.address)
+                data = {
+                        "account" : SMS_ACCOUNT,
+                        "password" : SMS_PASSWORD,
+                        "mobile" : str(current_user.phoneNumber),
+                        "content" : content
+                }
 
-                print url
-
-                resultXML = urllib2.urlopen( url ).read()
+                resultXML = postHelper( url, data )
+                print resultXML
                 root = minidom.parseString(resultXML)
                 code = SimpleXMLHelper( root, "code" )
                 print code
