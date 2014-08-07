@@ -1,0 +1,128 @@
+#main_container {
+  width: 933px;
+  height: 340px;
+  margin-top: 175px;
+  background: url(../images/part1/part1-bg.png) no-repeat;
+  position: relative; }
+  #main_container .description {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    width: 175px;
+    height: 46px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: url(../images/part1/food-name.png) no-repeat; }
+  #main_container .point-chan {
+    position: absolute;
+    top: 294px;
+    left: 453px;
+    width: 57px;
+    height: 47px;
+    color: white;
+    cursor: pointer;
+    text-align: center;
+    background: url(../images/part1/point-chain.png) no-repeat; }
+    #main_container .point-chan .chan {
+      display: block;
+      font-size: 15px;
+      margin-top: 2px;
+      margin-left: 33px; }
+  #main_container .chan-button {
+    position: relative;
+    width: 57px;
+    height: 47px;
+    left: -33px;
+    top: -43px;
+    opacity: 0; }
+  #get_meal {
+    float: left;
+    overflow: hidden; }
+  #main_container .meal-pic {
+    width: 509px;
+    height: 339px;
+    float: left; }
+  #main_container .part1-right {
+    width: 422px;
+    float: left; }
+
+/* part price begin*/
+#price_part {
+  width: 412px;
+  height: 152px;
+  margin-top: 18px;
+  margin-left: 10px;
+  position: relative; }
+  .get-food-button {
+    display: block;
+    position: absolute;
+    top: 26px;
+    left: 70px; }
+    .get-food-button button {
+      border: none;
+      outline: none;
+      padding: 0px; }
+
+  button {
+    border: none; }
+
+  #real_price {
+    font-size: 30px;
+    font-weight: 900;
+    color: #7e0300;
+    position: absolute;
+    top: 35px;
+    left: 255px; }
+
+  #price_information {
+    overflow: hidden; }
+
+  #price_information ul {
+    position: absolute;
+    top: 80px;
+    left: 95px; }
+    #price_information ul li {
+      font-size: 16px;
+      font-weight: bold;
+      float: left;
+      margin-left: 40px;
+      display: block;
+      text-align: center;
+      color: #626564; }
+    #price_information ul li:first-child {
+      margin-left: 0px; }
+
+/* part price end*/
+/*time count begin*/
+#count_container {
+  width: 412px;
+  height: 150px;
+  margin-left: 10px;
+  position: relative; }
+  .time-state {
+    display: inline-block;
+    margin-top: 15px;
+    margin-left: 27px;
+    font-size: 17px;
+    line-height: 20px; }
+  .time-count {
+    color: #830906;
+    font-weight: 900;
+    font-size: 32px;
+    margin-left: 85px;
+    margin-top: 15px; }
+  .remain-num {
+    position: absolute;
+    top: 100px;
+    left: 235px;
+    font-size: 15px; }
+    .remain-num .fixed-width {
+      letter-spacing: 5px; }
+  .users {
+    position: absolute;
+    top: 100px;
+    left: 75px; }
+
+/*time count end*/

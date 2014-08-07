@@ -1,0 +1,45 @@
+header {
+	width: 995px;
+	height: 165px;
+	position: fixed;
+	top: 0px;
+	padding-top: 20px;
+	z-index: 9999;
+	margin: 0 auto;
+	overflow: hidden;
+	background-color: #fff;
+	.logo {
+		float: left;
+	}
+	.logined {
+		display: block;
+		background: url(../images/header/after-login.png) no-repeat;
+		width: 168px;
+		height: 95px;
+		font-weight: bold;
+		font-size: 18px;
+		color: #a2a2a2;
+		padding-top: 25px;
+		text-align: center;
+	}
+	.welcome {
+		
+	}
+}
+
+nav {
+	float: left;
+	width: 620px;
+	ul {
+		margin-top: 19px;
+		padding-left: 0;
+		overflow: hidden;
+	}
+	li {
+		list-style: none;
+		float: left;
+	}
+	li.active {
+
+	}
+}

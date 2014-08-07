@@ -356,14 +356,22 @@ def MakeOrder( amealID ):
                 code = SimpleXMLHelper( root, "code" )
                 print code
                 print "order code is %r" % code
+
+                getMessage = {
+                    "nickName": current_user.nickName,
+                    "resultNum": str(result.number),
+                    "mealPrice": str( meal.price * meal.discount),
+                    "oldPrice": str(meal.price),
+                    "getAddress": address.address
+                }
                 return render_template("success.html",
-                        msg= u"你抢到了第" + str(result.number) + u"份"
+                        msg= getMessage
                         )
             else:
-                return 'No'
+                return 'No'  #there are no food
         else:
             return render_template("success.html",
-                        msg=u"对不起，你已经抢过此餐了。"
+                        msg= "sorry" #get food twice or more
                     )
 
 @main.route("/reg_login")

@@ -1,0 +1,23 @@
+.input-box {
+  width: 264px;
+  height: 36px;
+  outline: none;
+  border: none;
+  padding-left: 8px;
+  margin-bottom: 20px;
+  background: url(../images/reg-login/input-bg.png) no-repeat; }
+
+.select-box {
+  width: 264px;
+  height: 36px;
+  border: none;
+  outline: none;
+  background: url(../images/reg-login/input-bg.png) no-repeat; }
+
+.commit {
+  width: 102px;
+  height: 35px;
+  border: none;
+  outline: none;
+  margin-left: 80px;
+  background: url(../images/reg-login/commit.png) no-repeat; }

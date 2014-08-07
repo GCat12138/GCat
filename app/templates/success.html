@@ -1,6 +1,48 @@
 {% extends "base.html" %}
-{% block content %}
+{% block body %}
 {% if msg %}
-  <p>{{msg}}</p>
+	<link rel="stylesheet" href="{{url_for('static', filename='css/success.css')}}">
+	{%if msg == "No"%}
+	<!-- 抢食失败界面 begin -->
+	<div id = "result-faild" class = "part result">
+	 <img  src="{{url_for('static', filename='images/part1/sorry.png')}}">
+	 <br>
+	 <span class = "content4 content4-1">下次早点来啊，亲！</span>
+	 <br>
+	 <span class = "content4">出手要快！快！快...</span>
+	</div>
+	<!-- 抢食失败界面 end -->
+	{%endif%}
+	{%if msg == "sorry"%}
+	<!-- 抢食失败界面 begin -->
+	<div id = "result-faild" class = "part result">
+	 <br>
+	 <span class = "content4 content4-1">您已经抢过此美食了</span>
+	</div>
+	<!-- 抢食失败界面 end -->
+	<!-- 抢购成功页面 begin -->
+	{%else%}
+	<div id = "resule-success" class = "part result">
+	   <img  src="{{url_for('static', filename='images/part1/win.png')}}">
+	   <br>
+	   <span class = "content1">美食家{{msg.nickName}}~您已经击败了75%的吃货</span>
+	   <br>
+	   <span class = "content2 content2-1">抢单号：{{msg.resultNum}}</span>
+	   <br>
+	   <span class = "content2">价格：￥{{msg.mealPrice}}(原价 ￥{{msg.oldPrice}})</span>
+	   <br>
+	   <span class = "content2">取餐地点：{{msg.getAddress}}</span>
+	   <br>
+	   <span class = "content3 content3-1">美食已经迫不及待了</span><br>
+	   <span class = "content3">课后赶紧拿着手机取餐吧</span><br>
+	   <span class = "content3">小心在课室吃被抓哦</span><br>
+	   <span class = "content3">味道不错的话记得点赞捧个场</span>
+	</div>
+	<!-- 抢购成功页面 end -->
+
+	{%endif%}
+
+
+
 {% endif %}
 {% endblock %}

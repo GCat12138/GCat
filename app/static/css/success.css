@@ -1,0 +1,37 @@
+.result {
+  width: 909px;
+  height: 394px;
+  margin-top: 175px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 50px;
+  font-weight: bold;
+  background: url(../images/part1/suc-fail.png) no-repeat; }
+
+/*get-food success begin*/
+#resule-success img {
+  margin-top: 30px; }
+#resule-success .content1 {
+  font-size: 16px;
+  display: inline-block;
+  margin-top: 20px; }
+#resule-success .content2 {
+  font-size: 18px;
+  display: inline-block; }
+#resule-success .content2-1 {
+  margin-top: 25px; }
+#resule-success .content3 {
+  font-size: 14px; }
+#resule-success .content3-1 {
+  display: inline-block;
+  margin-top: 25px; }
+
+/*get-food success end*/
+/*get-food faild begin*/
+#result-faild img {
+  margin-top: 100px; }
+#result-faild .content4-1 {
+  display: inline-block;
+  margin-top: 30px; }
+
+/*get-food faild end*/

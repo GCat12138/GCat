@@ -1,55 +1,51 @@
-{% extends "bootstrap/base.html" %}
-
-{% block styles %}
-{{super()}}
-<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
-{% endblock %}
-
-{%block title %}唯美食{% endblock %}
-  {% block navbar %}
-  <!-- navigator-->
-  <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a href="/" class="navbar-brand">唯美食</a>
-      </div>
-      <ul class="nav navbar-nav">
-        <li><a href="/#get_meal">闪电抢食</a></li>
-        <li><a href="/#introduction">美味佳肴</a></li>
-        <li><a href="/#details">山珍海味</a></li>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>唯美食</title>
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/common.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/header.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+</head>
+<body>
+  <header>
+    <a href=""><img class = "logo" src="{{url_for('static', filename='images/logo.png')}}"></a>
+    <nav>
+      <ul>
+        <li><a ><img  src="{{url_for('static', filename='images/header/menu1-2.png')}}"></a></li>
+        <li><a ><img  src="{{url_for('static', filename='images/header/menu2.png')}}"></a></li>
+        <li><a ><img  src="{{url_for('static', filename='images/header/menu3.png')}}"></a></li>
         {% if not current_user.is_authenticated() %}
-          <li><a href="/#reg_login">登陆/注册</a></li>
+        <li><a><img  src="{{url_for('static', filename='images/header/menu4.png')}}"></a></li>
         {% else %}
-          <li><a href="{{url_for('main.ForgotPassword')}}">找回密码</a></li>
-        {% endif %}
-      </ul>
-      {% if current_user.is_authenticated() %}
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="">用户:
+        <li class = "logined without">
+          <span class = "welcome">欢迎回来~</span> <br />
+          <span><span class = "welcome">美食家 </span>
+          <span>
             {% if current_user.nickName == "" or current_user.nickName == None%}
               {{current_user.phoneNumber}}
             {% else %}
               {{current_user.nickName}}
             {% endif %}
-        </a></li>
+          </span>
+        </span>
+         </li>
+        {% endif %}
       </ul>
-      {% endif %}
+    </nav>
+    </header>
 
-    </div> <!-- end of .container-fluid -->
+  {% block body %}
+  {% endblock%}
 
-  </div>
-  {% endblock %}
-  <!-- navigator ends -->
-  {% block scripts %}
     <script>
       csrftoken = "{{ csrf_token() }}"
     </script>
     <script src="{{url_for('static', filename="js/jquery-1.11.1.min.js")}}">
     </script>
-
     <script src="{{url_for('static', filename="js/reg_login.js")}}"></script>
     <script src="{{url_for('static', filename="js/main.js")}}"></script>
-    {{ super() }}
-  {% endblock %}
-
+    <script src="{{url_for('static', filename="js/reglogin.js")}}"></script>
+</body>
+</html>
 

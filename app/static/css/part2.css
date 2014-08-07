@@ -1,0 +1,13 @@
+#introduction {
+  width: 936px;
+  height: 640px;
+  padding-top: 40px;
+  background: url(../images/part2/part2-bg.png) no-repeat; }
+  #introduction img {
+    width: 265px;
+    height: 175px;
+    margin-left: 30px;
+    margin-top: 34px;
+    float: left; }
+  .pic-set {
+    overflow: hidden; }

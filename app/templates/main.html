@@ -1,103 +1,141 @@
-{% import "bootstrap/wtf.html" as wtf %}
-
-
+<link rel="stylesheet" href="{{url_for('static', filename='css/part1.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/part2.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/part3.css')}}">
 <!-- main demonstration part -->
-<div class="col-md-offset-2  col-md-9 container" id="main_container"> <!-- main container -->
-  <div id="get_meal" class="container col-md-4 col-xs-4">
+<div  id="main_container" class = "part"> <!-- main container -->
+  <div id="get_meal">
     <span id="mealID" style="display:none;">{{meal.id}}</span>
     {% if mainPict %}
-      <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" alt="">
+      <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" class = "meal-pic" alt="">
     {% endif %}
-    <p>{{meal.description}}</p>
-    已有<span id="likes">{{meal.likes.__len__()}}</span>人点赞
-    {% if current_user.is_authenticated() %}
-      {% if flag == 1 %}
-        <button id="mealLike" class="btn btn-default">赞</button>
-      {% else %}
-        <span>已点赞</span>
+    <div class = "description">
+      <span>{{meal.description}}</span>
+    </div>
+    <div class = "point-chan">
+      <span id="likes">{{meal.likes.__len__()}}</span><span class = "chan">赞<span>
+      {% if current_user.is_authenticated() %}
+        {% if flag == 1 %}
+          <button id="mealLike" class="btn btn-default chan-button">赞</button>
+        {% else %}
+          <span>已点赞</span>
+        {% endif %}
       {% endif %}
-    {% endif %}
+    </div>
   </div> <!-- #getmeal container ends-->
-  <div class="container col-md-4 col-xs-4" > <!-- counting and price container-->
-    <!-- counting part -->
-    <div id="count_container" class="container">
-      <p>倒计时</p>
-      <div id="start_count" {%if startDuration < 0 %} style="display:none;"{% endif %}>
-        <p style="color:red;">马上就要开抢了</p>
-        <span id="s_hour">
-          0
-        </span>时
-        <span id="s_minute">
-          0
-        </span>分
-        <span id="s_second">
-          {{startDuration}}
-        </span>秒
-      </div>
-      <div id="end_count" {%if startDuration > 0 %} style="display:none;"{% endif %}>
-        <p style="color:red;">疯狂抢购吧</p>
-        <span id="e_hour">
-          0
-        </span>时
-        <span id="e_minute">
-          0
-        </span>分
-        <span id="e_second">
-          {{endDuration}}
-        </span>秒
-    </div>
-
-    </div>
-    <!-- count part ends -->
-
+  <div class = "part1-right"> <!-- counting and price container-->
     <!-- price -->
-    <div id="price_part" class="container col-md-8">
+    <div id="price_part">
         <span id="real_price">￥{{meal.price * meal.discount}}</span>
 
         {% if ameal.availableNumber > 0 %}
-          <a href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
-            <button class="btn btn-default" {% if startDuration > 0 %}style="display:none;"{% endif %}>
-              闪电抢食
-          </button>
+          <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
+            <button>
+               <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
+            </button>
           </a>
         {% else %}
-          <p>很遗憾，已经全部被抢完了╮(╯▽╰)╭</p>
+          <a class = "get-food-button">
+            <button >
+               <img  src="{{url_for('static', filename='images/part1/food-out.png')}}">
+            </button>
+          </a>
         {% endif %}
 
         <div id="price_information">
-          <p>市场价:{{meal.price}}</p>
-          <p>折扣:{{meal.discount}}</p>
-          <p>为你节省:{{meal.price * (1 - meal.discount)}}</p>
-          <p>还剩:{{ameal.availableNumber}}份</p>
+          <ul>
+            <li>
+              <span>市场价</span>
+              <br>
+              <span>￥{{meal.price}}</span>
+            </li>
+            <li>
+              <span>折扣</span>
+              <br>
+              <span>{{meal.discount}}</span>
+            </li>
+            <li>
+              <span>为您节省</span>
+              <br>
+              <span>{{meal.price * (1 - meal.discount)}}</span>
+            </li>
+          </ul>
+
         </div> <!-- #price_information ends-->
     </div><!-- price ends -->
+      <!-- counting part -->
+        <div id="count_container">
+          <!-- <p>倒计时</p> -->
+          <div id="start_count" {%if startDuration < 0 %} style="display:none;"{% endif %}>
+            <span class = "time-state">马上就要开抢了</span><br>
+            <div class = "time-count">
+              <span id="s_hour">
+                0
+              </span>时
+              <span id="s_minute">
+                0
+              </span>分
+              <span id="s_second">
+                {{startDuration}}
+              </span>秒
+            </div>
+          </div>
+          <div id="end_count"  {%if startDuration > 0 %} style="display:none;"{% endif %}>
+            <span class = "time-state">距离美食疯狂抢结束 ：</span><br>
+            <div class = "time-count">
+              <span id="e_hour">
+                0
+              </span>时
+              <span id="e_minute">
+                0
+              </span>分
+              <span id="e_second">
+                {{endDuration}}
+              </span>秒
+            </div>
+
+            <div class = "users"> 
+              <span class = "fixed-width">共有1348名</span>
+              <br>
+              <span>美食家正在疯抢</span>
+            </div>
+
+            <div class = "remain-num">
+              <span class = "fixed-width">还剩{{ameal.availableNumber}}份</span>
+              <br>
+              <span>美食即将售完</span>
+            </div>
+        </div>
+     </div>
+    <!-- count part ends -->
   </div><!-- counting and price container ends-->
 </div><!-- main container ends-->
 <!-- main demonstration part end -->
-<hr>
+
 
 <!-- 美味佳肴 part -->
-<div id="introduction" class="container col-md-offset-2">
-  <h2>Introduction 美味佳肴</h2>
+<div id="introduction" class = "part">
+  <div class = "pic-set">
   {% for pic in mealPics %}
-  <a href="#" class="thumbnail">
     <img data-src="holder.js/300*300" src="{{url_for('static', filename="pic/" + pic.name)}}" alt="" class="img-rounded img-responsive" >
-  </a>
   {% endfor %}
+  </div>
 </div>
 <!-- 美味佳肴 part ends-->
-<hr>
 
 <!-- Details part -->
-<div id="details" class="container col-md-offset-2">
-  <h2>Details 山珍海味</h2>
-  {% for pic in materialPics %}
-  <a href="#" class="thumbnail">
-    <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="" class="img-rounded img-responsive">
-  </a>
-  {% endfor %}
+<div id="details" class = "part">
+  <div class = "pic-set">
+    {% for pic in materialPics %}
+      <div class = "delicacies-list">
+        <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="" class="img-rounded img-responsive">
+
+         <span class = "detail-description">鸡腿肉</span>
+         <span class = "detail-content">一种取自鸡的大腿的肉（带骨头的）,当然他还有引申义：特指一些身体强健，能奔能跑(也称"跑不死")。</span>
+
+      </div>
+    {% endfor %}
+  </div>
 </div>
 <!-- Detalis part ends -->
-<hr>
 
 

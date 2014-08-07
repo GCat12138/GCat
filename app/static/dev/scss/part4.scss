@@ -1,0 +1,64 @@
+@charset "UTF-8";
+@import "public";
+
+#reg_login {
+	width: 936px;
+	height: 600px;
+	background: url(../images/part4/part4-bg.png) no-repeat;
+}
+
+.reg-login-left {
+	width: 495px;
+	float: left;
+
+	img {
+		margin-left: 80px;
+		margin-top: 182px;
+	}
+}
+
+.reg-login-right {
+	width: 435px;
+	position: relative;
+	float: left;
+	@at-root .reg-login-btn {
+		width: 100px;
+		height: 45px;
+	}
+	@at-root .reg-btn {
+		@include set-position(absolute,85px,40px);
+		border: none;
+		outline: none;
+		background: url(../images/part4/reg-bg.png) no-repeat;
+	}
+	@at-root .login-btn {
+		border: none;
+		outline: none;
+		@include set-position(absolute,85px,142px);
+		background : url(../images/part4/login-before-bg.png) no-repeat;
+	}
+	@at-root .last-step {
+		width: 225px;
+		height: 40px;
+		margin-top: 31px;
+		margin-left: 18px;
+		background: url(../images/reg-login/last-step.png) no-repeat;
+	}
+}
+
+#register_form {
+	margin-top: 160px;
+
+	@at-root #get_v_code_btn {
+		width: 108px;
+		height: 26px;
+		margin-top: -10px;
+		margin-left: 75px;
+		margin-bottom: 14px;
+		background: url(../images/part4/get-password.png) no-repeat;
+	}
+}
+
+#loginForm {
+	margin-top: 160px;
+}

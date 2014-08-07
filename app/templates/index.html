@@ -1,18 +1,7 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
-{% block content%}
-
-<!-- meal part -->
-{% if ameal %}
-  {% include "main.html" %}
-{% else %}
-  <div class="container col-md-offset-2">
-    <p>不好意思，今天的食物被抢光啦！</p>
-  </div>
-  <hr>
-{% endif %}
-<!-- meal part ends -->
+{% block body%}
+	{% include "main.html" %}
 <!-- register/login part -->
 {% if not current_user.is_authenticated() %}
   {% include "reg_login.html" %}
