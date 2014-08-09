@@ -18,13 +18,13 @@
       id="register_form" class="" role="form">
       <div class="form-group">
         {{userForm.hidden_tag()}}
-      <input type = "text" placeholder = "手机号" class = "input-box"/>
+      <input type = "text" placeholder = "手机号" class = "input-box" name="phoneNumber" id="phoneNumber"/>
+      <input type = "password" placeholder = "密码" class = "input-box" name="password" id="password"/>
       <br>
       <button type="button"  id="get_v_code_btn"></button>
       <br>
-      <input type = "text" placeholder = "短信验证码" class = "input-box"/>
-      <input type = "password" placeholder = "密码" class = "input-box"/>
-      <input type = "text" placeholder = "昵称" class = "input-box"/>
+      <input type = "text" placeholder = "短信验证码" class = "input-box" name="verification" id="verification"/>
+      <input type = "text" placeholder = "昵称" class = "input-box" name="nickName" id="nickName"/>
       <br>
       <select class = "select-box">
         <option>中山大学</option>
@@ -43,8 +43,8 @@
       style="display:none;">
       <div class="form-group">
          {{loginForm.hidden_tag()}}
-        <input type = "text" placeholder = "手机号" class = "input-box"/>
-        <input type = "password" placeholder = "密码" class = "input-box"/>
+        <input type = "text" placeholder = "手机号" class = "input-box" id="phoneNumbaer" name="phoneNumber"/>
+        <input type = "password" placeholder = "密码" class = "input-box" id="password" name="password"/>
         <br />
         <button type="submit" class = "commit"></button>
         <!-- <button id="loginButton" type="button" class="btn btn-default">提交</button> -->

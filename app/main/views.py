@@ -2,7 +2,7 @@
 from .. import db
 from ..models import User, Address, ActualMeal, Meal, Picture, Order,\
         SMSModel, LikeModel
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, request, redirect, url_for, flash, jsonify
 from . import main
 from forms import UserForm, LoginForm, SMSForm, ChangePasswordForm,\
         ForgotPasswordForm
@@ -211,22 +211,18 @@ def register():
         phoneNumber = registerForm.phoneNumber.data
         if User.query.filter_by(phoneNumber = phoneNumber).count() != 0:
             #user already exists, jump to log in
-            flash(u"手机号已注册, 请直接登录")
-            return redirect(url_for("main.logIn"))
+            return jsonify( success = 2, msg="手机号已注册, 请直接登录")
         print "try to register"
         result = register_helper_function()
         print result
         if result == "1":
             #register successfully
-            return redirect( request.args.get("next") or url_for("main.index"))
+            return jsonify( success = 1)
         else:
-            pass
+            return jsonify( success = 0, msg="注册失败")
 
-    return render_template(
-            "register.html",
-            register_form = registerForm
-            )
-    pass
+    return jsonify( success = 0 )
+
 
 def loginHelper(phoneNumber, password):
     user = User.query.filter_by( phoneNumber = phoneNumber).first()
@@ -248,13 +244,15 @@ def logIn():
                 loginForm.password.data
                 )
         if result == "1":
-            return redirect(request.args.get("next") or url_for("main.index"))
+            return jsonify(success = 1)
         else:
-            return render_template("login.html",
-                        login_form = loginForm,
-                        msg = u"账户密码不匹配或者用户不存在"
-                    )
+            return jsonify(
+                    success=0,
+                    msg="用户账号密码错误或者该用户不存在"
+            )
 
+
+    print loginForm.errors
     return render_template("login.html",
                 login_form = loginForm
             )
