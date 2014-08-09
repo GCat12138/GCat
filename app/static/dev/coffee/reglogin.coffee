@@ -1,4 +1,5 @@
 $ ->
+	#init the page
 	page=
 		init: ->
 			@.initPage()
