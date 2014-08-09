@@ -12,7 +12,7 @@ $ ->
 				tempObj = $(this)
 				indexVal = tempObj.index()
 				htmlContent = $("html,body")
-				topArray = ["0px","400px","1100px","1700px"];
+				topArray = ["0px","400px","1100px","1800px"];
 				htmlContent.animate({scrollTop: topArray[indexVal]},400)
 	page.init()
 	

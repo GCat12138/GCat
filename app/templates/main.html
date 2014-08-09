@@ -25,21 +25,29 @@
   <div class = "part1-right"> <!-- counting and price container-->
     <!-- price -->
     <div id="price_part">
+        <!-- <span>{{startDuration}}</span> -->
         <span id="real_price">￥{{meal.price * meal.discount}}</span>
-
-        {% if ameal.availableNumber > 0 %}
-          <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
-            <button>
-               <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
-            </button>
-          </a>
-        {% else %}
-          <a class = "get-food-button">
-            <button >
-               <img  src="{{url_for('static', filename='images/part1/food-out.png')}}">
-            </button>
-          </a>
-        {% endif %}
+          {%if startDuration > 0 %} 
+            <a class = "get-food-button">
+              <button >
+                 <img  src="{{url_for('static', filename='images/part1/get-food-before.png')}}">
+              </button>
+            </a>
+          {% else %}
+            {% if ameal.availableNumber > 0 %}
+              <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
+                <button>
+                   <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
+                </button> 
+              </a>
+            {% else %}
+              <a class = "get-food-button">
+                <button >
+                   <img  src="{{url_for('static', filename='images/part1/food-out.png')}}">
+                </button>
+              </a>
+            {% endif %}
+          {% endif %}
 
         <div id="price_information">
           <ul>
@@ -65,7 +73,7 @@
       <!-- counting part -->
         <div id="count_container">
           <!-- <p>倒计时</p> -->
-          <div id="start_count" {%if startDuration < 0 %} style="display:none;"{% endif %}>
+          <div id="start_count" {%if startDuration <= 0 %} style="display:none;"{% endif %}>
             <span class = "time-state">马上就要开抢了</span><br>
             <div class = "time-count">
               <span id="s_hour">

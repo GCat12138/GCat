@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block body%}
+{% if meal  %}
 	{% include "main.html" %}
-<!-- register/login part -->
-{% if not current_user.is_authenticated() %}
-  {% include "reg_login.html" %}
+	{% include "reg_login.html" %}
+{% else %}
+	<span>今天没有食物咯</spam>
 {% endif %}
-<!-- register/login part ends -->
+<!-- register/login part -->
 {% endblock %}
