@@ -1,3 +1,15 @@
+@charset "UTF-8";
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the variables used in the other scss files.
+ * You can delete this file unless you egg is hurt! 
+ */
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the styles about the part of "闪电抢食" 
+ */
 #main_container {
   width: 933px;
   height: 340px;
@@ -6,7 +18,7 @@
   position: relative; }
   #main_container .description {
     text-align: center;
-    font-size: 20px;
+    font-size: 26px;
     font-weight: bold;
     color: white;
     width: 175px;
@@ -15,6 +27,9 @@
     bottom: 0;
     left: 0;
     background: url(../images/part1/food-name.png) no-repeat; }
+    #main_container .description span {
+      position: relative;
+      top: 5px; }
   #main_container .point-chan {
     position: absolute;
     top: 294px;
@@ -27,9 +42,9 @@
     background: url(../images/part1/point-chain.png) no-repeat; }
     #main_container .point-chan .chan {
       display: block;
-      font-size: 15px;
-      margin-top: 2px;
-      margin-left: 33px; }
+      font-size: 16px;
+      margin-top: 1px;
+      margin-left: 25px; }
   #main_container .chan-button {
     position: relative;
     width: 57px;

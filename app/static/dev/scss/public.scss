@@ -1,4 +1,10 @@
 @charset "UTF-8";
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the variables used in the other scss files.
+ * You can delete this file unless you egg is hurt! 
+ */
 
 //set the position
 @mixin set-position($position:absolute,$top: 5px,$left: 5px) {

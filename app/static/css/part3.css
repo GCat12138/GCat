@@ -1,3 +1,15 @@
+@charset "UTF-8";
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the variables used in the other scss files.
+ * You can delete this file unless you egg is hurt! 
+ */
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the styles about the part of "山珍海味" 
+ */
 #details {
   width: 936px;
   height: 565px;
