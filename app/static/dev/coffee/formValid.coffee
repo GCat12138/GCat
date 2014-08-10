@@ -63,7 +63,6 @@ $ ->
 			loginTips = $(".commit").next()
 			$.post "/login", form, (data) ->
 				success = data.success
-				alert success
 				if success == 1
 					history.go(0)
 				if success == 0

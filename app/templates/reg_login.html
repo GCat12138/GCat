@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/reg-login.css')}}">
 <div id="reg_login" class="part">
   <div class = "reg-login-left">
-    <img  src="{{url_for('static', filename='images/part4/place.jpg')}}">
+    {% if mainPict %}
+      <img src="{{url_for("static", filename = "pic/" + mainPict.name)}}" class = "meal-pic" alt="">
+    {% endif %}
   </div>
 
 
