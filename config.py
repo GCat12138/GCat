@@ -19,8 +19,8 @@ class DevelopmentConfig(Config):
     SQL_HOST = 'localhost'
     SQL_PORT = ''
     DATABASENAME = 'food'
-#    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
-#           'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+          'sqlite:///' + os.path.join(baseDir, 'data-dev.sqlite')
 #    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
 #            '@' + HOST + ':' + str(PORT) + '/' + DATABASENAME
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
