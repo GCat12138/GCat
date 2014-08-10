@@ -170,6 +170,7 @@ def register_helper_function():
 
         sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
         if sms_code.number !=  int(verificaion_code):
+            print "sms-code"
             # verification code is incorrect
             return "2"
 

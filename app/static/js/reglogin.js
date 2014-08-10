@@ -42,15 +42,15 @@
       var loginBtn, tempObj;
       tempObj = $(this);
       loginBtn = $(".login-btn");
-      tempObj.css("background", "url(static/images/part4/reg-bg.png)");
-      return loginBtn.css("background", "url(static/images/part4/login-before-bg.png)");
+      tempObj.css("background", "url(/static/images/part4/reg-bg.png)");
+      return loginBtn.css("background", "url(/static/images/part4/login-before-bg.png)");
     });
     return $(".login-btn").click(function() {
       var regBtn, tempObj;
       tempObj = $(this);
       regBtn = $(".reg-btn");
-      tempObj.css("background", "url(static/images/part4/login-bg.png)");
-      return regBtn.css("background", "url(static/images/part4/reg-bg-before.png)");
+      tempObj.css("background", "url(/static/images/part4/login-bg.png)");
+      return regBtn.css("background", "url(/static/images/part4/reg-bg-before.png)");
     });
   });
 

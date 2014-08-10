@@ -11,7 +11,7 @@ class UserForm(Form):
     password = PasswordField(u"密码",validators=[Required(), Length(min=6, max=15)])
     verification = StringField(u"验证码", validators=[Required()])
     nickName = StringField(u"昵称")
-    addresses = SelectField(u"地址",choices=[], coerce=int)
+    addresses = SelectField(u"",choices=[], coerce=int)
     submit = SubmitField(u"提交")
 
 class LoginForm(Form):

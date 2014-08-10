@@ -1,3 +1,11 @@
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the styles 
+ * which are used in all the application.Please think
+ * twice about the content you want to add to this 
+ * stylesheet  
+ */
 body {
   padding-top: 21px;
   font-family: "Microsoft Yahei"; }
@@ -14,3 +22,7 @@ a {
   width: 990px;
   margin: 0 auto;
   margin-bottom: 50px; }
+
+.tips {
+  color: red;
+  font-size: 12px; }

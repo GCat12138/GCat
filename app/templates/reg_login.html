@@ -1,3 +1,5 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
 <link rel="stylesheet" href="{{url_for('static', filename='css/part4.css')}}">
 <link rel="stylesheet" href="{{url_for('static', filename='css/reg-login.css')}}">
 <div id="reg_login" class="part">
@@ -18,18 +20,19 @@
       id="register_form" class="" role="form">
       <div class="form-group">
         {{userForm.hidden_tag()}}
-      <input type = "text" placeholder = "手机号" class = "input-box" name="phoneNumber" id="phoneNumber"/>
-      <input type = "password" placeholder = "密码" class = "input-box" name="password" id="password"/>
+      <input type = "text" placeholder = "手机号" class = "input-box" name="phoneNumber" id="phoneNumber" maxlength = "11" /><span class = "tips"></span>
       <br>
       <button type="button"  id="get_v_code_btn"></button>
       <br>
-      <input type = "text" placeholder = "短信验证码" class = "input-box" name="verification" id="verification"/>
+      <input type = "password" placeholder = "密码" class = "input-box" name="password" id="password"/><span class = "tips"></span>
+      <input type = "text" placeholder = "短信验证码" class = "input-box" name="verification" id="verification"/><span class = "tips"></span>
       <input type = "text" placeholder = "昵称" class = "input-box" name="nickName" id="nickName"/>
       <br>
-      <select class = "select-box">
-        <option>中山大学</option>
-      </select>
-      <button type="submit" class = "last-step"></button>
+      <!-- <select class = "select-box">
+        <option selected = "selected">中山大学</option>
+      </select> -->
+      {{wtf.form_field(userForm.addresses,class = "select-box" )}}
+      <div  class = "last-step"></div><span class = "tips"></span>
         <!-- <button type="button" id="register_button" class="btn btn-default">提交</button> -->
       </div>
     </form>
@@ -43,10 +46,10 @@
       style="display:none;">
       <div class="form-group">
          {{loginForm.hidden_tag()}}
-        <input type = "text" placeholder = "手机号" class = "input-box" id="phoneNumbaer" name="phoneNumber"/>
-        <input type = "password" placeholder = "密码" class = "input-box" id="password" name="password"/>
+        <input type = "text" placeholder = "手机号" class = "input-box" id="phoneNumbaer" name="phoneNumber" maxlength = "11"/><span class = "tips"></span>
+        <input type = "password" placeholder = "密码" class = "input-box" id="loginpassword" name="password"/><span class = "tips"></span>
         <br />
-        <button type="submit" class = "commit"></button>
+        <div  class = "commit"></div><span class = "tips"></span>
         <!-- <button id="loginButton" type="button" class="btn btn-default">提交</button> -->
       </div>
     </form>
