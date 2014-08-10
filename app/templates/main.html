@@ -35,11 +35,19 @@
             </a>
           {% else %}
             {% if ameal.availableNumber > 0 %}
+              {% if not current_user.is_authenticated() %}
+                <a class = "get-food-button no-login-button">
+                  <button>
+                     <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
+                  </button> 
+                </a>
+              {% else %}
               <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
                 <button>
                    <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
                 </button> 
               </a>
+              {% endif %}
             {% else %}
               <a class = "get-food-button">
                 <button >
@@ -64,7 +72,7 @@
             <li>
               <span>为您节省</span>
               <br>
-              <span>{{meal.price * (1 - meal.discount)}}</span>
+              <span>￥{{meal.price * (1 - meal.discount)}}</span>
             </li>
           </ul>
 
