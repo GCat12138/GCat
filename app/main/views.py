@@ -47,7 +47,8 @@ def index(addressName = None):
     current_datetime = datetime.datetime.now()
     current_time = datetime.time(
                current_datetime.hour,
-               current_datetime.minute
+               current_datetime.minute,
+               current_datetime.second
             )
 
     addressID = None
@@ -220,6 +221,8 @@ def register():
             return jsonify( success = 1)
         else:
             return jsonify( success = 0, msg="注册失败")
+    else:
+        print registerForm.errors
 
     return jsonify( success = 0 )
 
