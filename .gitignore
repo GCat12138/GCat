@@ -64,3 +64,5 @@ env
 migrations
 
 app/static/pic
+
+node_modules

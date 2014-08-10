@@ -32,6 +32,7 @@
     left: 142px;
     background: url(../images/part4/login-before-bg.png) no-repeat; }
   .last-step {
+    cursor: pointer;
     width: 225px;
     height: 40px;
     margin-top: 31px;

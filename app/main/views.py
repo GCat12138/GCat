@@ -47,7 +47,8 @@ def index(addressName = None):
     current_datetime = datetime.datetime.now()
     current_time = datetime.time(
                current_datetime.hour,
-               current_datetime.minute
+               current_datetime.minute,
+               current_datetime.second
             )
 
     addressID = None
@@ -169,6 +170,7 @@ def register_helper_function():
 
         sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
         if sms_code.number !=  int(verificaion_code):
+            print "sms-code"
             # verification code is incorrect
             return "2"
 
@@ -220,7 +222,7 @@ def register():
             return jsonify( success = 1)
         else:
             return jsonify( success = 0, msg="注册失败")
-
+    print 123
     return jsonify( success = 0 )
 
 
