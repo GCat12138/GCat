@@ -1,6 +1,7 @@
 #!./env/bin/python2.7
 import os
 
+#import environment from .env file
 if os.path.exists('.env'):
     print('Importing environment from .env...')
     for line in open('.env'):

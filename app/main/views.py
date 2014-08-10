@@ -19,6 +19,10 @@ import random
 from .. import redis
 from manage import app
 
+@main.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
 
 @main.before_app_request
 def before_request():
@@ -203,7 +207,7 @@ def register_helper_function():
         return '0'
 
 
-@main.route('/register', methods=["GET",'POST'])
+@main.route('/register', methods=['POST'])
 def register():
     registerForm = UserForm(request.form)
     registerForm.addresses.choices = [
@@ -239,7 +243,7 @@ def loginHelper(phoneNumber, password):
         return '0'
 
 
-@main.route('/login', methods=['GET','POST'])
+@main.route('/login', methods=['POST'])
 def logIn():
     loginForm = LoginForm(request.form)
     if loginForm.validate_on_submit():
@@ -255,10 +259,11 @@ def logIn():
                     msg="用户账号密码错误或者该用户不存在"
             )
 
+    else:
+        print loginForm.errors
 
-    print loginForm.errors
-    return render_template("login.html",
-                login_form = loginForm
+    return jsonify(
+                success=0
             )
 
 
