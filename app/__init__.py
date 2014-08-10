@@ -6,6 +6,7 @@ from flask_wtf.csrf import CsrfProtect
 from flask.ext.bootstrap import Bootstrap
 from flask.ext import restful
 from redis import Redis
+from flask.ext.mail import Mail
 
 # in case there're errors when using Chinese, python2.7 use ascii as defualt
 import sys
@@ -21,6 +22,7 @@ csrf = CsrfProtect()
 bootstrap = Bootstrap()
 api = restful.Api()
 redis = Redis()
+mail = Mail()
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -32,6 +34,7 @@ def create_app(config_name):
     csrf.init_app(app)
     bootstrap.init_app(app)
     api.init_app(app)
+    mail.init_app(app)
 
     from main import main as main_blueprint
     app.register_blueprint(main_blueprint)
