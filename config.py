@@ -24,9 +24,9 @@ class DevelopmentConfig(Config):
 #    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
 #            '@' + HOST + ':' + str(PORT) + '/' + DATABASENAME
 #    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
-#    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
-#            '@' + SQL_HOST +  "/" + DATABASENAME
-    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
+    SQLALCHEMY_DATABASE_URI = 'mysql://' + USERNAME + ':' + PASSWORD + \
+            '@' + SQL_HOST +  "/" + DATABASENAME
+#    SQLALCHEMY_DATABASE_URI = 'mysql://root@localhost/FOOD'
 #    SQLALCHEMY_DATABASE_URI = "mysql://test@121.40.87.145:3306/food"
 
 class TestingConfig(Config):
