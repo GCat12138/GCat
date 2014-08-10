@@ -35,11 +35,19 @@
             </a>
           {% else %}
             {% if ameal.availableNumber > 0 %}
+              {% if not current_user.is_authenticated() %}
+                <a class = "get-food-button no-login-button">
+                  <button>
+                     <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
+                  </button> 
+                </a>
+              {% else %}
               <a class = "get-food-button" href="{{url_for('main.MakeOrder', amealID=ameal.id)}} ">
                 <button>
                    <img  src="{{url_for('static', filename='images/part1/get-food.png')}}">
                 </button> 
               </a>
+              {% endif %}
             {% else %}
               <a class = "get-food-button">
                 <button >
@@ -54,17 +62,17 @@
             <li>
               <span>市场价</span>
               <br>
-              <span>￥{{meal.price}}</span>
+              <span class = "price_information_num">￥{{meal.price}}</span>
             </li>
             <li>
               <span>折扣</span>
               <br>
-              <span>{{meal.discount}}</span>
+              <span class = "price_information_num">{{meal.discount}}</span>
             </li>
             <li>
               <span>为您节省</span>
               <br>
-              <span>{{meal.price * (1 - meal.discount)}}</span>
+              <span class = "price_information_num">￥{{meal.price * (1 - meal.discount)}}</span>
             </li>
           </ul>
 
@@ -86,7 +94,20 @@
                 {{startDuration}}
               </span>秒
             </div>
+            <div class = "users"> 
+              <span class = "fixed-width">共有1348名</span>
+              <br>
+              <span>美食家正在等待抢食</span>
+            </div>
+
+            <div class = "remain-num">
+              <span class = "fixed-width">共有{{ameal.availableNumber}}份</span>
+              <br>
+              <span>美食将被抢食一空</span>
+            </div>
+
           </div>
+
           <div id="end_count"  {%if startDuration > 0 %} style="display:none;"{% endif %}>
             <span class = "time-state">距离美食疯狂抢结束 ：</span><br>
             <div class = "time-count">
@@ -108,7 +129,7 @@
             </div>
 
             <div class = "remain-num">
-              <span class = "fixed-width">还剩{{ameal.availableNumber}}份</span>
+              <span class = "fixed-width">还剩<span class = "detail-num">{{ameal.availableNumber}}</span>份</span>
               <br>
               <span>美食即将售完</span>
             </div>

@@ -90,7 +90,6 @@
         return $.post("/login", form, function(data) {
           var success;
           success = data.success;
-          alert(success);
           if (success === 1) {
             history.go(0);
           }

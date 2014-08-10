@@ -1,14 +1,19 @@
 @charset "UTF-8";
 @import "public";
+/*
+ * Author: yuanzm
+ * LastEditDate: 2014-08-10
+ * Description: This css stylesheet define the styles about the part of "闪电抢食" 
+ */
 #main_container {
 	width: 933px;
 	height: 340px;
-	margin-top: 175px;
+	margin-top: 138px;
 	background: url(../images/part1/part1-bg.png) no-repeat;
 	position: relative;
 	.description {
 		text-align: center;
-		font-size: 20px;
+		font-size: 26px;
 		font-weight: bold;
 		color: white;
 		width: 175px;
@@ -17,6 +22,11 @@
 		bottom: 0;
 		left: 0;
 		background: url(../images/part1/food-name.png) no-repeat;
+		span {
+			cursor: default;
+			position: relative;
+			top: 5px;
+		}
 	}
 
 	.point-chan {
@@ -30,9 +40,9 @@
 
 		.chan {
 			display: block;
-			font-size: 15px;
-			margin-top: 2px;
-			margin-left: 33px;
+			font-size: 16px;
+			margin-top: 1px;
+			margin-left: 25px;
 		}
 	}
 	.chan-button {
@@ -81,6 +91,7 @@
 			}
 		}
 		button {
+			cursor: pointer;
 			border:none;
 		}
 		#real_price {
@@ -95,13 +106,18 @@
 		#price_information ul {
 			@include set-position(absolute,80px,95px);
 			li {
-				font-size: 16px;
+
+				font-size: 18px;
 				font-weight: bold;
 				float: left;
 				margin-left:40px;
 				display: block;
 				text-align: center;	
 				color: #626564;
+				.price_information_num {
+					font-size: 14px;
+					margin-left: -11px;
+				}
 			}
 			li:first-child {
 				margin-left: 0px;
@@ -116,6 +132,8 @@
 
 /*time count begin*/
 #count_container {
+	font-weight: bold;
+	color: #646363;
 	width: 412px;
 	height:150px;
 	margin-left: 10px;
@@ -124,14 +142,16 @@
 		display: inline-block;
 		margin-top: 15px;
 		margin-left: 27px;
-		font-size: 17px;
+		font-size: 18px;
+		font-weight: bold;
+		color: #646363;
 		line-height: 20px;
 	}
 	@at-root .time-count {
 		color: #830906;
 		font-weight: 900;
 		font-size: 32px;
-		margin-left: 85px;
+		margin-left: 75px;
 		margin-top: 15px;
 	}
 
@@ -140,12 +160,16 @@
 			letter-spacing: 5px;
 		}
 		@include set-position(absolute,100px,235px);
-		font-size: 15px;
+		font-size: 14px;
 	}
 
 	@at-root .users {
+		font-size: 14px;
 		@include set-position(absolute,100px,75px);
 
+	}
+	@at-root .detail-num {
+		font-size: 20px;
 	}
 }
 /*time count end*/
