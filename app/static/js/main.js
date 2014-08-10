@@ -11,7 +11,7 @@ $(document).ready(function(){
   // bind all buttons
   bindButtons();
 
-  setInterval(countFunction, 1000);
+  setInterval(countFunction, 1000 / 10);
   countFunction();
 });
 
@@ -19,15 +19,15 @@ function countFunction()
 {
   var s_hour = parseInt( $("#s_hour").text() );
   var s_minute = parseInt( $("#s_minute").text() );
-  var s_second = parseInt( $("#s_second").text() );
-  var totalSeconds = s_hour * 3600 + s_minute * 60 + s_second * 1;
+  var s_second = parseFloat( $("#s_second").text() );
+  var totalSeconds = s_hour * 3600.0 + s_minute * 60 + s_second * 1.0;
   if (totalSeconds > 0) {
-    totalSeconds = totalSeconds - 1;
+    totalSeconds = totalSeconds - 0.1;
     $("#s_hour").text( Math.floor(totalSeconds / 3600 ) );
     totalSeconds = totalSeconds % 3600;
     $("#s_minute").text( Math.floor(totalSeconds / 60) );
     totalSeconds = totalSeconds % 60;
-    $("#s_second").text( totalSeconds );
+    $("#s_second").text( totalSeconds.toFixed(1) );
   } else {
     // start to get the meal
     $(".getButton").css("display", "block");
@@ -35,16 +35,16 @@ function countFunction()
 
   var e_hour = parseInt( $("#e_hour").text() );
   var e_minute = parseInt( $("#e_minute").text() );
-  var e_second = parseInt( $("#e_second").text() );
+  var e_second = parseFloat( $("#e_second").text() );
   var e_totalSeconds = e_hour * 3600 + e_minute * 60 + e_second* 1;
 
   if (e_totalSeconds > 0) {
-    e_totalSeconds = e_totalSeconds - 1;
+    e_totalSeconds = e_totalSeconds - 0.1;
     $("#e_hour").text( Math.floor(e_totalSeconds / 3600 ) );
     e_totalSeconds = e_totalSeconds % 3600;
     $("#e_minute").text( Math.floor(e_totalSeconds / 60) );
     e_totalSeconds = e_totalSeconds % 60;
-    $("#e_second").text( e_totalSeconds );
+    $("#e_second").text( e_totalSeconds.toFixed(1) );
   }
 
 }

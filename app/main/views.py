@@ -52,7 +52,8 @@ def index(addressName = None):
     current_time = datetime.time(
                current_datetime.hour,
                current_datetime.minute,
-               current_datetime.second
+               current_datetime.second,
+               current_datetime.microsecond
             )
 
     addressID = None
@@ -143,6 +144,7 @@ def index(addressName = None):
 #    print get_online_users()
 
     if mealInformation:
+        people = random.randint(300, 400)
         return render_template('index.html',
                 userForm = userForm,
                 loginForm = loginForm,
@@ -155,7 +157,8 @@ def index(addressName = None):
                 startDuration = startDuration,
                 endDuration = endDuration,
                 sForm = SMSForm(),
-                flag = flag
+                flag = flag,
+                population = people
                 )
     else:
         return render_template('index.html',
@@ -349,20 +352,22 @@ def MakeOrder( amealID ):
             if result != '0':
                 url = "http://106.ihuyi.cn/webservice/sms.php?method=Submit"
 
-                content = "终于抢到啦！美食家%s，您抢到了第%r份美食！原价%r，现在竟然只要%r元！美食在%s门口躺着等你来！带好手机～带好票子～带好食欲～我们不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount),address.address)
+                content = "终于抢到啦！美食家%s，您抢到了第%s份美食！原价%s，现在竟然只要%s元！美食在%s门口躺着等你来！带好手机～带好票子～带好食欲～我们12：00不见不散！PS：吃完记得点赞噢～" % (current_user.nickName, str(result.number), str(meal.price), str( meal.price * meal.discount),address.address)
                 data = {
                         "account" : SMS_ACCOUNT,
                         "password" : SMS_PASSWORD,
                         "mobile" : str(current_user.phoneNumber),
                         "content" : content
                 }
-
+                print content
                 resultXML = postHelper( url, data )
                 print resultXML
                 root = minidom.parseString(resultXML)
                 code = SimpleXMLHelper( root, "code" )
                 print code
                 print "order code is %r" % code
+                msg = SimpleXMLHelper( root, "msg" )
+                print msg
 
                 getMessage = {
                     "nickName": current_user.nickName,

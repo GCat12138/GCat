@@ -21,10 +21,10 @@
 </form>
 
 {% for pic in pics %}
-<div>
+<div style="width:200px; height:200px;">
   <p>id: {{pic.id}}</p>
   <p>{{pic.type}}</p>
-  <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" >
+  <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" width="100%">
 </div>
 {% endfor %}
 </body>
