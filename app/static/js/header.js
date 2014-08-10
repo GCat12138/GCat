@@ -22,21 +22,6 @@
         scrollTop: topArray[indexVal]
       }, 400);
     });
-    $("header li").click(function() {
-      var indexVal, tempObj, tempPic;
-      tempObj = $(this);
-      tempPic = tempObj.find("img");
-      indexVal = tempObj.index() + 1;
-      $.each($("header li").not(".without"), function(n) {
-        var picVal, temp;
-        if (n !== indexVal - 1) {
-          temp = $(this);
-          picVal = temp.index() + 1;
-          return temp.find("img").attr("src", "/static/images/header/menu" + picVal + ".png");
-        }
-      });
-      return tempPic.attr("src", "/static/images/header/menu" + indexVal + "-2.png");
-    });
     $(".reg-btn").click(function() {
       var loginBtn, tempObj;
       tempObj = $(this);
