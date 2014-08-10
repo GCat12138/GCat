@@ -131,16 +131,6 @@ def index(addressName = None):
         materialPicture = Picture.query.filter_by(
             mealId = mealInformation.id, type=2).all()
 
-    #like flag
-    flag = None
-    if current_user.is_authenticated() and mealInformation:
-        #check whether this use already hit "like"
-        flag = 1
-        for like in mealInformation.likes:
-            if like.id == current_user.id:
-                flag = 0
-                break
-
 #    print get_online_users()
 
     if mealInformation:
@@ -157,7 +147,6 @@ def index(addressName = None):
                 startDuration = startDuration,
                 endDuration = endDuration,
                 sForm = SMSForm(),
-                flag = flag,
                 population = people
                 )
     else:
