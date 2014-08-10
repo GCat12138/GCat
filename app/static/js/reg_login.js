@@ -45,9 +45,10 @@ function phoneNumberCheck()
         if( status == "success"){
           if ( data == '1'){
             //phoneNumber exists
-            var msg = "<span id='phoneCheck' style='color:red'>该手机号已存在，请直接登录</span>" ;
-            $("#register_form").find("#phoneCheck").remove();
-            $("#register_form").prepend(msg);
+            // var msg = "<span id='phoneCheck' style='color:red'>该手机号已存在，请直接登录</span>" ;
+            // $("#register_form").find("#phoneCheck").remove();
+            // $("#register_form").prepend(msg);
+            $("#phoneNumber").next().text("该手机号已存在");
             $("#get_v_code_btn").attr("disabled", "true");
           } else {
             $("#get_v_code_btn").removeAttr("disabled");

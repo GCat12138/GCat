@@ -44,6 +44,7 @@ $ ->
 
 	loginVerify=
 		init: ->
+			$(".tips").text("")
 			if @.verify()
 				@.ajaxLogin()
 
@@ -62,6 +63,7 @@ $ ->
 			loginTips = $(".commit").next()
 			$.post "/login", form, (data) ->
 				success = data.success
+				alert success
 				if success == 1
 					history.go(0)
 				if success == 0
@@ -71,6 +73,7 @@ $ ->
 			re= /(^1[3|5|8][0-9]{9}$)/
 			phone = trim(val)
 			return re.test(val)
+			
 	trim= (str)-> str.replace(/^\s*|\s*$/g,"")
 
 
