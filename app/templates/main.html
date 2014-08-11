@@ -154,8 +154,8 @@
       <div class = "delicacies-list">
         <img src="{{url_for('static', filename="pic/" + pic.name) }}" alt="" class="img-rounded img-responsive">
 
-         <span class = "detail-description">鸡腿肉</span>
-         <span class = "detail-content">一种取自鸡的大腿的肉（带骨头的）,当然他还有引申义：特指一些身体强健，能奔能跑(也称"跑不死")。</span>
+         <span class = "detail-description">{{pic.title}}</span>
+         <span class = "detail-content">{{pic.description}}</span>
 
       </div>
     {% endfor %}

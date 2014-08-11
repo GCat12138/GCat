@@ -9,6 +9,8 @@
     <br>
     {{form.type}}
     <br>
+    {{form.title.label}}:{{form.title}}
+    <br>
     {{form.description.label}} {{form.description}}
     <br>
     {{form.mealList}}
@@ -17,8 +19,10 @@
   </form>
 
   {% for pic in pics %}
-  <div style="width:200px; height:200px;">
+  <div style="width:200px; height:350px;">
     <p>{{pic.type}}</p>
+    标题:<p>{{pic.title}}</p>
+    描述:<p>{{pic.description}}</p>
     <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" width="100%">
     <form action="{{url_for('admin.deletePic')}}" method="POST">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />

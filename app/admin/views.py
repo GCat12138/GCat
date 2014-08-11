@@ -93,6 +93,7 @@ def editPic():
     if form.validate_on_submit():
         type = form.type.data
         description = form.description.data
+        p_title = form.title.data
         mealID = form.mealList.data
         pictFile = request.files['pic']
         if pictFile:
@@ -111,6 +112,7 @@ def editPic():
 
             newPic = Picture()
             newPic.description = description
+            newPic.title = p_title
             newPic.mealId = mealID
             newPic.type = type
             newPic.name = dateString + "_" + str(pictCnt) + "_" + filename
