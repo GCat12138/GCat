@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block body %}
-
+  <link rel="stylesheet" href="{{url_for('static', filename='css/success.css')}}">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/forgot.css')}}">
   <div class="container">
     {% for message in get_flashed_messages() %}
       <div class="alert alert-warning">
@@ -11,16 +12,18 @@
     {% endfor %}
   </div>
 
-  <div class="container">
-    <form action="{{url_for('main.ForgotPassword')}}" method="POST">
-      {{forgot_form.hidden_tag()}}
-      {{wtf.form_errors( forgot_form, hiddens="only") }}
-
-      {{wtf.form_field(forgot_form.phoneNumber)}}
-      {{wtf.form_field(forgot_form.verification)}}
-      <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button> <br > <br>
-      {{wtf.form_field(forgot_form.password)}}
-      {{wtf.form_field(forgot_form.submit)}}
-    </form>
+  <div  class="result part fogot">
+      <h2>忘记密码</h2>
+      <form action="{{url_for('main.ForgotPassword')}}" method="POST">
+        {{forgot_form.hidden_tag()}}
+        {{wtf.form_errors( forgot_form, hiddens="only") }}
+        {{wtf.form_field(forgot_form.phoneNumber)}}
+        {{wtf.form_field(forgot_form.verification)}}
+        <button type="button"  id="get_v_code_btn"></button>
+        <!-- <button type="button" class="btn btn-default" id="get_v_code_btn">获取验证码</button> -->
+        {{wtf.form_field(forgot_form.password)}}
+        <!-- {{wtf.form_field(forgot_form.submit)}} -->
+        <input id = "submit" name="submit" type="submit"  class = "forgot-commit" value = ""/>
+      </form>
   </div>
 {% endblock %}

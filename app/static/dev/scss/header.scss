@@ -26,6 +26,8 @@ header {
 	}
 	.logined {
 		display: block;
+		position: relative;
+		top: -9px;
 		background: url(../images/header/after-login.png) no-repeat;
 		width: 168px;
 		height: 95px;
@@ -43,10 +45,10 @@ header {
 nav {
 	float: left;
 	width: 620px;
+	height: 140px;
 	ul {
 		margin-top: 19px;
 		padding-left: 0;
-		overflow: hidden;
 	}
 	li {
 		list-style: none;

@@ -19,12 +19,15 @@
       }
     };
     page.init();
+    $(window).resize(function() {
+      return page.init();
+    });
     $("header li").not(".without").click(function() {
       var htmlContent, indexVal, tempObj, topArray;
       tempObj = $(this);
       indexVal = tempObj.index();
       htmlContent = $("html,body");
-      topArray = ["0px", "390px", "1120px", "1810px"];
+      topArray = ["0px", "390px", "1120px", "1740px"];
       return htmlContent.animate({
         scrollTop: topArray[indexVal]
       }, 400);
@@ -46,7 +49,7 @@
     return $(window).scroll(function() {
       var i, indexVal, item, tempPic, top, topArray, _i, _len, _results;
       top = $(window).scrollTop();
-      topArray = [0, 390, 1120, 1810];
+      topArray = [0, 390, 1120, 1740];
       _results = [];
       for (i = _i = 0, _len = topArray.length; _i < _len; i = ++_i) {
         item = topArray[i];
