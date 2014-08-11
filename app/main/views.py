@@ -521,13 +521,13 @@ def ForgotPassword():
                                 )
 
 
-                return redirect( url_for("main.LogOut") )
+                logout_user()
+                return redirect( url_for('main.index') )
 
     return render_template(
                 "forgot.html",
                 forgot_form = forgotForm
                 )
-    pass
 
 @main.route('/test', methods=['POST', 'GET'])
 def test():
