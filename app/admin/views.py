@@ -77,6 +77,9 @@ def deletePic():
             print picURL
             try:
                 os.remove( picURL )
+            except Exception:
+                pass
+            try:
                 db.session.delete( pic )
                 db.session.commit()
             except Exception:
