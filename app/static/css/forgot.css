@@ -1,0 +1,27 @@
+.fogot {
+  padding-top: 60px; }
+
+.form-group {
+  margin-bottom: 20px; }
+
+#get_v_code_btn {
+  position: relative;
+  left: -15px;
+  width: 108px;
+  height: 26px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin-top: -10px;
+  margin-left: 75px;
+  margin-bottom: 14px;
+  background: url(../images/part4/get-password.png) no-repeat; }
+
+.forgot-commit {
+  cursor: pointer;
+  width: 102px;
+  height: 35px;
+  border: none;
+  outline: none;
+  margin-left: 45px;
+  background: url(../images/reg-login/commit.png) no-repeat; }

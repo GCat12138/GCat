@@ -11,13 +11,17 @@ $ ->
 				else
 					pageWidth = document.body.clientWidth
 			$("header").css "left",(pageWidth - 990) / 2
+			
 	page.init()
+
+	$(window).resize ->
+		page.init()
 	
 	$("header li").not(".without").click ->
 		tempObj = $(this)
 		indexVal = tempObj.index()
 		htmlContent = $("html,body")
-		topArray = ["0px","390px","1120px","1810px"];
+		topArray = ["0px","390px","1120px","1740px"];
 		htmlContent.animate({scrollTop: topArray[indexVal]},400)
 		
 	#点击注册和登陆按钮的效果
@@ -34,7 +38,7 @@ $ ->
 
 	$(window).scroll ->
 		top = $(window).scrollTop()
-		topArray = [0,390,1120,1810]
+		topArray = [0,390,1120,1740]
 		for item, i in topArray
 			if top - 50 <= item && item <= top + 50
 				indexVal = i + 1;
