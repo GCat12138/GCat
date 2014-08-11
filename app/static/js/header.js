@@ -7,7 +7,14 @@
       },
       initPage: function() {
         var pageWidth;
-        pageWidth = window.screen.availWidth;
+        pageWidth = window.innerWidth;
+        if (typeof pageWidth !== "number") {
+          if (document.compactMode === "CSS1Compact") {
+            pageWidth = document.documentElement.clientWidth;
+          } else {
+            pageWidth = document.body.clientWidth;
+          }
+        }
         return $("header").css("left", (pageWidth - 990) / 2);
       }
     };

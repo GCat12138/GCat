@@ -4,7 +4,12 @@ $ ->
 		init: ->
 			@.initPage()
 		initPage: ->
-			pageWidth = window.screen.availWidth
+			pageWidth = window.innerWidth
+			if typeof pageWidth != "number"
+				if document.compactMode == "CSS1Compact"
+					pageWidth = document.documentElement.clientWidth
+				else
+					pageWidth = document.body.clientWidth
 			$("header").css "left",(pageWidth - 990) / 2
 	page.init()
 	
@@ -15,17 +20,6 @@ $ ->
 		topArray = ["0px","390px","1120px","1810px"];
 		htmlContent.animate({scrollTop: topArray[indexVal]},400)
 		
-	#点击菜单更改对应的背景图片
-	# $("header li").click ->
-	# 	tempObj = $ this
-	# 	tempPic = tempObj.find "img"
-	# 	indexVal = tempObj.index() + 1
-	# 	$.each $("header li").not(".without"), (n)->
-	# 		if n != indexVal - 1
-	# 			temp = $(this)
-	# 			picVal = temp.index() + 1
-	# 			temp.find("img").attr "src", "/static/images/header/menu" + picVal + ".png"
-	# 	tempPic.attr "src","/static/images/header/menu" + indexVal + "-2.png"
 	#点击注册和登陆按钮的效果
 	$(".reg-btn").click ->
 		tempObj = $(this)

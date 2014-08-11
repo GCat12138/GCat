@@ -20,7 +20,9 @@
   float: left; }
   .reg-login-left img {
     margin-left: 80px;
-    margin-top: 182px; }
+    margin-top: 182px;
+    width: 330px;
+    height: 255px; }
 
 .reg-login-right {
   width: 435px;

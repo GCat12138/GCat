@@ -59,7 +59,7 @@ $ ->
 				return false
 			return true
 		ajaxLogin: ->
-			form = $("#register_form").serialize()
+			form = $("#loginForm").serialize()
 			loginTips = $(".commit").next()
 			$.post "/login", form, (data) ->
 				success = data.success

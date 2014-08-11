@@ -85,7 +85,7 @@
       },
       ajaxLogin: function() {
         var form, loginTips;
-        form = $("#register_form").serialize();
+        form = $("#loginForm").serialize();
         loginTips = $(".commit").next();
         return $.post("/login", form, function(data) {
           var success;
