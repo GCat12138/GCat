@@ -500,29 +500,32 @@ def ForgotPassword():
         print password
 
         sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
-        if sms_code.number != int(verification_code):
-            flash(u"验证码输入错误，请重新获取")
+        if sms_code is None:
+            flash("获取验证码失败")
         else:
-            user = User.query.filter_by(phoneNumber = phoneNumber).first()
-            if user is None:
-                flash(u"该手机号还未注册")
+            if sms_code.number != int(verification_code):
+                flash(u"验证码输入错误，请重新获取")
             else:
-                user.password = password
-                try:
-                    db.session.add( user )
-                    db.session.commit()
-                except Exception as e :
-                    print e
-                    db.session.rollback()
-                    flash(u"更改失败")
-                    return render_template(
-                                "forgot.html",
-                                forgot_form = forgotForm
-                                )
+                user = User.query.filter_by(phoneNumber = phoneNumber).first()
+                if user is None:
+                    flash(u"该手机号还未注册")
+                else:
+                    user.password = password
+                    try:
+                        db.session.add( user )
+                        db.session.commit()
+                    except Exception as e :
+                        print e
+                        db.session.rollback()
+                        flash(u"更改失败")
+                        return render_template(
+                                    "forgot.html",
+                                    forgot_form = forgotForm
+                                    )
 
 
-                logout_user()
-                return redirect( url_for('main.index') )
+                    logout_user()
+                    return redirect( url_for('main.index') )
 
     return render_template(
                 "forgot.html",
