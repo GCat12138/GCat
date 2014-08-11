@@ -15,6 +15,7 @@
   background: url(../images/reg-login/input-bg.png) no-repeat; }
 
 .commit {
+  cursor: pointer;
   width: 102px;
   height: 35px;
   border: none;
