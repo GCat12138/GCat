@@ -416,10 +416,11 @@ def SMS():
 
     root = minidom.parseString(resultXML)
     code = SimpleXMLHelper( root, "code" )
+    msg = SimpleXMLHelper( root , "msg")
+    print msg
     print code
     print "code is %r" % code
 
-    code = "2"
 #   send sms sucessfully
     if code == "2":
         new_sms = SMSModel()
@@ -494,6 +495,9 @@ def ForgotPassword():
         verification_code = forgotForm.verification.data
         phoneNumber = forgotForm.phoneNumber.data
         password = forgotForm.password.data
+
+        print phoneNumber
+        print password
 
         sms_code = SMSModel.query.filter_by(phoneNumber = phoneNumber).first()
         if sms_code.number != int(verification_code):
