@@ -14,11 +14,7 @@
     <div class = "point-chan">
       <span id="likes">{{meal.likes.__len__()}}</span><span class = "chan">赞<span>
       {% if current_user.is_authenticated() %}
-        {% if flag == 1 %}
           <button id="mealLike" class="btn btn-default chan-button">赞</button>
-        {% else %}
-          <span>已点赞</span>
-        {% endif %}
       {% endif %}
     </div>
   </div> <!-- #getmeal container ends-->
