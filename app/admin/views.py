@@ -66,6 +66,25 @@ def editMeal():
            form = form
            )
 
+@admin.route('/deletePic', methods=['POST'])
+def deletePic():
+    picID = request.form["id"]
+    if picID is not None:
+        pic = Picture.query.get( picID )
+        if pic is not None:
+            picName = pic.name
+            picURL = os.path.join( PICTURE_DIR, picName)
+            print picURL
+            try:
+                os.remove( picURL )
+                db.session.delete( pic )
+                db.session.commit()
+            except Exception:
+                db.session.rollback()
+                return '0'
+        print request.form["id"]
+    return "1"
+
 @admin.route('/pic', methods=['GET', 'POST'])
 def editPic():
     form = PictureForm(request.form)

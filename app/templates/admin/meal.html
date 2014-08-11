@@ -1,12 +1,16 @@
-<h1>sdfsdf</h1>
-<form method="POST">
-  {{form.hidden_tag()}}
+{% extends "admin/index.html" %}
 
-  {{form.description.label}} {{form.description}}
-  <br>
-  {{form.price.label}} {{form.price}}
-  <br>
-  {{form.discount.label}} {{form.discount}}
-  <br>
-  {{form.submit}}
-</form>
+{% block body %}
+  <h1>meal</h1>
+  <form method="POST">
+    {{form.hidden_tag()}}
+
+    {{form.description.label}} {{form.description}}
+    <br>
+    {{form.price.label}} {{form.price}}
+    <br>
+    {{form.discount.label}} {{form.discount}}
+    <br>
+    {{form.submit}}
+  </form>
+{% endblock %}

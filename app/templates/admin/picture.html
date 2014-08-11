@@ -1,32 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title></title>
-</head>
-<body>
+{% extends "admin/index.html" %}
 
-<form method="POST" enctype=multipart/form-data action="/admin/pic">
-  {{form.hidden_tag()}}
+  {% block body %}
+  <h1>图片</h1>
+  <form method="POST" enctype=multipart/form-data action="/admin/pic">
+    {{form.hidden_tag()}}
 
-  <input type="file" name="pic"/>
-  <br>
-  {{form.type}}
-  <br>
-  {{form.description.label}} {{form.description}}
-  <br>
-  {{form.mealList}}
-  <br>
-  {{form.submit}}
-</form>
+    <input type="file" name="pic"/>
+    <br>
+    {{form.type}}
+    <br>
+    {{form.description.label}} {{form.description}}
+    <br>
+    {{form.mealList}}
+    <br>
+    {{form.submit}}
+  </form>
 
-{% for pic in pics %}
-<div style="width:200px; height:200px;">
-  <p>id: {{pic.id}}</p>
-  <p>{{pic.type}}</p>
-  <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" width="100%">
-</div>
-{% endfor %}
-</body>
-</html>
+  {% for pic in pics %}
+  <div style="width:200px; height:200px;">
+    <p>{{pic.type}}</p>
+    <img src="{{url_for('static', filename='pic/' + pic.name) }}" alt="" width="100%">
+    <form action="{{url_for('admin.deletePic')}}" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+      <input type="hidden" name="id" value="{{pic.id}}" style="display:none">
+      <input type="submit" value="删除">
+    </form>
+  </div>
+  {% endfor %}
 
+{% endblock %}
