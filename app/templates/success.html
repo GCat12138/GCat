@@ -25,7 +25,7 @@
 	<div id = "resule-success" class = "part result">
 	   <img  src="{{url_for('static', filename='images/part1/win.png')}}">
 	   <br>
-	   <span class = "content1">美食家{{msg.nickName}}~您已经击败了75%的吃货</span>
+     <span class = "content1">美食家{{msg.nickName}}~您已经击败了{{msg.percent * 100}}%的吃货</span>
 	   <br>
 	   <span class = "content2 content2-1">抢单号：{{msg.resultNum}}</span>
 	   <br>

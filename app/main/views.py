@@ -358,12 +358,15 @@ def MakeOrder( amealID ):
                 msg = SimpleXMLHelper( root, "msg" )
                 print msg
 
+                number = result.number
+                percent = 1.0 - number / 80
                 getMessage = {
                     "nickName": current_user.nickName,
                     "resultNum": str(result.number),
                     "mealPrice": str( meal.price * meal.discount),
                     "oldPrice": str(meal.price),
-                    "getAddress": address.address
+                    "getAddress": address.address,
+                    "percent" : percent
                 }
                 return render_template("success.html",
                         msg= getMessage
