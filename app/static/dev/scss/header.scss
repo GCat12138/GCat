@@ -4,7 +4,7 @@
  * Description: This css stylesheet define the styles about the nav menus 
  */
 #header {
-	width: 995px;
+	width: 1000px;
 	height: 140px;
 	position: fixed;
 	top: 0px;
@@ -28,6 +28,8 @@
 	}
 
 	.logo {
+		width: 375px;
+		height: 126px;
 		float: left;
 	}
 	.logined {
@@ -50,7 +52,7 @@
 
 #nav {
 	float: left;
-	width: 616px;
+	width: 620px;
 	height: 140px;
 	ul {
 		margin-top: 19px;
