@@ -5,7 +5,13 @@
 	{% include "main.html" %}
 	{% include "reg_login.html" %}
 {% else %}
-	<span>今天没有食物咯</span>
+	<!-- 没有食物界面 begin -->
+	<link rel="stylesheet" href="{{url_for('static', filename='css/success.css')}}">
+	<div id = "result-faild" class = "part result">
+	 <br>
+	 <span class = "content4 content4-1">今天已经没有食物了~</span>
+	</div>
+	<!-- 没有食物界面 end -->
 {% endif %}
 <!-- register/login part -->
 {% endblock %}
