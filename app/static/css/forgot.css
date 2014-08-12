@@ -1,27 +1,38 @@
 .fogot {
   padding-top: 60px; }
 
-.form-group {
+.result {
+  text-align: left; }
+  .result h2 {
+    text-align: center; }
+
+.tips {
+  margin-left: 10px; }
+
+.input-box {
+  width: 240px;
+  height: 30px;
+  outline: none;
+  border: none;
+  padding-left: 8px;
+  margin-left: 325px;
   margin-bottom: 20px; }
 
 #get_v_code_btn {
-  position: relative;
-  left: -15px;
   width: 108px;
   height: 26px;
   border: none;
+  margin-left: 390px;
   outline: none;
   cursor: pointer;
-  margin-top: -10px;
-  margin-left: 75px;
   margin-bottom: 14px;
   background: url(../images/part4/get-password.png) no-repeat; }
 
 .forgot-commit {
+  margin-left: 395px;
   cursor: pointer;
   width: 102px;
   height: 35px;
   border: none;
   outline: none;
-  margin-left: 45px;
   background: url(../images/reg-login/commit.png) no-repeat; }

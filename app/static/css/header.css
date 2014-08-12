@@ -3,7 +3,7 @@
  * LastEditDate: 2014-08-10
  * Description: This css stylesheet define the styles about the nav menus 
  */
-header {
+#header {
   width: 995px;
   height: 140px;
   position: fixed;
@@ -12,16 +12,20 @@ header {
   z-index: 9999;
   margin: 0 auto;
   overflow: hidden; }
-  header .white-bg {
+  #header .white-bg {
     width: 100%;
     height: 80px;
     position: absolute;
     top: 0;
     z-index: -100;
     background-color: #fff; }
-  header .logo {
+    #header .white-bg .header-tip {
+      margin-top: 5px;
+      float: right;
+      color: #636363; }
+  #header .logo {
     float: left; }
-  header .logined {
+  #header .logined {
     display: block;
     position: relative;
     top: -9px;
@@ -34,13 +38,13 @@ header {
     padding-top: 25px;
     text-align: center; }
 
-nav {
+#nav {
   float: left;
   width: 620px;
   height: 140px; }
-  nav ul {
+  #nav ul {
     margin-top: 19px;
     padding-left: 0; }
-  nav li {
+  #nav li {
     list-style: none;
     float: left; }

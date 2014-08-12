@@ -10,14 +10,14 @@ $ ->
 					pageWidth = document.documentElement.clientWidth
 				else
 					pageWidth = document.body.clientWidth
-			$("header").css "left",(pageWidth - 990) / 2
+			$("#header").css "left",(pageWidth - 990) / 2
 			
 	page.init()
 
 	$(window).resize ->
 		page.init()
 	
-	$("header li").not(".without").click ->
+	$("#header li").not(".without").click ->
 		tempObj = $(this)
 		indexVal = tempObj.index()
 		htmlContent = $("html,body")
@@ -42,8 +42,8 @@ $ ->
 		for item, i in topArray
 			if top - 50 <= item && item <= top + 50
 				indexVal = i + 1;
-				tempPic = $("header li").not(".without").eq(i).find("img")
-				$.each $("header li").not(".without"), (n)->
+				tempPic = $("#header li").not(".without").eq(i).find("img")
+				$.each $("#header li").not(".without"), (n)->
 					if n != indexVal - 1
 						temp = $(this)
 						picVal = temp.index() + 1

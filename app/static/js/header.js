@@ -15,14 +15,14 @@
             pageWidth = document.body.clientWidth;
           }
         }
-        return $("header").css("left", (pageWidth - 990) / 2);
+        return $("#header").css("left", (pageWidth - 990) / 2);
       }
     };
     page.init();
     $(window).resize(function() {
       return page.init();
     });
-    $("header li").not(".without").click(function() {
+    $("#header li").not(".without").click(function() {
       var htmlContent, indexVal, tempObj, topArray;
       tempObj = $(this);
       indexVal = tempObj.index();
@@ -55,8 +55,8 @@
         item = topArray[i];
         if (top - 50 <= item && item <= top + 50) {
           indexVal = i + 1;
-          tempPic = $("header li").not(".without").eq(i).find("img");
-          $.each($("header li").not(".without"), function(n) {
+          tempPic = $("#header li").not(".without").eq(i).find("img");
+          $.each($("#header li").not(".without"), function(n) {
             var picVal, temp;
             if (n !== indexVal - 1) {
               temp = $(this);

@@ -9,10 +9,12 @@
   <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
 </head>
 <body>
-  <header>
-    <div class = "white-bg"></div>
+  <div id = "header">
+    <div class = "white-bg">
+      <span class = "header-tip">偶数订单号送可乐，第五单免单</span>
+    </div>
     <a href=""><img class = "logo" src="{{url_for('static', filename='images/logo.png')}}"></a>
-    <nav>
+    <div id = "nav">
       <ul>
         <li><a ><img  src="{{url_for('static', filename='images/header/menu1-2.png')}}"></a></li>
         <li><a ><img  src="{{url_for('static', filename='images/header/menu2.png')}}"></a></li>
@@ -34,8 +36,8 @@
          </li>
         {% endif %}
       </ul>
-    </nav>
-    </header>
+    </div>
+    </div>
 
   {% block body %}
   {% endblock%}
@@ -50,6 +52,7 @@
     <script src="{{url_for('static', filename="js/header.js")}}"></script>
     <script src="{{url_for('static', filename="js/formValid.js")}}"></script>
     <script src="{{url_for('static', filename="js/get-food.js")}}"></script>
+    <script src="{{url_for('static', filename="js/forgot-passworld.js")}}"></script>
 </body>
 </html>
 
