@@ -82,6 +82,7 @@ class Picture(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     type = db.Column(db.SmallInteger, nullable = False)
     name = db.Column(db.String(32))
+    title = db.Column(db.String(32))
     description = db.Column(db.String(64))
     mealId = db.Column(db.Integer, db.ForeignKey('meals.id', ondelete="SET NULL"))
 
