@@ -8,21 +8,10 @@
 
 (function() {
   $(function() {
-    var forgotVerify, initPage, trim, verifyPhone;
+    var forgotVerify, trim, verifyPhone;
     $("#submit").click(function() {
       return forgotVerify.init();
     });
-    initPage = {
-      init: function() {
-        return $.each($("#header li").not(".without"), function() {
-          var picVal, temp;
-          temp = $(this);
-          picVal = temp.index() + 1;
-          return temp.find("img").attr("src", "/static/images/header/menu" + picVal + ".png");
-        });
-      }
-    };
-    initPage.init();
     forgotVerify = {
       init: function() {
         $(".tips").text("");

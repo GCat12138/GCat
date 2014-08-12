@@ -7,14 +7,6 @@
 
 $ ->
 	$("#submit").click -> forgotVerify.init()
-	initPage = 
-		init: ->
-			$.each $("#header li").not(".without"), ->
-				temp = $(this)
-				picVal = temp.index() + 1
-				temp.find("img").attr "src", "/static/images/header/menu" + picVal + ".png"
-	
-	initPage.init()
 	forgotVerify =
 		init: ->
 			$(".tips").text("")
