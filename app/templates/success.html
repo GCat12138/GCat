@@ -3,15 +3,15 @@
 {% if msg %}
 	<link rel="stylesheet" href="{{url_for('static', filename='css/success.css')}}">
 	{%if msg == "No"%}
-	<!-- 抢食失败界面 begin -->
-	<div id = "result-faild" class = "part result">
-	 <img  src="{{url_for('static', filename='images/part1/sorry.png')}}">
-	 <br>
-	 <span class = "content4 content4-1">下次早点来啊，亲！</span>
-	 <br>
-	 <span class = "content4">出手要快！快！快...</span>
-	</div>
-	<!-- 抢食失败界面 end -->
+		<!-- 抢食失败界面 begin -->
+		<div id = "result-faild" class = "part result">
+		 <img  src="{{url_for('static', filename='images/part1/sorry.png')}}">
+		 <br>
+		 <span class = "content4 content4-1">下次早点来啊，亲！</span>
+		 <br>
+		 <span class = "content4">出手要快！快！快...</span>
+		</div>
+		<!-- 抢食失败界面 end -->
 	{%endif%}
 	{%if msg == "sorry"%}
 	<!-- 抢食失败界面 begin -->

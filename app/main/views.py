@@ -369,7 +369,9 @@ def MakeOrder( amealID ):
                         msg= getMessage
                         )
             else:
-                return 'No'  #there are no food
+                render_template("success.html",
+                        msg= "No" #get food twice or more
+                    )
         else:
             return render_template("success.html",
                         msg= "sorry" #get food twice or more
