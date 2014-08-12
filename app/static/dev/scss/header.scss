@@ -9,7 +9,6 @@
 	position: fixed;
 	top: 0px;
 	padding-top: 20px;
-	z-index: 9999;
 	margin: 0 auto;
 	overflow: hidden;
 	.white-bg {
@@ -17,7 +16,7 @@
 		height: 80px;
 		position: absolute;
 		top: 0;
-		z-index: -100;	
+		// z-index: -100;	
 		background-color: #fff;
 		.header-tip {
 			margin-top: 5px;
