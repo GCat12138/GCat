@@ -16,6 +16,7 @@
     height: 80px;
     position: absolute;
     top: 0;
+    z-index: -100;
     background-color: #fff; }
     #header .white-bg .header-tip {
       margin-top: 5px;
