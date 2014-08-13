@@ -21,7 +21,8 @@ a {
 .part {
   width: 990px;
   margin: 0 auto;
-  margin-bottom: 50px; }
+  margin-bottom: 50px;
+  zoom: 1; }
 
 .tips {
   color: red;

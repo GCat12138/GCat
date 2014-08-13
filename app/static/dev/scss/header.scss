@@ -26,8 +26,13 @@
 			color: #7e0300;
 		}
 	}
-
+	.logo-link {
+		border: none;
+		outline: none;
+	}
 	.logo {
+		border: none;
+		outline: none;
 		width: 375px;
 		height: 126px;
 		float: left;
@@ -55,6 +60,7 @@
 	width: 620px;
 	height: 140px;
 	ul {
+		margin-left: 0px;
 		margin-top: 19px;
 		padding-left: 0;
 	}
