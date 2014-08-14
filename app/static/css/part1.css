@@ -13,9 +13,9 @@
 #main_container {
   width: 933px;
   height: 340px;
-  margin-top: 138px;
   background: url(../images/part1/part1-bg.png) no-repeat;
-  position: relative; }
+  position: relative;
+  top: 138px; }
   #main_container .description {
     text-align: center;
     font-size: 26px;
