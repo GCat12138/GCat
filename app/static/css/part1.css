@@ -50,9 +50,10 @@
     position: relative;
     width: 57px;
     height: 47px;
-    left: -33px;
+    left: -25px;
     top: -43px;
-    opacity: 0; }
+    opacity: 0;
+    filter: alpha(opacity=0); }
   #get_meal {
     float: left;
     overflow: hidden; }
@@ -72,18 +73,22 @@
   margin-left: 10px;
   position: relative; }
   .get-food-button {
+    outline: none;
+    border: none;
     display: block;
     position: absolute;
     top: 26px;
     left: 70px; }
     .get-food-button button {
+      width: 170px;
+      height: 57px;
       border: none;
       outline: none;
       padding: 0px; }
-
-  button {
-    cursor: pointer;
-    border: none; }
+    .get-food-button img {
+      width: 170px;
+      border: none;
+      outline: none; }
 
   #real_price {
     font-size: 30px;

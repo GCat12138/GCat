@@ -49,9 +49,10 @@
 		position: relative;
 		width: 57px;
 		height: 47px;
-		left: -33px;
+		left: -25px;
 		top: -43px;
 		opacity: 0;
+		filter:alpha(opacity=0);   
 	}
 	@at-root #get_meal {
 		float: left;
@@ -82,17 +83,22 @@
 
 	@at-root {
 		.get-food-button {
+			outline: none;
+			border: none;
 			display: block;
 			@include set-position(absolute,26px,70px);
 			button {
+				width: 170px;
+				height: 57px;
 				border: none;
 				outline: none;
 				padding: 0px;
 			}
-		}
-		button {
-			cursor: pointer;
-			border:none;
+			img {
+				width: 170px;
+				border: none;
+				outline: none;
+			}
 		}
 		#real_price {
 			font-size: 30px;
