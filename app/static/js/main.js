@@ -1,3 +1,7 @@
+$(function() {
+  countFunction();
+});
+
 $(document).ready(function(){
   //csrf for ajax
   $.ajaxSetup({
@@ -10,13 +14,10 @@ $(document).ready(function(){
 
   // bind all buttons
   bindButtons();
-
-  setInterval(countFunction, 1000 / 10);
-  countFunction();
 });
 
-function countFunction()
-{
+
+function countFunction() {
   var s_hour = parseInt( $("#s_hour").text() );
   var s_minute = parseInt( $("#s_minute").text() );
   var s_second = parseFloat( $("#s_second").text() );
@@ -46,7 +47,7 @@ function countFunction()
     e_totalSeconds = e_totalSeconds % 60;
     $("#e_second").text( e_totalSeconds.toFixed(1) );
   }
-
+  setTimeout(countFunction,100);
 }
 
 function bindButtons()
@@ -98,7 +99,7 @@ function likeFunction()
   $.post(
     '/like',
     {
-      mealId : mealId,
+      mealId : mealId
     },
     function( data, status ) {
       if (status == "success" && data == "1") {

@@ -46,7 +46,7 @@
       tempObj.css("background", "url(/static/images/part4/login-bg.png)");
       return regBtn.css("background", "url(/static/images/part4/reg-bg-before.png)");
     });
-    return $(window).scroll(function() {
+    $(window).scroll(function() {
       var i, indexVal, item, tempPic, top, topArray, _i, _len, _results;
       top = $(window).scrollTop();
       topArray = [0, 390, 1120, 1740];
@@ -70,6 +70,13 @@
         }
       }
       return _results;
+    });
+    return $(".logo-link").click(function() {
+      if (String(location.href.split("/").slice(-2, -1)) === "make_order") {
+        return window.history.go(-1);
+      } else {
+        return window.history.go(0);
+      }
     });
   });
 

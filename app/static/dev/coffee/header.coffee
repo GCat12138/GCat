@@ -13,10 +13,10 @@ $ ->
 			$("#header").css "left",(pageWidth - 990) / 2
 			
 	page.init()
-
+	#when the size of browser changes,the nav bar will chang location synchronous
 	$(window).resize ->
 		page.init()
-	
+	#when click the nav links,the page will scroll to corresponding location
 	$("#header li").not(".without").click ->
 		tempObj = $(this)
 		indexVal = tempObj.index()
@@ -24,7 +24,7 @@ $ ->
 		topArray = ["0px","390px","1120px","1740px"];
 		htmlContent.animate({scrollTop: topArray[indexVal]},400)
 		
-	#点击注册和登陆按钮的效果
+	#If we click regist button or login button,different will show in the module of "regist/login" 
 	$(".reg-btn").click ->
 		tempObj = $(this)
 		loginBtn = $(".login-btn")
@@ -35,7 +35,7 @@ $ ->
 		regBtn = $(".reg-btn")
 		tempObj.css "background","url(/static/images/part4/login-bg.png)"
 		regBtn.css "background","url(/static/images/part4/reg-bg-before.png)"
-
+	#If the user scroll the page,the nav links will change its background dynamically
 	$(window).scroll ->
 		top = $(window).scrollTop()
 		topArray = [0,390,1120,1740]
@@ -49,3 +49,9 @@ $ ->
 						picVal = temp.index() + 1
 						temp.find("img").attr "src", "/static/images/header/menu" + picVal + ".png"
 				tempPic.attr "src","/static/images/header/menu" + indexVal + "-2.png"
+	#click the logo
+	$(".logo-link").click ->
+		if String(location.href.split("/").slice(-2,-1)) == "make_order"
+			window.history.go(-1)
+		else
+			window.history.go(0)

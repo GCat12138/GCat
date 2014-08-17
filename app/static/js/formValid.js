@@ -6,8 +6,6 @@
 	of regist.If you want to extend it,please make sure that the content you
 	add has the common style.
 */
-
-
 (function() {
   $(function() {
     var formVerify, loginVerify, trim, verifyPhone;
